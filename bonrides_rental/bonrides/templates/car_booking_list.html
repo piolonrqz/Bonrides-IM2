@@ -1,0 +1,22 @@
+<!-- car_booking_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Bookings</title>
+</head>
+<body>
+    <h1>Car Bookings</h1>
+    <a href="{% url 'car_booking_create' %}">Add New Booking</a>
+    <ul>
+        {% for booking in bookings %}
+            <li>
+                <a href="{% url 'car_booking_detail' booking.pk %}">{{ booking }}</a> |
+                <a href="{% url 'car_booking_update' booking.pk %}">Edit</a> |
+                <a href="{% url 'car_booking_delete' booking.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

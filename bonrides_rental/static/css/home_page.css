@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-style: normal;
+    font-family: "Khand", sans-serif;
+}
+
+.home {
+    width: 1920px;
+    height: 1084px;
+    border: 1px solid black;
+    background-image: url("../images/bg.png");
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+li, a {
+    text-decoration: none;
+    list-style-type: none;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    margin: 0px 200px;
+    padding-top: 27px;
+    
+}
+
+header p {
+    font-size: 64px;
+    margin-right: 200px;
+}
+
+header li {
+    font-size: 25px;
+}
+
+.nav_link li{
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.rent_now_button {
+    position: absolute;
+    height: 80px;
+    width: 250px;
+    border-radius: 12px;
+    background-color: #F2D777;
+    font-weight: 500;
+    color: #3B3B3F;
+    font-size: 40px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    top: 821px; 
+    left: 200px;
+}
+
+.home .rent_now_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.features {
+    width: 1920px;
+    height: 446px;
+    background-color: #292929;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+.features .h1 {
+    font-size: 41px;
+    font-weight: 500;
+    opacity: 0.6;
+    color: white;
+} 
+
+.features .h2 {
+    font-size: 70px;
+    font-weight: 500;
+    color: #FFD21A;
+} 
+
+.features .h3 {
+    font-size: 32px;
+    font-weight: 400;
+    color: white;
+    width: 876px;
+    text-align: center;
+} 
+
+
+.featured_cars {
+    width: 1920px;
+    height: 2499px;
+    background-color: #3B3B3B;
+}
+
+.featured_cars .title {
+    font-weight: 600;
+    color: white;
+    font-size: 70px;
+    margin-left: 140px;
+    margin-bottom: 64px;
+    padding-top: 64px;
+}
+
+.row1 {
+    width: 1920px;
+    height: 1020px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+img {
+    width: 752px;
+    height: 570px;
+    border-radius: 16px;
+    margin: 14px;
+}
+
+.details {
+    width: 683px;
+    height: 120px;
+    background-color: #3B3B3B;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin-left: 47px;
+    margin-top: 30px;
+}
+
+.details p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.details span{
+    margin-top: 20px;
+    width: 100%; 
+
+}
+
+.full_details {
+    width: 683px;
+    height: 77px;
+    background-color: #F2D777;
+    border-radius: 12px;
+    margin-left: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.full_details p{
+    color: #3B3B3F;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.mileage {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNXB4IiBoZWlnaHQ9IjM1cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyMnEtMi4wNSAwLTMuODc1LS43ODh0LTMuMTg3LTIuMTV0LTIuMTUtMy4xODdUMiAxMnEwLTIuMDc1Ljc4OC0zLjg4N3QyLjE1LTMuMTc1dDMuMTg3LTIuMTVUMTIgMnEyLjA3NSAwIDMuODg4Ljc4OHQzLjE3NCAyLjE1dDIuMTUgMy4xNzVUMjIgMTJxMCAyLjA1LS43ODggMy44NzV0LTIuMTUgMy4xODh0LTMuMTc1IDIuMTVUMTIgMjJtMC02cTEuNSAwIDIuOTI1LjQzOFQxNy42IDE3LjdxMS4xNS0xLjE1IDEuNzc1LTIuNjEzVDIwIDEycTAtMy4zNS0yLjMyNS01LjY3NVQxMiA0VDYuMzI1IDYuMzI1VDQgMTJxMCAxLjYyNS42MTIgMy4xVDYuNCAxNy43cTEuMjUtLjgyNSAyLjY3NS0xLjI2M1QxMiAxNm0wIDJxLTEuMDI1IDAtMiAuMjVUOC4xNSAxOXEuODc1LjUgMS44NS43NXQyIC4yNXQyLS4yNXQxLjg1LS43NXEtLjg3NS0uNS0xLjg1LS43NVQxMiAxOG0tNS03cS40MjUgMCAuNzEzLS4yODhUOCAxMHQtLjI4OC0uNzEyVDcgOXQtLjcxMi4yODhUNiAxMHQuMjg4LjcxM1Q3IDExbTMtM3EuNDI1IDAgLjcxMy0uMjg4VDExIDd0LS4yODgtLjcxMlQxMCA2dC0uNzEyLjI4OFQ5IDd0LjI4OC43MTNUMTAgOG03IDNxLjQyNSAwIC43MTMtLjI4OFQxOCAxMHQtLjI4OC0uNzEyVDE3IDl0LS43MTIuMjg4VDE2IDEwdC4yODguNzEzVDE3IDExbS01IDNxLjgyNSAwIDEuNDEzLS41ODdUMTQgMTJxMC0uMzI1LS4xLS42Mzh0LS4zLS41NjJsMS4zNS0zLjRxLjE3NS0uNC4wMTMtLjc4OFQxNC40IDYuMDVxLS4zNzUtLjE3NS0uNzYzLS4wMTJUMTMuMSA2LjZMMTEuNzUgMTBxLS43NS4xMjUtMS4yNS42ODhUMTAgMTJxMCAuODI1LjU4OCAxLjQxM1QxMiAxNG0wIDQiLz48L3N2Zz4=');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.transmission {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNXB4IiBoZWlnaHQ9IjM1cHgiIHZpZXdCb3g9IjAgMCA0OCA0OCI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjQiPjxwYXRoIGQ9Ik00MCAxMnYxMkg4bTE2LTEydjI0TTggMTJ2MjQiLz48cGF0aCBkPSJNNDQgOGE0IDQgMCAxIDEtOCAwYTQgNCAwIDAgMSA4IDBNMjggOGE0IDQgMCAxIDEtOCAwYTQgNCAwIDAgMSA4IDBNMTIgOGE0IDQgMCAxIDEtOCAwYTQgNCAwIDAgMSA4IDBtMTYgMzJhNCA0IDAgMSAxLTggMGE0IDQgMCAwIDEgOCAwbS0xNiAwYTQgNCAwIDEgMS04IDBhNCA0IDAgMCAxIDggMG0yOCA0YTQgNCAwIDEgMCAwLThhNCA0IDAgMCAwIDAgOCIvPjwvZz48L3N2Zz4=');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.seats {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNXB4IiBoZWlnaHQ9IjM1cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0zLjUgOGE1LjUgNS41IDAgMSAxIDguNTk2IDQuNTQ3YTkuMDA1IDkuMDA1IDAgMCAxIDUuOSA4LjE4YS43NTEuNzUxIDAgMCAxLTEuNS4wNDVhNy41IDcuNSAwIDAgMC0xNC45OTMgMGEuNzUuNzUgMCAwIDEtMS40OTktLjA0NGE5LjAwNSA5LjAwNSAwIDAgMSA1LjktOC4xODFBNS41IDUuNSAwIDAgMSAzLjUgOE05IDRhNCA0IDAgMSAwIDAgOGE0IDQgMCAwIDAgMC04bTguMjkgNHEtLjIyMSAwLS40MzQuMDNhLjc1Ljc1IDAgMSAxLS4yMTItMS40ODRhNC41MyA0LjUzIDAgMCAxIDMuMzggOC4wOTdhNi42OSA2LjY5IDAgMCAxIDMuOTU2IDYuMTA3YS43NS43NSAwIDAgMS0xLjUgMGE1LjE5IDUuMTkgMCAwIDAtMy42OTYtNC45NzJsLS41MzQtLjE2di0xLjY3NmwuNDEtLjIwOUEzLjAzIDMuMDMgMCAwIDAgMTcuMjkgOCIvPjwvc3ZnPg==');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.baggage {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNXB4IiBoZWlnaHQ9IjM1cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik03IDIxcS0uODI1IDAtMS40MTItLjU4N1Q1IDE5VjhxMC0uODI1LjU4OC0xLjQxMlQ3IDZoMlY0cTAtLjgyNS41ODgtMS40MTJUMTEgMmgycS44MjUgMCAxLjQxMy41ODhUMTUgNHYyaDJxLjgyNSAwIDEuNDEzLjU4OFQxOSA4djExcTAgLjgyNS0uNTg3IDEuNDEzVDE3IDIxcTAgLjQyNS0uMjg4LjcxM1QxNiAyMnQtLjcxMi0uMjg4VDE1IDIxSDlxMCAuNDI1LS4yODguNzEzVDggMjJ0LS43MTItLjI4OFQ3IDIxbTAtMmgxMFY4SDd6bTItMWgyVjlIOXptNCAwaDJWOWgtMnpNMTEgNmgyVjRoLTJ6bTEgNy41Ii8+PC9zdmc+');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.row1 .vehicle1 {
+    width: 780px;
+    height: 1020px;
+    background-color: #2B2A2A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    color: white;
+}
+
+
+.car_name {
+    font-size: 30px;
+    margin-left: 47px;
+    margin-top: 5px;
+}
+
+.car_price {
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 47px;
+    margin-top: 15px;
+}
+
+.price {
+    font-size: 40px;
+    color: rgba(255, 255, 255, 1.0);
+    font-weight: 500;
+}
+
+.row1 .vehicle2 {
+    width: 780px;
+    height: 1020px;
+    background-color: #2B2A2A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    color: white;
+}
+
+.row2 .vehicle3 {
+    width: 780px;
+    height: 1020px;
+    background-color: #2B2A2A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    color: white;
+}
+
+
+.row2 {
+    width: 1920px;
+    height: 1020px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 127px;
+}
+
+.row2 .vehicle4 {
+    width: 780px;
+    height: 1020px;
+    background-color: #2B2A2A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    color: white;
+}
+
+.nav_right li {
+    display: inline-block;
+    margin-right: 10px;
+}

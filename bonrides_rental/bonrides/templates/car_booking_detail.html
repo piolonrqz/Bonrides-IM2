@@ -1,0 +1,19 @@
+<!-- car_booking_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Detail</title>
+</head>
+<body>
+    <h1>Booking Detail</h1>
+    <p>Customer Name: {{ booking.customer_name }}</p>
+    <p>Car Model: {{ booking.car_model }}</p>
+    <p>Booking Date: {{ booking.booking_date }}</p>
+    <p>Rental Duration: {{ booking.rental_duration }} days</p>
+    <p>Total Cost: ${{ booking.total_cost }}</p>
+    <a href="{% url 'car_booking_update' booking.pk %}">Edit</a>
+    <a href="{% url 'car_booking_list' %}">Back to Bookings</a>
+</body>
+</html>

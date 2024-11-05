@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <ul>
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
+                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+            </ul>
+        </div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="{% url 'homepage' %}">bonrides</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul>
+                {% if user.is_authenticated %}
+                    <!-- <li id="user-format">Hello, {{user}}</li> -->
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li><a href="{% url 'register' %}">SIGN UP</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="flex-container">
+        <div class="login">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div>
+                    <p class="header">Login</p>
+                    
+                    <input type="text" name="username" required placeholder="Enter username" class="form-control" aria-placeholder="Enter username">
+                </div>
+                <div>
+                    <br />
+                    <input type="password" name="password" required placeholder="Enter password" class="form-control" aria-placeholder="Enter password">
+                </div>
+                <br />
+                <div>
+                    <button type="submit">LOGIN</button>
+                </div>
+                <!-- Display error message below the button if there's any -->
+                <div>
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li style="color: red;">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </form>
+        </div>    
+    </div>
+</body>
+</html>

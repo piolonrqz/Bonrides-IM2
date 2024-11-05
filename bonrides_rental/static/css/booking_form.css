@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-style: normal;
+    font-family: "Khand", sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-evenlyw;
+    align-items: center;
+    font-weight: 700;
+    padding-top: 27px;
+    background-color: #292929;
+    height: 120px;
+    width: 1920px;
+    
+}
+
+header p {
+    font-size: 64px;
+    margin-right: 200px;
+}
+
+header li {
+    font-size: 25px;
+}
+
+li, a {
+    text-decoration: none;
+    list-style-type: none;
+    color: white;
+}
+
+.nav_link li{
+    display: inline-block;
+    padding: 0px 20px;
+}

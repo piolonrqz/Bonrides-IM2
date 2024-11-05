@@ -1,0 +1,136 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div class="home">
+            <header>
+                <ul class="nav_link">
+                    <li><a href="{% url 'about' %}">ABOUT</a></li> 
+                    <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                    <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                    <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+                </ul>
+                
+                <p><a href="{% url 'homepage' %}">bonrides</a></p>
+
+                <ul class="nav_right">
+                    {% if user.is_authenticated %}
+                        <li id="user-format" style="display: inline-block; margin-right: 10px;">Hello, {{user}}</li>
+                        <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    {% else %}
+                        <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                        <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                    {% endif %}
+                </ul>
+            </header>
+
+            <div class="rent_now_button">
+                <p><a href="{% url 'car_booking_create' %}">RENT NOW</a></p>
+            </div>
+        </div>
+
+        <div class="features">
+            <p class="h1">Features</p>
+            <p class="h2">Seamless Experience</p>
+            <p class="h3">Bonrides provide flawless and unforgettable experience of renting cars.  
+                We’ll take care of everything and do our best to let you enjoy your dream car.</p>
+        </div>
+
+
+        <div class="featured_cars">
+            <p class="title">Discover our vehicles</p>
+            <div class="row1">
+                <div class="vehicle1">
+                    <img src="{% static '/images/vehicle1.jpg' %}" alt="">
+                    <p class="car_name">Porsche Cayenne Coupe</p>
+                    <p class="car_price">PHP <span class="price">10000</span> / DAY</p>
+                    
+                    <div class="details">
+                        <span class="mileage"></span>
+                        <span class="transmission"></span>
+                        <span class="seats"></span>
+                        <span class="baggage"></span>
+                        <p>3000</p>
+                        <p>Automatic</p>
+                        <p>5</p>
+                        <p>4</p>
+                    </div>
+                    <div class="full_details">
+                        <p>See Full Details</p>
+                    </div>
+                </div>
+
+                <div class="vehicle2">
+                    <img src="{% static '/images/vehicle2.jpg' %}" alt="">
+                    <p class="car_name"> Ferrari 458</p>
+                    <p class="car_price">PHP <span class="price">20000</span> / DAY</p>
+                    
+                    <div class="details">
+                        <span class="mileage"></span>
+                        <span class="transmission"></span>
+                        <span class="seats"></span>
+                        <span class="baggage"></span>
+                        <p>7200</p>
+                        <p>Manual</p>
+                        <p>2</p>
+                        <p>2</p>
+                    </div>
+                    <div class="full_details">
+                        <p>See Full Details</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row2">
+                <div class="vehicle3">
+                    <img src="{% static '/images/vehicle2.jpg' %}" alt="">
+                    <p class="car_name"> Ferrari 458</p>
+                    <p class="car_price">PHP <span class="price">20000</span> / DAY</p>
+                    
+                    <div class="details">
+                        <span class="mileage"></span>
+                        <span class="transmission"></span>
+                        <span class="seats"></span>
+                        <span class="baggage"></span>
+                        <p>7200</p>
+                        <p>Manual</p>
+                        <p>2</p>
+                        <p>2</p>
+                    </div>
+                    <div class="full_details">
+                        <p>See Full Details</p>
+                    </div>
+                </div>
+
+                <div class="vehicle4">
+                    <img src="{% static '/images/vehicle1.jpg' %}" alt="">
+                    <p class="car_name">Porsche Cayenne Coupe</p>
+                    <p class="car_price">PHP <span class="price">10000</span> / DAY</p>
+                    
+                    <div class="details">
+                        <span class="mileage"></span>
+                        <span class="transmission"></span>
+                        <span class="seats"></span>
+                        <span class="baggage"></span>
+                        <p>3000</p>
+                        <p>Automatic</p>
+                        <p>5</p>
+                        <p>4</p>
+                    </div>
+                    <div class="full_details">
+                        <p>See Full Details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

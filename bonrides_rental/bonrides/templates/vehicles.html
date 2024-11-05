@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/vehicles.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+
+            <ul>
+                <li><a href="{% url 'about' %}">ABOUT</a></li> <!-- Corrected closing tag -->
+                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+            </ul>
+        </div>
+        <div class="nav-center">
+            <ul>
+                <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
+            </ul>
+            
+        </div>
+        <div class="nav-right">
+           <ul>
+            <li><a href="{% url 'login' %}">LOGIN</a></li>
+            <li><a href="{% url 'register' %}">SIGN UP</a></li>
+           </ul>
+        </div>
+    </nav>
+    <!-- Your homepage content -->
+</body>
+</html>

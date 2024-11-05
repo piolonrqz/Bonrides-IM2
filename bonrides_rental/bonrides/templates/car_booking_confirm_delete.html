@@ -1,0 +1,18 @@
+<!-- car_booking_confirm_delete.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Booking</title>
+</head>
+<body>
+    <h1>Delete Booking</h1>
+    <p>Are you sure you want to delete the booking for {{ booking.customer_name }} - {{ booking.car_model }}?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{% url 'car_booking_list' %}">Cancel</a>
+</body>
+</html>
