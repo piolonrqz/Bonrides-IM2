@@ -1,10 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .forms import CustomUserCreationForm, CarBookingForm  # Import both forms here
+from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
-from .models import CarBooking
-from .forms import VehicleForm
-from .models import Vehicle
+from .models import CarBooking, Vehicle  # Import models here
 
 # Create your views here.
 def homepage(request):
@@ -28,7 +26,6 @@ def contacts(request):
     return render(request, 'contacts.html', context)
 
 def user_login(request):
-    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -105,7 +102,7 @@ def car_booking_delete(request, pk):
         return redirect('car_booking_list')  # Redirect to the booking list after deletion
     return render(request, 'car_booking_confirm_delete.html', {'booking': booking})
 
-
+# Vehicle Views
 
 # Create vehicle
 def add_vehicle(request):

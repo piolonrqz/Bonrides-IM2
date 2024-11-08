@@ -28,14 +28,3 @@ class Vehicle(models.Model):
 
     def __str__(self):
         return f"{self.model} ({self.model_year}) - {self.registration_number}"
-
-class Vehicle(models.Model):
-    model = models.CharField(max_length=100)
-    model_year = models.PositiveIntegerField()
-    brand = models.CharField(max_length=100)
-    mileage = models.PositiveIntegerField()
-    availability = models.BooleanField(default=True)
-    registration_number = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return f"{self.model} ({self.model_year}) - {self.registration_number}"
