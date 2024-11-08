@@ -10,13 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
 </head>
 <body>
-    <!-- <h1>{% if form.instance.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Submit</button>
-    </form>
-    <a href="{% url 'car_booking_list' %}">Cancel</a> -->
     <div class="home">
         <header>
             <ul class="nav_link">
@@ -46,25 +39,27 @@
     <h1>{% if booking.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
     <form method="POST">
         {% csrf_token %}
-        
-
+    
         <label for="customer_name">Customer Name:</label>
         <input type="text" id="customer_name" name="customer_name" placeholder="Enter customer name" required>
-
+    
         <label for="car_model">Car Model:</label>
         <input type="text" id="car_model" name="car_model" placeholder="Enter car model" required>
-
-        <label for="booking_date">Booking Date:</label>
-        <input type="date" id="booking_date" name="booking_date" required>
-
-        <label for="rental_duration">Rental Duration:</label>
-        <input type="number" id="rental_duration" name="rental_duration" placeholder="Enter rental duration (days)" required>
-
+    
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" placeholder="Enter status" required>
+    
+        <label for="rental_date">Rental Date:</label>
+        <input type="date" id="rental_date" name="rental_date" required>
+    
+        <label for="return_date">Return Date:</label>
+        <input type="date" id="return_date" name="return_date" required>
+    
         <label for="total_cost">Total Cost:</label>
         <input type="number" id="total_cost" name="total_cost" placeholder="Enter total cost" required>
-
+    
         <button type="submit">Submit</button>
-    </form>
+    </form>    
     <a href="{% url 'car_booking_list' %}">Cancel</a>
 </body>
 </html>

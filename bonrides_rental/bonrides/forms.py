@@ -24,4 +24,4 @@ class CustomUserCreationForm(UserCreationForm):
 class CarBookingForm(forms.ModelForm):
     class Meta:
         model = CarBooking
-        fields = ['customer_name', 'car_model', 'booking_date', 'rental_duration', 'total_cost']
+        fields = ['customer_name', 'car_model', 'status', 'rental_date', 'return_date', 'total_cost']
