@@ -3,6 +3,8 @@ from .forms import CustomUserCreationForm, CarBookingForm  # Import both forms h
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
 from .models import CarBooking
+from .forms import VehicleForm
+from .models import Vehicle
 
 # Create your views here.
 def homepage(request):
@@ -102,3 +104,44 @@ def car_booking_delete(request, pk):
         messages.success(request, 'Booking deleted successfully!')
         return redirect('car_booking_list')  # Redirect to the booking list after deletion
     return render(request, 'car_booking_confirm_delete.html', {'booking': booking})
+
+
+
+# Create vehicle
+def add_vehicle(request):
+    if request.method == 'POST':
+        form = VehicleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Vehicle added successfully!')
+            return redirect('manage_vehicles')  # Redirect to the manage vehicles page
+    else:
+        form = VehicleForm()
+    return render(request, 'add_vehicle.html', {'form': form})
+
+# List all vehicles
+def manage_vehicles(request):
+    vehicles = Vehicle.objects.all()
+    return render(request, 'manage_vehicles.html', {'vehicles': vehicles})
+
+# Update vehicle
+def edit_vehicle(request, pk):
+    vehicle = get_object_or_404(Vehicle, pk=pk)
+    if request.method == 'POST':
+        form = VehicleForm(request.POST, instance=vehicle)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Vehicle updated successfully!')
+            return redirect('manage_vehicles')
+    else:
+        form = VehicleForm(instance=vehicle)
+    return render(request, 'add_vehicle.html', {'form': form})
+
+# Delete vehicle
+def delete_vehicle(request, pk):
+    vehicle = get_object_or_404(Vehicle, pk=pk)
+    if request.method == 'POST':
+        vehicle.delete()
+        messages.success(request, 'Vehicle deleted successfully!')
+        return redirect('manage_vehicles')
+    return render(request, 'vehicle_confirm_delete.html', {'vehicle': vehicle})

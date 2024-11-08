@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Vehicle</title>
+</head>
+<body>
+    <h2>Are you sure you want to delete this vehicle?</h2>
+    <p>{{ vehicle.model }} - {{ vehicle.registration_number }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'manage_vehicles' %}">Cancel</a>
+    </form>
+</body>
+</html>
