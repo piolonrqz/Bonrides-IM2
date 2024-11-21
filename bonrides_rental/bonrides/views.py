@@ -27,16 +27,17 @@ def contacts(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')  # Use email instead of username
         password = request.POST.get('password')
         
-        user = authenticate(request, username=username, password=password)
+        # Authenticate user using email (not username)
+        user = authenticate(request, username=email, password=password)
         
         if user is not None:
             auth_login(request, user)
-            return redirect('homepage')
+            return redirect('homepage')  # Redirect to homepage after login
         else:
-            messages.info(request, 'Username or Password is incorrect')
+            messages.info(request, 'Email or Password is incorrect')
     context = {}
     return render(request, 'login.html', context)
 
@@ -45,12 +46,14 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            messages.success(request, 'Account created successfully!')
+            return redirect('login')  # Redirect to login page after successful registration
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CustomUserCreationForm()
 
-    context = {'form': form}
-    return render(request, 'register.html', context)
+    return render(request, 'register.html', {'form': form})
 
 def user_logout(request):
     auth_logout(request)

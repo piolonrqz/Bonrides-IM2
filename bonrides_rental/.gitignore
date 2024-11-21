@@ -3,3 +3,4 @@ db.sqlite3
 myvenv
 db_bonrides
 db_rental
+migrations
