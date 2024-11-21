@@ -7,14 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+    <title>Bonrides - Edit Profile</title>
 </head>
 <body>
     <nav>
         <div class="nav-left">
-
             <ul>
-                <li><a href="{% url 'about' %}">ABOUT</a></li> 
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
                 <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
                 <li><a href="{% url 'booking' %}">BOOKING</a></li>
                 <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
@@ -24,7 +24,6 @@
             <ul>
                 <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
             </ul>
-            
         </div>
         <div class="nav-right">
             <ul class="nav_right">
@@ -41,6 +40,38 @@
             </ul>
         </div>
     </nav>
-    <!-- Your homepage content -->
+
+    <div class="profile-section">
+        <h2>Edit Profile</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="email">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-field">
+                <label for="first_name">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-field">
+                <label for="last_name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-field">
+                <label for="phone_number">Phone Number</label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-field">
+                <label for="address">Address</label>
+                {{ form.address }}
+            </div>
+            <div class="form-field">
+                <label for="drivers_license">Driver's License Number</label>
+                {{ form.drivers_license_number }}
+            </div>
+
+            <button type="submit" class="submit-btn">Save Changes</button>
+        </form>
+    </div>
 </body>
 </html>

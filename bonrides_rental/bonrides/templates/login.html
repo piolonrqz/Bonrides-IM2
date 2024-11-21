@@ -24,7 +24,6 @@
         <div class="nav-right">
             <ul>
                 {% if user.is_authenticated %}
-                    <!-- <li id="user-format">Hello, {{user}}</li> -->
                     <li><a href="{% url 'logout' %}">LOGOUT</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">LOGIN</a></li>
@@ -41,7 +40,8 @@
                 <div>
                     <p class="header">Login</p>
                     
-                    <input type="text" name="username" required placeholder="Enter username" class="form-control" aria-placeholder="Enter username">
+                    <!-- Change 'username' to 'email' -->
+                    <input type="email" name="email" required placeholder="Enter email" class="form-control" aria-placeholder="Enter email">
                 </div>
                 <div>
                     <br />

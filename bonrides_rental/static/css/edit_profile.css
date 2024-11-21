@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #3B3B3B;
+    background-size: cover;
+    font-family: 'Khand', sans-serif;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 120px;
+    padding: 0 10 0 10px;
+    font-weight: bold;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+}
+
+.nav-center{
+    display: flex;
+    align-items: center;
+    font-size: 48px;
+    color: white;
+    margin-right: 120px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav ul li {
+    margin-right: 20px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Profile Section Styling */
+.profile-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #2c3e50;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-field input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Minimize Address Field */
+.form-field input[name="address"] {
+    max-width: 400px; /* Limiting the width of the address field */
+    width: 100%;
+    resize: vertical; /* Allow users to resize the height */
+}
+
+button.submit-btn {
+    background-color: #16a085;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover {
+    background-color: #1abc9c;
+}

@@ -1,26 +1,36 @@
 from django import forms
 from .models import CarBooking  # Ensure you're importing only what you need
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from .models import Vehicle
+from .models import User  # Make sure this is importing from your custom User model
+from django.contrib.auth import get_user_model
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User  # Use your custom User model
+        fields = ['email', 'password1', 'password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if user.is_staff is None:  # Ensure is_staff is set
+            user.is_staff is None  # or True, based on your logic
+        if commit:
+            user.save()
+        return user
+    
+User = get_user_model()
+
+class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2']
+        fields = ['email', 'first_name', 'last_name', 'phone_number', 'address', 'drivers_license_number']
 
-    def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({
-            'placeholder': 'Enter your username'
-        })
-        self.fields['password1'].widget.attrs.update({
-            'placeholder': 'Enter your password'
-        })
-        self.fields['password2'].widget.attrs.update({
-            'placeholder': 'Confirm your password'
-        })
-
+    # Optionally add custom widgets for a better UI
+    phone_number = forms.CharField(max_length=15, required=False)
+    address = forms.CharField(widget=forms.Textarea, required=False)
+    drivers_license_number = forms.CharField(max_length=20, required=False)
 
 from django import forms
 from django.core.exceptions import ValidationError

@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static '/css/register.css' %}">
-    </head>    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
 <body>
     <nav>
         <div class="nav-left">
@@ -24,10 +24,10 @@
             </ul>
         </div>
         <div class="nav-right">
-           <ul>
-            <li><a href="{% url 'login' %}">LOGIN</a></li>
-            <li><a href="{% url 'register' %}">SIGN UP</a></li>
-           </ul>
+            <ul>
+                <li><a href="{% url 'login' %}">LOGIN</a></li>
+                <li><a href="{% url 'register' %}">SIGN UP</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -56,7 +56,7 @@
                 {% endif %}
 
                 <div>
-                    {{ form.username }}
+                    {{ form.email }}
                 </div>
                 <div>
                     {{ form.password1 }}

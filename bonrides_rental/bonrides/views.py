@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileEditForm
 from django.contrib import messages
 from .models import CarBooking, Vehicle  # Import models here
 
@@ -27,16 +29,17 @@ def contacts(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')  # Use email instead of username
         password = request.POST.get('password')
         
-        user = authenticate(request, username=username, password=password)
+        # Authenticate user using email (not username)
+        user = authenticate(request, username=email, password=password)
         
         if user is not None:
             auth_login(request, user)
-            return redirect('homepage')
+            return redirect('homepage')  # Redirect to homepage after login
         else:
-            messages.info(request, 'Username or Password is incorrect')
+            messages.info(request, 'Email or Password is incorrect')
     context = {}
     return render(request, 'login.html', context)
 
@@ -45,17 +48,32 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            messages.success(request, 'Account created successfully!')
+            return redirect('login')  # Redirect to login page after successful registration
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CustomUserCreationForm()
 
-    context = {'form': form}
-    return render(request, 'register.html', context)
+    return render(request, 'register.html', {'form': form})
 
 def user_logout(request):
     auth_logout(request)
     return redirect('login')
 
+@login_required
+def edit_profile(request):
+    user = request.user  # Get the currently logged-in user
+    
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()  # Save the updated user profile
+            return redirect('profile')  # Redirect to the profile page after saving
+    else:
+        form = ProfileEditForm(instance=user)
+
+    return render(request, 'edit_profile.html', {'form': form})
 
 def car_booking_list(request):
     bookings = CarBooking.objects.all()
