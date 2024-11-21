@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'bonrides_rental.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db_bonrides.sqlite3',
+        'NAME': BASE_DIR / 'db_rental.sqlite3',
     }
 }
 
