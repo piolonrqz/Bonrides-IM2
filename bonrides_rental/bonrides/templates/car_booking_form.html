@@ -14,7 +14,7 @@
             const rentalDateInput = document.getElementById('id_rental_date');
             const returnDateInput = document.getElementById('id_return_date');
 
-            // Set minimum date for rental date
+            // Set minimum date for rental date (current date)
             const today = new Date().toISOString().split('T')[0];
             rentalDateInput.setAttribute('min', today);
 
@@ -24,7 +24,7 @@
                 returnDateInput.setAttribute('min', rentalDate);
             });
 
-            // Reset form fields if invalid combination is entered
+            // Validate return date input: it must be after the rental date
             returnDateInput.addEventListener('change', function () {
                 if (returnDateInput.value <= rentalDateInput.value) {
                     alert('Return date must be after the rental date.');
@@ -35,63 +35,64 @@
     </script>
 </head>
 <body>
-    <div class="home">
-        <header>
+    <header>
+        <div class="nav-left">
             <ul class="nav_link">
                 <li><a href="{% url 'about' %}">ABOUT</a></li>
                 <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
                 <li><a href="{% url 'booking' %}">BOOKING</a></li>
                 <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
             </ul>
-            
-            <p><a href="{% url 'homepage' %}">bonrides</a></p>
-
-            <ul class="nav_right">
+        </div>
+        
+        <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+        
+        <div class="nav-right">
+            <ul>
                 {% if user.is_authenticated %}
-                    <li id="user-format" style="display: inline-block; margin-right: 10px;">Hello, {{ user }}</li>
-                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    <li id="user-format">Hello, {{ user }}</li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
                 {% else %}
-                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                    <li><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li><a href="{% url 'register' %}">SIGN UP</a></li>
                 {% endif %}
             </ul>
-        </header>
-
-        <div class="rent_now_button">
-            <p><a href="{% url 'car_booking_create' %}">RENT NOW</a></p>
         </div>
-    </div>
-    <h1>{% if booking.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        
-        <label for="id_customer_name">Customer Name:</label>
-        {{ form.customer_name }}
-        {{ form.customer_name.errors }}
+    </header>
 
-        <label for="id_car_model">Car Model:</label>
-        {{ form.car_model }}
-        {{ form.car_model.errors }}
+    <main>
+        <h1>{% if booking.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
 
-        <label for="id_status">Status:</label>
-        {{ form.status }}
-        {{ form.status.errors }}
+            <label for="id_customer_name">Customer Name:</label>
+            {{ form.customer_name }}
+            {{ form.customer_name.errors }}
 
-        <label for="id_rental_date">Rental Date:</label>
-        {{ form.rental_date }}
-        {{ form.rental_date.errors }}
+            <label for="id_car_model">Car Model:</label>
+            {{ form.car_model }}
+            {{ form.car_model.errors }}
 
-        <label for="id_return_date">Return Date:</label>
-        {{ form.return_date }}
-        {{ form.return_date.errors }}
+            <label for="id_status">Status:</label>
+            {{ form.status }}
+            {{ form.status.errors }}
 
-        <label for="id_total_cost">Total Cost:</label>
-        {{ form.total_cost }}
-        {{ form.total_cost.errors }}
+            <label for="id_rental_date">Rental Date:</label>
+            {{ form.rental_date }}
+            {{ form.rental_date.errors }}
 
-        <button type="submit">Submit</button>
-    </form>
-    <a href="{% url 'car_booking_list' %}">Cancel</a>
+            <label for="id_return_date">Return Date:</label>
+            {{ form.return_date }}
+            {{ form.return_date.errors }}
+
+            <label for="id_total_cost">Total Cost:</label>
+            {{ form.total_cost }}
+            {{ form.total_cost.errors }}
+
+            <button type="submit">Submit</button>
+        </form>
+        <a href="{% url 'car_booking_list' %}">Cancel</a>
+    </main>
 </body>
 </html>

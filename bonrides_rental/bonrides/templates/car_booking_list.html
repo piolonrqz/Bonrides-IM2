@@ -1,4 +1,5 @@
 <!-- car_booking_list.html -->
+ {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,19 +8,53 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/car_list.css' %}">
     <title>Car Bookings</title>
 </head>
 <body>
-    <h1>Car Bookings</h1>
-    <a href="{% url 'car_booking_create' %}">Add New Booking</a>
-    <ul>
-        {% for booking in bookings %}
-            <li>
-                <a href="{% url 'car_booking_detail' booking.pk %}">{{ booking }}</a> |
-                <a href="{% url 'car_booking_update' booking.pk %}">Edit</a> |
-                <a href="{% url 'car_booking_delete' booking.pk %}">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <header>
+        <div class="nav-left">
+            <ul class="nav_link">
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
+                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+            </ul>
+        </div>
+        
+        <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+        
+        <div class="nav-right">
+            <ul>
+                {% if user.is_authenticated %}
+                    <li id="user-format">Hello, {{ user }}</li>
+                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li><a href="{% url 'register' %}">SIGN UP</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+    <div class="car-bookings-container">
+        <h1>Car Bookings</h1>
+        <a href="{% url 'car_booking_create' %}" class="btn btn-primary">Add New Booking</a>
+        
+        {% if bookings %}
+            <ul class="bookings-list">
+                {% for booking in bookings %}
+                    <li class="booking-item">
+                        <a href="{% url 'car_booking_detail' booking.pk %}" class="booking-detail-link">{{ booking }}</a>
+                        <div class="booking-actions">
+                            <a href="{% url 'car_booking_update' booking.pk %}" class="btn btn-edit">Edit</a>
+                            <a href="{% url 'car_booking_delete' booking.pk %}" class="btn btn-delete">Delete</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-bookings-message">No bookings found. <a href="{% url 'car_booking_create' %}">Create your first booking</a>.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

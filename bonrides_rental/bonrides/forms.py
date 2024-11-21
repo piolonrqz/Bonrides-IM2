@@ -35,7 +35,7 @@ class ProfileEditForm(forms.ModelForm):
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
-from .models import CarBooking  # Adjust the import based on your project structure
+from .models import CarBooking
 
 class CarBookingForm(forms.ModelForm):
     class Meta:
@@ -63,6 +63,7 @@ class CarBookingForm(forms.ModelForm):
                     'return_date': "Return date must be after the rental date."
                 })
         return cleaned_data
+
 
 
 class VehicleForm(forms.ModelForm):
