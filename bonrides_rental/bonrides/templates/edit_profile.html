@@ -11,7 +11,7 @@
     <title>Bonrides - Edit Profile</title>
 </head>
 <body>
-    <header>
+    <nav>
         <div class="nav-left">
             <ul>
                 <li><a href="{% url 'about' %}">ABOUT</a></li>
@@ -26,12 +26,20 @@
             </ul>
         </div>
         <div class="nav-right">
-            <ul>
-                <li><a href="{% url 'login' %}">LOGIN</a></li>
-                <li><a href="{% url 'register' %}">SIGN UP</a></li>
+            <ul class="nav_right">
+                {% if user.is_authenticated %}
+                    <li id="user-format" style="display: inline-block; margin-right: 10px;">
+                        Hello,
+                        <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                    </li>                    
+                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                {% endif %}
             </ul>
         </div>
-    </header>
+    </nav>
 
     <div class="profile-section">
         <h2>Edit Profile</h2>
@@ -59,7 +67,7 @@
             </div>
             <div class="form-field">
                 <label for="drivers_license">Driver's License Number</label>
-                {{ form.drivers_license }}
+                {{ form.drivers_license_number }}
             </div>
 
             <button type="submit" class="submit-btn">Save Changes</button>

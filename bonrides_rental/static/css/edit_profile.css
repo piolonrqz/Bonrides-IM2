@@ -1,45 +1,49 @@
-/* Basic Reset */
-* {
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
-body {
+    background-color: #3B3B3B;
+    background-size: cover;
     font-family: 'Khand', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
 }
-
-/* Header Styling */
-header {
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #2c3e50;
-    color: white;
+    height: 120px;
+    padding: 0 10 0 10px;
+    font-weight: bold;
+    margin-left: 100px;
+    margin-right: 100px;
 }
-
-header .nav-left, .nav-center, .nav-right {
+.nav-left, .nav-right {
     display: flex;
     align-items: center;
+    font-size: 24px;
 }
 
-header ul {
+.nav-center{
     display: flex;
-    list-style: none;
-    gap: 20px;
+    align-items: center;
+    font-size: 48px;
+    color: white;
+    margin-right: 120px;
 }
-
-header a {
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav ul li {
+    margin-right: 20px;
+}
+nav ul li a {
     color: white;
     text-decoration: none;
-    font-weight: 600;
 }
-
-header a:hover {
+nav ul li a:hover {
     text-decoration: underline;
 }
 
@@ -82,6 +86,13 @@ form {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+/* Minimize Address Field */
+.form-field input[name="address"] {
+    max-width: 400px; /* Limiting the width of the address field */
+    width: 100%;
+    resize: vertical; /* Allow users to resize the height */
 }
 
 button.submit-btn {
