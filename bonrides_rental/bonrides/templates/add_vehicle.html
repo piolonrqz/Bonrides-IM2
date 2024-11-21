@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/vehicles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_vehicle.css' %}">
 </head>
 <body>
     <nav>
@@ -34,12 +34,47 @@
         </div>
     </nav>
     
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'manage_vehicles' %}">Back to Vehicle Management</a>
+    <div class= "container">
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div>
+                        <label for="model">Model</label>
+                        <input type="text" id="model" name="model" placeholder="Model" value="{{ form.model.value|default_if_none:'' }}" required>
+                    </div>
+                    <div>
+                        <label for="model_year">Model Year</label>
+                        <input type="text" id="model_year" name="model_year" placeholder="Model Year" value="{{ form.model_year.value|default_if_none:'' }}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label for="brand">Brand</label>
+                        <input type="text" id="brand" name="brand" placeholder="Brand" value="{{ form.brand.value|default_if_none:'' }}" required>
+                    </div>
+                    <div>
+                        <label for="mileage">Mileage</label>
+                        <input type="text" id="mileage" name="mileage" placeholder="Mileage" value="{{ form.mileage.value|default_if_none:'' }}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label for="availability">Availability</label>
+                        <select id="availability" name="availability">
+                            <option value="True" {% if form.availability.value == True %}selected{% endif %}>Available</option>
+                            <option value="False" {% if form.availability.value == False %}selected{% endif %}>Not Available</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="registration_number">Registration Number</label>
+                        <input type="text" id="registration_number" name="registration_number" placeholder="Registration Number" value="{{ form.registration_number.value|default_if_none:'' }}" required>
+                    </div>
+                </div>
+                <button type="submit">Save</button>
+            </form>
+            <a href="{% url 'manage_vehicles' %}">Back to Vehicle Management</a>
+        </div>
+    </div>
 </body>
 </html>

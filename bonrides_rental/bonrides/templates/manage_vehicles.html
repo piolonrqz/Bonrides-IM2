@@ -1,39 +1,53 @@
-<!-- templates/manage_vehicles.html -->
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Manage Vehicles</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/manage_vehicle.css' %}">
 </head>
 <body>
-    <h2>Manage Vehicles</h2>
-    <a href="{% url 'add_vehicle' %}">Add New Vehicle</a>
-    <table>
-        <tr>
-            <th>Model</th>
-            <th>Model Year</th>
-            <th>Brand</th>
-            <th>Mileage</th>
-            <th>Availability</th>
-            <th>Registration Number</th>
-            <th>Actions</th>
-        </tr>
-        {% for vehicle in vehicles %}
-        <tr>
-            <td>{{ vehicle.model }}</td>
-            <td>{{ vehicle.model_year }}</td>
-            <td>{{ vehicle.brand }}</td>
-            <td>{{ vehicle.mileage }}</td>
-            <td>{{ vehicle.availability }}</td>
-            <td>{{ vehicle.registration_number }}</td>
-            <td>
-                <a href="{% url 'edit_vehicle' vehicle.pk %}">Edit</a> |
-                <form action="{% url 'delete_vehicle' vehicle.pk %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="table-container">
+        <h2>Manage Vehicles</h2>
+        <div class="add-vehicle">
+            <button><a href="{% url 'add_vehicle' %}" >Add New Vehicle</a></button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Model Year</th>
+                    <th>Brand</th>
+                    <th>Mileage</th>
+                    <th>Availability</th>
+                    <th>Registration Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.model_year }}</td>
+                    <td>{{ vehicle.brand }}</td>
+                    <td>{{ vehicle.mileage }}</td>
+                    <td>{{ vehicle.availability }}</td>
+                    <td>{{ vehicle.registration_number }}</td>
+                    <td>
+                        <button class="edit"><a href="{% url 'edit_vehicle' vehicle.pk %}">Edit</a></button>
+                        <form action="{% url 'delete_vehicle' vehicle.pk %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

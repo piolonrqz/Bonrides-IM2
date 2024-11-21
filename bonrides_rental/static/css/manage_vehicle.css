@@ -1,0 +1,68 @@
+*{
+    font-family: 'Khand', sans-serif;
+}
+body {
+    background-color: #2c2c2c;
+    color: #fff;
+    font-family: 'Khand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.table-container {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 1000px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+th {
+    background-color: #333;
+}
+
+button:hover {
+    opacity: 60%;
+}
+.add-vehicle { 
+    margin-bottom: 25px;
+    text-align: center;
+    width: 10%;
+}
+
+a {
+    text-decoration: none;
+    color: #3B3B3F;
+}
+
+button {
+    border: none;
+    border-radius: 4px;
+    background-color: #FFD21A;
+    color: #3B3B3F;
+    height: 36px;
+    width: 60px;
+    font-size: 15px;
+}
+
+.add-vehicle button {
+    width: 120px;
+}
+
+.edit {
+    margin-right: 10px;
+}
+
+
+
