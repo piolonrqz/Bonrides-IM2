@@ -57,8 +57,6 @@ def user_logout(request):
     return redirect('login')
 
 
-# Booking Views
-
 def car_booking_list(request):
     bookings = CarBooking.objects.all()
     return render(request, 'car_booking_list.html', {'bookings': bookings})
@@ -76,6 +74,8 @@ def car_booking_create(request):
             form.save()
             messages.success(request, 'Booking created successfully!')
             return redirect('car_booking_list')  # Redirect to the booking list after saving
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CarBookingForm()
     return render(request, 'car_booking_form.html', {'form': form})
@@ -89,6 +89,8 @@ def car_booking_update(request, pk):
             form.save()
             messages.success(request, 'Booking updated successfully!')
             return redirect('car_booking_detail', pk=booking.pk)  # Redirect to the updated booking detail
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = CarBookingForm(instance=booking)
     return render(request, 'car_booking_form.html', {'form': form})

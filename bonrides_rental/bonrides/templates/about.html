@@ -11,7 +11,8 @@
     <title>Bonrides - About Us</title>
 </head>
 <body>
-    <header>
+    <!-- Navigation -->
+    <div class="navbar">
         <div class="nav-left">
             <ul>
                 <li><a href="{% url 'about' %}">ABOUT</a></li>
@@ -20,25 +21,25 @@
                 <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
             </ul>
         </div>
-        <div class="nav-center">
-            <ul>
-                <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
-            </ul>
+        <div class="logo">
+            <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
         </div>
         <div class="nav-right">
-           <ul>
-            <li><a href="{% url 'login' %}">LOGIN</a></li>
-            <li><a href="{% url 'register' %}">SIGN UP</a></li>
-           </ul>
+            <ul>
+                <li><a href="{% url 'login' %}">LOGIN</a></li>
+                <li><a href="{% url 'register' %}">SIGN UP</a></li>
+            </ul>
         </div>
-    </header>
+    </div>
 
+    <!-- About Section -->
     <div class="about-section">
         <h1>About Bonrides</h1>
         <p>Bonrides is a reliable and affordable car rental service that makes it easy to get on the road for your next adventure. Whether you need a vehicle for a weekend getaway, a business trip, or an extended vacation, our user-friendly booking system and wide selection of well-maintained cars have you covered.</p>
         <p>Our dedicated team is committed to providing an exceptional rental experience from start to finish. We take pride in our fleet of safe, clean, and modern vehicles that are regularly serviced to ensure your peace of mind on the road.</p>
     </div>
 
+    <!-- Team Section -->
     <div class="team-section">
         <h2>Meet the Bonrides Team</h2>
         <div class="team-container">
@@ -62,6 +63,5 @@
             </div>
         </div>
     </div>
-    
 </body>
 </html>
