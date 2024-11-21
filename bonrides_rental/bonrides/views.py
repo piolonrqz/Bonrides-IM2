@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileEditForm
 from django.contrib import messages
 from .models import CarBooking, Vehicle  # Import models here
 
@@ -59,6 +61,19 @@ def user_logout(request):
     auth_logout(request)
     return redirect('login')
 
+@login_required
+def edit_profile(request):
+    user = request.user  # Get the currently logged-in user
+    
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()  # Save the updated user profile
+            return redirect('profile')  # Redirect to the profile page after saving
+    else:
+        form = ProfileEditForm(instance=user)
+
+    return render(request, 'edit_profile.html', {'form': form})
 
 # Booking Views
 

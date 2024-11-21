@@ -26,5 +26,5 @@ urlpatterns = [
     path('vehicles/manage/', views.manage_vehicles, name='manage_vehicles'),
     path('vehicles/edit/<int:pk>/', views.edit_vehicle, name='edit_vehicle'),
     path('vehicles/delete/<int:pk>/', views.delete_vehicle, name='delete_vehicle'),
-    # path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
 ]
