@@ -8,11 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <title>Bonrides - About Us</title>
 </head>
 <body>
-    <nav>
+    <header>
         <div class="nav-left">
-
             <ul>
                 <li><a href="{% url 'about' %}">ABOUT</a></li>
                 <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
@@ -24,7 +24,6 @@
             <ul>
                 <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
             </ul>
-            
         </div>
         <div class="nav-right">
            <ul>
@@ -32,7 +31,37 @@
             <li><a href="{% url 'register' %}">SIGN UP</a></li>
            </ul>
         </div>
-    </nav>
-    <!-- Your homepage content -->
+    </header>
+
+    <div class="about-section">
+        <h1>About Bonrides</h1>
+        <p>Bonrides is a reliable and affordable car rental service that makes it easy to get on the road for your next adventure. Whether you need a vehicle for a weekend getaway, a business trip, or an extended vacation, our user-friendly booking system and wide selection of well-maintained cars have you covered.</p>
+        <p>Our dedicated team is committed to providing an exceptional rental experience from start to finish. We take pride in our fleet of safe, clean, and modern vehicles that are regularly serviced to ensure your peace of mind on the road.</p>
+    </div>
+
+    <div class="team-section">
+        <h2>Meet the Bonrides Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <div class="team-member-info">
+                    <h3>Piolo Frances Enriquez</h3>
+                    <p>Developer</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-member-info">
+                    <h3>Nathan Rener Malagapo</h3>
+                    <p>Developer</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-member-info">
+                    <h3>Jerjen Res Pangalay</h3>
+                    <p>Developer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>

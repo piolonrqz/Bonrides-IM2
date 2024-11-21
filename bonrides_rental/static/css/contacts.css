@@ -3,24 +3,26 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('../images/background.jpg');
-    background-size: cover;
+    background-color: #3B3B3F;
     font-family: 'Khand', sans-serif;
+    color: white;
 }
 nav {
+    background-color: #292929;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 120px;
-    padding: 0 10 0 10px;
+    padding-left: 5%;
+    padding-right: 5%;
     font-weight: bold;
-    margin-left: 100px;
-    margin-right: 100px;
+    font-family: 'Khand', sans-serif; /* Corrected here */
 }
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
     font-size: 24px;
+    font-family: 'Khand', sans-serif; /* Corrected here */
 }
 
 .nav-center{
@@ -28,7 +30,7 @@ nav {
     align-items: center;
     font-size: 48px;
     color: white;
-    margin-right: 120px;
+    font-family: 'Khand', sans-serif; /* Corrected here */
 }
 nav ul {
     list-style: none;
@@ -45,4 +47,107 @@ nav ul li a {
 }
 nav ul li a:hover {
     text-decoration: underline;
+}
+.logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 50px;
+}
+
+.contact-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 50px;
+    max-width: 1200px;
+    margin: 0;
+    margin-left: 181px;
+    margin-top: 85px;
+}
+
+.contact-info {
+    max-width: 420px;
+    margin: 0;
+    
+}
+
+.contact-info h2 {
+    font-size: 64px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.contact-info p {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f1c40f;
+    border-radius: 50%;
+}
+
+.contact-form {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #fff;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #f1c40f;
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.social-icons .icon {
+    cursor: pointer;
 }

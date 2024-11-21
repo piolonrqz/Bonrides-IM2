@@ -10,29 +10,103 @@
     <link rel="stylesheet" href="{% static 'css/vehicles.css' %}">
 </head>
 <body>
-    <nav>
-        <div class="nav-left">
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-left">
+                <ul>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                    <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                    <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+                </ul>
+            </div>
+            <div class="nav-center">
+                <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+            </div>
+            <div class="nav-right">
+                <ul>
+                    <li><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li><a href="{% url 'register' %}">SIGN UP</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-            <ul>
-                <li><a href="{% url 'about' %}">ABOUT</a></li> <!-- Corrected closing tag -->
-                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-            </ul>
+    <main class="container">
+        <!-- Example card -->
+        <div class="card">
+            <img class="car-image" src="{% static 'images/vios.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Toyota Vios</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
         </div>
-        <div class="nav-center">
-            <ul>
-                <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
-            </ul>
-            
+        <!-- Add more cards as needed -->
+        <div class="card1">
+            <img class="car-image" src="{% static 'images/hiace.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Toyota Hiace</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
         </div>
-        <div class="nav-right">
-           <ul>
-            <li><a href="{% url 'login' %}">LOGIN</a></li>
-            <li><a href="{% url 'register' %}">SIGN UP</a></li>
-           </ul>
+        <div class="card2">
+            <img class="car-image" src="{% static 'images/corvette.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Chevrolette Corvette</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
         </div>
-    </nav>
-    <!-- Your homepage content -->
+        <div class="card3">
+            <img class="car-image" src="{% static 'images/911.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Porsche 911 Carrera</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+        <div class="card4">
+            <img class="car-image" src="{% static 'images/bmw.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>BMW Isetta</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+        <div class="card5">
+            <img class="car-image" src="{% static 'images/ford.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Ford Raptor</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+        <div class="card6">
+            <img class="car-image" src="{% static 'images/innova.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Toyota Innova</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+        <div class="card7">
+            <img class="car-image" src="{% static 'images/montero.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Mitsubishi Montero Sports</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+        <div class="card8">
+            <img class="car-image" src="{% static 'images/honda.png' %}" alt="Car Image">
+            <div class="car-title">
+                <span>Honda Civic</span>
+                <span class="rating">★★★★☆</span>
+            </div>
+            <button class="view-button">View Details</button>
+        </div>
+    </main>
 </body>
 </html>
