@@ -1,26 +1,44 @@
-<!-- car_booking_form.html -->
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>Car Booking Form</title>
     <link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rentalDateInput = document.getElementById('id_rental_date');
+            const returnDateInput = document.getElementById('id_return_date');
+
+            // Set minimum date for rental date
+            const today = new Date().toISOString().split('T')[0];
+            rentalDateInput.setAttribute('min', today);
+
+            // Update return date minimum when rental date is selected
+            rentalDateInput.addEventListener('change', function () {
+                const rentalDate = this.value;
+                returnDateInput.setAttribute('min', rentalDate);
+            });
+
+            // Reset form fields if invalid combination is entered
+            returnDateInput.addEventListener('change', function () {
+                if (returnDateInput.value <= rentalDateInput.value) {
+                    alert('Return date must be after the rental date.');
+                    this.value = ''; // Clear the invalid input
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-    <!-- <h1>{% if form.instance.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Submit</button>
-    </form>
-    <a href="{% url 'car_booking_list' %}">Cancel</a> -->
     <div class="home">
         <header>
             <ul class="nav_link">
-                <li><a href="{% url 'about' %}">ABOUT</a></li> 
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
                 <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
                 <li><a href="{% url 'booking' %}">BOOKING</a></li>
                 <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
@@ -30,7 +48,7 @@
 
             <ul class="nav_right">
                 {% if user.is_authenticated %}
-                    <li id="user-format" style="display: inline-block; margin-right: 10px;">Hello, {{user}}</li>
+                    <li id="user-format" style="display: inline-block; margin-right: 10px;">Hello, {{ user }}</li>
                     <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
                 {% else %}
                     <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
@@ -46,26 +64,34 @@
     <h1>{% if booking.pk %}Edit Booking{% else %}Add Booking{% endif %}</h1>
     <form method="POST">
         {% csrf_token %}
+        {{ form.non_field_errors }}
         
+        <label for="id_customer_name">Customer Name:</label>
+        {{ form.customer_name }}
+        {{ form.customer_name.errors }}
 
-        <label for="customer_name">Customer Name:</label>
-        <input type="text" id="customer_name" name="customer_name" placeholder="Enter customer name" required>
+        <label for="id_car_model">Car Model:</label>
+        {{ form.car_model }}
+        {{ form.car_model.errors }}
 
-        <label for="car_model">Car Model:</label>
-        <input type="text" id="car_model" name="car_model" placeholder="Enter car model" required>
+        <label for="id_status">Status:</label>
+        {{ form.status }}
+        {{ form.status.errors }}
 
-        <label for="booking_date">Booking Date:</label>
-        <input type="date" id="booking_date" name="booking_date" required>
+        <label for="id_rental_date">Rental Date:</label>
+        {{ form.rental_date }}
+        {{ form.rental_date.errors }}
 
-        <label for="rental_duration">Rental Duration:</label>
-        <input type="number" id="rental_duration" name="rental_duration" placeholder="Enter rental duration (days)" required>
+        <label for="id_return_date">Return Date:</label>
+        {{ form.return_date }}
+        {{ form.return_date.errors }}
 
-        <label for="total_cost">Total Cost:</label>
-        <input type="number" id="total_cost" name="total_cost" placeholder="Enter total cost" required>
+        <label for="id_total_cost">Total Cost:</label>
+        {{ form.total_cost }}
+        {{ form.total_cost.errors }}
 
         <button type="submit">Submit</button>
     </form>
     <a href="{% url 'car_booking_list' %}">Cancel</a>
 </body>
 </html>
- 

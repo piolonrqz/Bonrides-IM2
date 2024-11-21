@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('../images/background.jpg');
+    background-color: #3B3B3B;
     background-size: cover;
     font-family: 'Khand', sans-serif;
 }
@@ -40,10 +40,101 @@ nav ul li {
     margin-right: 20px;
 }
 nav ul li a {
-    text-decoration: none;
-    list-style-type: none;
     color: white;
+    text-decoration: none;
 }
-nav ul li a:hover {
-    text-decoration: underline;
+
+.header{
+    font-family: 'Khand', sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    color: azure;
+}
+
+.logo a {
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    text-transform: lowercase;
+    text-decoration: none;
+}
+
+
+/* Common styles for all cards */
+.card, .card1, .card2, .card3, .card4, 
+.card5, .card6, .card7, .card8 {
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s;
+}
+
+.card:hover, .card1:hover, .card2:hover, .card3:hover, 
+.card4:hover, .card5:hover, .card6:hover, .card7:hover, 
+.card8:hover {
+    transform: translateY(-5px);
+}
+
+.car-image {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.car-title {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.rating {
+    color: #ffd700;
+}
+
+.view-button {
+    background-color: #ffd700;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    width: 100%;
+    font-family: 'Khand', sans-serif;
+    transition: background-color 0.2s;
+}
+
+.view-button:hover {
+    background-color: #ffed4a;
+}
+
+/* Media Queries for Responsiveness */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+    }
 }

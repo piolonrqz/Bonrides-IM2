@@ -2,22 +2,22 @@
 
 * {
     margin: 0;
-    box-sizing: border-box;
     padding: 0;
+    box-sizing: border-box;
     font-style: normal;
-    font-family: "Khand", sans-serif;
+    font-family: sans-serif;
 }
+
 
 header {
     display: flex;
-    justify-content: space-evenlyw;
+    justify-content: space-evenly;
     align-items: center;
     font-weight: 700;
     padding-top: 27px;
     background-color: #292929;
     height: 120px;
-    width: 1920px;
-    
+    width: 100%; 
 }
 
 header p {
@@ -35,7 +35,67 @@ li, a {
     color: white;
 }
 
-.nav_link li{
+.nav_link li {
     display: inline-block;
     padding: 0px 20px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="number"] {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form button[type="submit"] {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #F2D777;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+form button[type="submit"]:hover {
+    background-color: #F2D777;
+}
+
+a {
+    display: inline-block;
+    margin-top: 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+a:hover {
+    color: #F2D777;
 }
