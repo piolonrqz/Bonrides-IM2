@@ -96,7 +96,7 @@ form {
 }
 
 button.submit-btn {
-    background-color: #16a085;
+    background-color: #FFD21A;
     color: white;
     padding: 12px 20px;
     font-size: 16px;
@@ -107,5 +107,9 @@ button.submit-btn {
 }
 
 button.submit-btn:hover {
-    background-color: #1abc9c;
+    background-color: #FFD21A;
+}
+
+#logoutLink{
+    color: white;
 }

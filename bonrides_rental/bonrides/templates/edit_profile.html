@@ -32,7 +32,7 @@
                         Hello,
                         <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
                     </li>                    
-                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    <a href="{% url 'logout' %}" id="logoutLink">LOGOUT</a>
                 {% else %}
                     <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
                     <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
@@ -43,7 +43,7 @@
 
     <div class="profile-section">
         <h2>Edit Profile</h2>
-        <form method="POST">
+        <form id="editProfileForm" method="POST">
             {% csrf_token %}
             <div class="form-field">
                 <label for="email">Email</label>
@@ -69,9 +69,29 @@
                 <label for="drivers_license">Driver's License Number</label>
                 {{ form.drivers_license_number }}
             </div>
-
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
     </div>
-</body>
-</html>
+    
+    <script>
+
+        // Add a confirmation dialog for the logout link
+        const logoutLink = document.getElementById('logoutLink');
+
+        logoutLink.addEventListener('click', function (event) {
+            const confirmLogout = window.confirm("Are you sure you want to log out?");
+            if (!confirmLogout) {
+                event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
+            }
+        });
+
+        const form = document.getElementById('editProfileForm');
+    
+        form.addEventListener('submit', function (event) {
+            const isConfirmed = window.confirm("Are you sure you want to save these changes?");
+            if (!isConfirmed) {
+                event.preventDefault(); // Prevent form submission if user clicks "Cancel"
+            }
+        });
+        
+    </script>    
