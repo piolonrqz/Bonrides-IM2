@@ -54,12 +54,12 @@
                 <!-- Display error message below the button if there's any -->
                 <div>
                     {% if messages %}
-                        <ul>
-                            {% for message in messages %}
-                                <li style="color: red;">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+                    <ul style="list-style-type: none; background-color: white; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                        {% for message in messages %}
+                            <li style="color: red; padding: 5px 0;">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 </div>
             </form>
         </div>    
