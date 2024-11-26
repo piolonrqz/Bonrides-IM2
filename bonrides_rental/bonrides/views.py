@@ -48,14 +48,17 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Account created successfully!')
-            return redirect('login')  # Redirect to login page after successful registration
+            return redirect('login')  # Redirect to login or a success page        else:
         else:
-            messages.error(request, 'Please correct the errors below.')
+            # Pass only the first error to the context
+            for field in form:
+                if field.errors:
+                    first_error = field.errors[0]
+                    break
+            return render(request, 'register.html', {'form': form, 'first_error': first_error})
     else:
-        form = CustomUserCreationForm()
-
-    return render(request, 'register.html', {'form': form})
+        form = CustomUserCreationForm()    
+        return render(request, 'register.html', {'form': form})
 
 def user_logout(request):
     auth_logout(request)
@@ -69,7 +72,7 @@ def edit_profile(request):
         form = ProfileEditForm(request.POST, instance=user)
         if form.is_valid():
             form.save()  # Save the updated user profile
-            return redirect('profile')  # Redirect to the profile page after saving
+            return redirect('edit_profile')  # Redirect to the profile page after saving
     else:
         form = ProfileEditForm(instance=user)
 

@@ -6,16 +6,25 @@ from .models import User  # Make sure this is importing from your custom User mo
 from django.contrib.auth import get_user_model
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Enter Email:'})
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password:'})
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password:'})
+    )
+    
     class Meta:
-        model = User  # Use your custom User model
+        model = User
         fields = ['email', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super().save(commit=False)
         if user.is_staff is None:  # Ensure is_staff is set
-            user.is_staff is None  # or True, based on your logic
+            user.is_staff = None  # or True, based on your logic
         if commit:
             user.save()
         return user
@@ -29,9 +38,8 @@ class ProfileEditForm(forms.ModelForm):
 
     # Optionally add custom widgets for a better UI
     phone_number = forms.CharField(max_length=15, required=False)
-    address = forms.CharField(widget=forms.Textarea, required=False)
-    drivers_license_number = forms.CharField(max_length=20, required=False)
-
+    # address = forms.CharField(widget=forms.Textarea, required=False) // temporarily disable
+    drivers_license_number = forms.CharField(max_length=20, required=True)
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date

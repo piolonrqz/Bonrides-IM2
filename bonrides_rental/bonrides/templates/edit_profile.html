@@ -11,67 +11,96 @@
     <title>Bonrides - Edit Profile</title>
 </head>
 <body>
-    <nav>
-        <div class="nav-left">
-            <ul>
-                <li><a href="{% url 'about' %}">ABOUT</a></li>
-                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-            </ul>
-        </div>
-        <div class="nav-center">
-            <ul>
-                <p><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a></p>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav_right">
-                {% if user.is_authenticated %}
-                    <li id="user-format" style="display: inline-block; margin-right: 10px;">
-                        Hello,
-                        <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
-                    </li>                    
-                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                {% else %}
-                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-left">
+                <ul>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                    <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                    <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+                </ul>
+            </div>
+            <div class="nav-center">
+                <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+            </div>
+            <div class="nav-right">
+                <ul class="nav_right">
+                    {% if user.is_authenticated %}
+                        <li id="user-format" style="display: inline-block; margin-right: 10px;">
+                            Hello,
+                            <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                        </li>                    
+                        <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    {% else %}
+                        <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                        <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-    <div class="profile-section">
-        <h2>Edit Profile</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-field">
-                <label for="email">Email</label>
-                {{ form.email }}
-            </div>
-            <div class="form-field">
-                <label for="first_name">First Name</label>
-                {{ form.first_name }}
-            </div>
-            <div class="form-field">
-                <label for="last_name">Last Name</label>
-                {{ form.last_name }}
-            </div>
-            <div class="form-field">
-                <label for="phone_number">Phone Number</label>
-                {{ form.phone_number }}
-            </div>
-            <div class="form-field">
-                <label for="address">Address</label>
-                {{ form.address }}
-            </div>
-            <div class="form-field">
-                <label for="drivers_license">Driver's License Number</label>
-                {{ form.drivers_license_number }}
-            </div>
+    <div class="container">
+        <div class="form-container">
+            <h1>Edit Profile</h1>
+            <form id="editProfileForm" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div>
+                        <label for="email">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div>
+                        <label for="first_name">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                </div>
 
-            <button type="submit" class="submit-btn">Save Changes</button>
-        </form>
+                <div class="form-group">
+                    <div>
+                        <label for="last_name">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div>
+                        <label for="phone_number">Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <label for="address">Address</label>
+                        {{ form.address }}
+                    </div>
+                    <div>
+                        <label for="drivers_license">Driver's License Number</label>
+                        {{ form.drivers_license_number }}
+                    </div>
+                </div>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
     </div>
-</body>
-</html>
+    
+    <script>
+                // Add a confirmation dialog for the logout link
+                const logoutLink = document.getElementById('logoutLink');
+                logoutLink.addEventListener('click', function (event) {
+                    const confirmLogout = window.confirm("Are you sure you want to log out?");
+                    if (!confirmLogout) {
+                        event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
+                    }
+                });
+        
+                const form = document.getElementById('editProfileForm');
+                form.addEventListener('submit', function (event) {
+                    const isConfirmed = window.confirm("Are you sure you want to save these changes?");
+                    if (!isConfirmed) {
+                        event.preventDefault(); // Prevent form submission if user clicks "Cancel"
+                    }
+                });
+            </script>
+        </body>
+        </html>
