@@ -3,7 +3,8 @@ myenv
 
 db_bonrides
 db_rental
-/bonrides_rental/bonrides/__pycache__
+/bonrides_rental/__pycache__
 /bonrides/__pycache__
+/bonrides/migrations
 *.pyc
 db_rental.sqlite3

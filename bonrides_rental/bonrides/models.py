@@ -17,14 +17,22 @@ class CarBooking(models.Model):
 
     def __str__(self):
         return f"{self.customer_name} - {self.car_model}"
-
 class Vehicle(models.Model):
+    TRANSMISSION_CHOICES = [
+        ('automatic', 'Automatic'),
+        ('manual', 'Manual'),
+    ]
+
     model = models.CharField(max_length=100)
     model_year = models.PositiveIntegerField()
     brand = models.CharField(max_length=100)
     mileage = models.PositiveIntegerField()
     availability = models.BooleanField(default=True)
     registration_number = models.CharField(max_length=50, unique=True)
+    price = models.PositiveIntegerField(blank=True)
+    image = models.ImageField(upload_to='vehicle_images/', blank=True, null=True)
+    seats = models.PositiveIntegerField(default=1)
+    transmission = models.CharField(max_length=10, choices=TRANSMISSION_CHOICES, default='manual')
 
     def __str__(self):
         return f"{self.model} ({self.model_year}) - {self.registration_number}"

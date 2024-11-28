@@ -14,7 +14,8 @@ def about(request):
     return render(request, 'about.html', context)
 
 def vehicles(request):
-    context = {}
+    vehicles = Vehicle.objects.filter(availability=True)  # Fetch only available vehicles
+    context = {'vehicles': vehicles}
     return render(request, 'vehicles.html', context)
 
 def booking(request):
@@ -107,7 +108,7 @@ def car_booking_delete(request, pk):
 # Create vehicle
 def add_vehicle(request):
     if request.method == 'POST':
-        form = VehicleForm(request.POST)
+        form = VehicleForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Vehicle added successfully!')
@@ -126,7 +127,7 @@ def manage_vehicles(request):
 def edit_vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, pk=pk)
     if request.method == 'POST':
-        form = VehicleForm(request.POST, instance=vehicle)
+        form = VehicleForm(request.POST, request.FILES, instance=vehicle)
         if form.is_valid():
             form.save()
             messages.success(request, 'Vehicle updated successfully!')
@@ -143,3 +144,4 @@ def delete_vehicle(request, pk):
         vehicle.delete()
         messages.success(request, 'Vehicle deleted successfully!')
         return redirect('manage_vehicles')
+    
