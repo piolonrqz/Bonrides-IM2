@@ -85,29 +85,34 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('modalContent').innerHTML = `
-                        <img src="${data.image}" alt="${data.model}" class="modal-image">
-                        <h2>${data.brand} ${data.model}</h2>
-                        <div class="specifications">
-                            <h3>Specifications</h3>
-                            <div class="spec-row">
-                                <span>Mileage</span>
-                                <span>${data.mileage}</span>
-                            </div>
-                            <div class="spec-row">
-                                <span>Seats</span>
-                                <span>${data.seats}</span>
-                            </div>
-                            <div class="spec-row">
-                                <span>Year</span>
-                                <span>${data.model_year}</span>
-                            </div>
-                            <div class="spec-row">
-                                <span>Brand</span>
-                                <span>${data.brand}</span>
-                            </div>
-                            <div class="spec-row">
-                                <span>Transmission</span>
-                                <span>${data.transmission}</span>
+                        <div class=details>
+                            <img src="${data.image}" alt="${data.model}" class="modal-image">
+                            <br>
+                            <div class="details-right">
+                                <h2>${data.brand} ${data.model}</h2>
+                                <div class="specifications">
+                                    <h3>Specifications</h3>
+                                    <div class="spec-row">
+                                        <span>Mileage</span>
+                                        <span>${data.mileage} km</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Seats</span>
+                                        <span>${data.seats}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Year</span>
+                                        <span>${data.model_year}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Brand</span>
+                                        <span>${data.brand}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Transmission</span>
+                                        <span>${data.transmission}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="book-section">

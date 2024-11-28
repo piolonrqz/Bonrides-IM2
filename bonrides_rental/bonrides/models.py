@@ -29,7 +29,7 @@ class Vehicle(models.Model):
     mileage = models.PositiveIntegerField()
     availability = models.BooleanField(default=True)
     registration_number = models.CharField(max_length=50, unique=True)
-    price = models.PositiveIntegerField(blank=True)
+    price = models.PositiveIntegerField(blank=True, default=0)
     image = models.ImageField(upload_to='vehicle_images/', blank=True, null=True)
     seats = models.PositiveIntegerField(default=1)
     transmission = models.CharField(max_length=10, choices=TRANSMISSION_CHOICES, default='manual')

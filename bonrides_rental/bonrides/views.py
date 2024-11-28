@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -145,3 +146,18 @@ def delete_vehicle(request, pk):
         messages.success(request, 'Vehicle deleted successfully!')
         return redirect('manage_vehicles')
     
+    
+def vehicle_detail(request, pk):
+    vehicle = get_object_or_404(Vehicle, pk=pk)
+    data = {
+        "id": vehicle.id,
+        "brand": vehicle.brand,
+        "model": vehicle.model,
+        "model_year": vehicle.model_year,
+        "price": vehicle.price,
+        "mileage": vehicle.mileage,
+        "seats": vehicle.seats,
+        "transmission": vehicle.get_transmission_display(),
+        "image": vehicle.image.url if vehicle.image else "",
+    }
+    return JsonResponse(data)
