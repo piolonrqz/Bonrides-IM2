@@ -55,9 +55,6 @@
                         <label for="first_name">First Name</label>
                         {{ form.first_name }}
                     </div>
-                </div>
-
-                <div class="form-group">
                     <div>
                         <label for="last_name">Last Name</label>
                         {{ form.last_name }}
@@ -66,9 +63,6 @@
                         <label for="phone_number">Phone Number</label>
                         {{ form.phone_number }}
                     </div>
-                </div>
-
-                <div class="form-group">
                     <div>
                         <label for="address">Address</label>
                         {{ form.address }}
@@ -83,24 +77,24 @@
             </form>
         </div>
     </div>
-    
+</body>
+</html>
+
     <script>
-                // Add a confirmation dialog for the logout link
-                const logoutLink = document.getElementById('logoutLink');
-                logoutLink.addEventListener('click', function (event) {
-                    const confirmLogout = window.confirm("Are you sure you want to log out?");
-                    if (!confirmLogout) {
-                        event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
-                    }
-                });
-        
-                const form = document.getElementById('editProfileForm');
-                form.addEventListener('submit', function (event) {
-                    const isConfirmed = window.confirm("Are you sure you want to save these changes?");
-                    if (!isConfirmed) {
-                        event.preventDefault(); // Prevent form submission if user clicks "Cancel"
-                    }
-                });
-            </script>
-        </body>
-        </html>
+        // Add a confirmation dialog for the logout link
+        const logoutLink = document.getElementById('logoutLink');
+        logoutLink.addEventListener('click', function (event) {
+            const confirmLogout = window.confirm("Are you sure you want to log out?");
+            if (!confirmLogout) {
+                event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
+            }
+        });
+
+        const form = document.getElementById('editProfileForm');
+        form.addEventListener('submit', function (event) {
+            const isConfirmed = window.confirm("Are you sure you want to save these changes?");
+            if (!isConfirmed) {
+                event.preventDefault(); // Prevent form submission if user clicks "Cancel"
+            }
+        });
+    </script>

@@ -76,52 +76,95 @@ nav ul li a {
     color: #2c3e50;
 }
 
-/* Form Styling */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* Form Container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #4a4a4a;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.form-field {
-    display: flex;
-    flex-direction: column;
+h1 {
+    text-align: center;
+    color: #F2D777;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.form-field label {
-    font-weight: 600;
+.form-container {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group > div {
+    margin-bottom: 15px; /* Adjust spacing as needed */
+}
+
+label {
+    display: block;
     margin-bottom: 5px;
+    font-weight: bold;
 }
 
-.form-field input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* Minimize Address Field */
-.form-field input[name="address"] {
-    max-width: 400px; /* Limiting the width of the address field */
+input[type="text"], input[type="email"], input[type="password"] {
     width: 100%;
-    resize: vertical; /* Allow users to resize the height */
+    padding: 10px;
+    border: 1px solid #5a5a5a;
+    border-radius: 5px;
+    background-color: #6a6a6a;
+    color: #ffffff;
 }
 
-button.submit-btn {
-    background-color: #FFD21A;
-    color: white;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #F2D777;
+    outline: none;
 }
 
-button.submit-btn:hover {
-    background-color: #FFD21A;
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
-#logoutLink{
-    color: white;
+button[type="submit"] {
+    background-color: #F2D777; /* Yellow color */
+    color: #3b3b3b;           /* Text color for contrast */
+    font-size: 16px;          /* Larger font size */
+    padding: 10px 15px;       /* Bigger padding */
+    margin-left: 210px;
+    margin-top: 25px;
+    border: none;             /* Remove border */
+    border-radius: 8px;       /* Slightly rounded corners */
+    cursor: pointer;          /* Pointer cursor for better UX */
+    font-weight: bold;        /* Bold text */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+button[type="submit"]:hover {
+    background-color: #FFD700; /* Slightly brighter yellow on hover */
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-save, .btn-cancel {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
