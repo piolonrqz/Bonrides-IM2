@@ -111,7 +111,8 @@ def add_vehicle(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Vehicle added successfully!')
-            return redirect('manage_vehicles')  # Redirect to the manage vehicles page
+            return render(request, 'add_vehicle.html', {'form': VehicleForm()})
+            #return redirect('manage_vehicles')
     else:
         form = VehicleForm()
     return render(request, 'add_vehicle.html', {'form': form})
@@ -135,10 +136,10 @@ def edit_vehicle(request, pk):
     return render(request, 'add_vehicle.html', {'form': form})
 
 # Delete vehicle
+
 def delete_vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, pk=pk)
     if request.method == 'POST':
         vehicle.delete()
         messages.success(request, 'Vehicle deleted successfully!')
         return redirect('manage_vehicles')
-    return render(request, 'vehicle_confirm_delete.html', {'vehicle': vehicle})
