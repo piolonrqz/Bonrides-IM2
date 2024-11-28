@@ -1,4 +1,5 @@
-<!-- car_booking_detail.html -->
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,17 +8,69 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/car_details.css' %}">
     <title>Booking Detail</title>
 </head>
+
 <body>
+<header>
+    <div class="nav-left">
+        <ul class="nav_link">
+            <li><a href="{% url 'about' %}">ABOUT</a></li>
+            <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+            <li><a href="{% url 'booking' %}">BOOKING</a></li>
+            <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+        </ul>
+    </div>
+    
+    <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+    
+    <div class="nav-right">
+        <ul>
+            {% if user.is_authenticated %}
+                <li id="user-format">Hello, {{ user }}</li>
+                <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">LOGIN</a></li>
+                <li><a href="{% url 'register' %}">SIGN UP</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="booking-details">
     <h1>Booking Detail</h1>
-    <p>Customer Name: {{ booking.customer_name }}</p>
-    <p>Car Model: {{ booking.car_model }}</p>
-    <p>Status: {{ booking.status }}</p>
-    <p>Rental Date: {{ booking.return_date }}</p>
-    <p>Return Date: {{ booking.return_date }} days</p>
-    <p>Total Cost: ${{ booking.total_cost }}</p>
-    <a href="{% url 'car_booking_update' booking.pk %}">Edit</a>
-    <a href="{% url 'car_booking_list' %}">Back to Bookings</a>
+    <table>
+        <tr>
+            <th>Customer Name</th>
+            <td>{{ booking.customer_name }}</td>
+        </tr>
+        <tr>
+            <th>Car Model</th>
+            <td>{{ booking.car_model }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{ booking.status }}</td>
+        </tr>
+        <tr>
+            <th>Rental Date</th>
+            <td>{{ booking.rental_date }}</td>
+        </tr>
+        <tr>
+            <th>Return Date</th>
+            <td>{{ booking.return_date }}</td>
+        </tr>
+        <tr>
+            <th>Total Cost</th>
+            <td>${{ booking.total_cost }}</td>
+        </tr>
+    </table>
+    <div class="booking-actions">
+        <a href="{% url 'car_booking_update' booking.pk %}">Edit</a>
+        <a href="{% url 'car_booking_list' %}">Back to Bookings</a>
+    </div>
+</div>
+
 </body>
 </html>

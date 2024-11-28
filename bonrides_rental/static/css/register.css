@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url('../images/background.jpg');
+    background-image: url("../images/bg.png");
     background-size: cover;
     font-family: 'Khand', sans-serif;
 }
@@ -128,4 +128,8 @@ nav ul li a {
     background-color: #e6ffe6;
     color: #008000;
     border: 1px solid #008000;
+}
+
+.submit-btn {
+    margin-bottom: 50px;
 }

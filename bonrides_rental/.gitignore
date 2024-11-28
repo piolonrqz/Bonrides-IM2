@@ -2,4 +2,10 @@ myVenv
 db.sqlite3
 myvenv
 db_bonrides
+
 db_rental
+migrations
+
+db_rental.sqlite3
+db_rental
+
