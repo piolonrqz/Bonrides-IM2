@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #3B3B3F;
+    background-color: #3b3b3b;
     font-family: 'Khand', sans-serif;
     color: white;
 }
@@ -81,7 +81,7 @@ nav ul li a {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #4a4a4a;
+    background-color: #292929;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -134,21 +134,21 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 button[type="submit"] {
-    background-color: #F2D777; /* Yellow color */
-    color: #3b3b3b;           /* Text color for contrast */
-    font-size: 16px;          /* Larger font size */
-    padding: 10px 15px;       /* Bigger padding */
+    background-color: #F2D777;
+    color: #3b3b3b;
+    font-size: 16px;
+    padding: 10px 15px;
     margin-left: 210px;
     margin-top: 25px;
-    border: none;             /* Remove border */
-    border-radius: 8px;       /* Slightly rounded corners */
-    cursor: pointer;          /* Pointer cursor for better UX */
-    font-weight: bold;        /* Bold text */
-    transition: background-color 0.3s ease; /* Smooth hover effect */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: #FFD700; /* Slightly brighter yellow on hover */
+    background-color: #FFD700;
 }
 
 
@@ -167,4 +167,4 @@ button[type="submit"]:hover {
         width: 100%;
         margin-bottom: 10px;
     }
-}
+}   
