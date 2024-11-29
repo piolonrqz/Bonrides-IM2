@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+    <title>Bonrides - Edit Profile</title>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-left">
+                <ul>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                    <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                    <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+                </ul>
+            </div>
+            <div class="nav-center">
+                <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+            </div>
+            <div class="nav-right">
+                <ul class="nav_right">
+                    {% if user.is_authenticated %}
+                        <li id="user-format" style="display: inline-block; margin-right: 10px;">
+                            Hello,
+                            <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                        </li>                    
+                        <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    {% else %}
+                        <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                        <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Edit Profile</h1>
+            <form id="editProfileForm" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div>
+                        <label for="email">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div>
+                        <label for="first_name">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div>
+                        <label for="last_name">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div>
+                        <label for="phone_number">Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                    <div>
+                        <label for="address">Address</label>
+                        {{ form.address }}
+                    </div>
+                    <div>
+                        <label for="drivers_license">Driver's License Number</label>
+                        {{ form.drivers_license_number }}
+                    </div>
+                </div>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+    <script>
+        // Add a confirmation dialog for the logout link
+        const logoutLink = document.getElementById('logoutLink');
+        logoutLink.addEventListener('click', function (event) {
+            const confirmLogout = window.confirm("Are you sure you want to log out?");
+            if (!confirmLogout) {
+                event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
+            }
+        });
+
+        const form = document.getElementById('editProfileForm');
+        form.addEventListener('submit', function (event) {
+            const isConfirmed = window.confirm("Are you sure you want to save these changes?");
+            if (!isConfirmed) {
+                event.preventDefault(); // Prevent form submission if user clicks "Cancel"
+            }
+        });
+    </script>

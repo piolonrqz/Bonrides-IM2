@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'bonrides',
 ]
 
+AUTH_USER_MODEL = 'bonrides.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -78,7 +80,7 @@ WSGI_APPLICATION = 'bonrides_rental.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db_rental.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
