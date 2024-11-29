@@ -65,6 +65,8 @@ nav ul li a {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
+    margin-right: 80px;
+    margin-left: 80px;
 }
 
 .vehicle-card {
@@ -89,7 +91,7 @@ nav ul li a {
     color: #3B3B3F;
     padding: 4px 12px;
     border-radius: 4px;
-    font-weight: bold;
+    font-weight: 600;
     max-width: 55px;
 }
 
@@ -99,8 +101,9 @@ nav ul li a {
 }
 
 .vehicle-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin: 0 0 10px 0;
+    font-weight: 500;
 }
 
 .price {
@@ -115,7 +118,7 @@ nav ul li a {
 
 .specs {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 10px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
@@ -125,7 +128,13 @@ nav ul li a {
 .spec-item {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 1px;
+    flex-direction: column;
+    margin: 0;
+}
+
+.spec-icon {
+    margin-top: 5px;    
 }
 
 .details-button {
@@ -135,7 +144,7 @@ nav ul li a {
     border: none;
     border-radius: 8px;
     color: #3B3B3F;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     font-family: 'Khand', sans-serif;
     font-size: 1rem;
@@ -151,14 +160,15 @@ nav ul li a {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     z-index: 1000;
+    color: white;
 }
 
 .modal-content {
     position: relative;
-    background: var(--card-bg);
+    background-color: #1a1a1a;
     width: 90%;
-    max-width: 800px;
-    margin: 50px auto;
+    max-width: 1000px;
+    margin: 200px auto;
     border-radius: 12px;
     padding: 20px;
     max-height: 90vh;
@@ -177,11 +187,11 @@ nav ul li a {
 }
 
 .modal-image {
-    width: 100%;
-    height: 400px;
+    width: 60%;
+    height: 350px;
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .specifications {
@@ -205,12 +215,24 @@ nav ul li a {
 }
 
 .book-button {
-    background: #ff5722;
-    color: white;
+    background: #FFD21A;
+    color: #000;
     border: none;
     padding: 12px 40px;
     border-radius: 8px;
     font-size: 1.1rem;
     cursor: pointer;
     font-family: 'Khand', sans-serif;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    
+}
+
+.details-right {
+    width: 100%;
+    max-width: 400px;
 }
