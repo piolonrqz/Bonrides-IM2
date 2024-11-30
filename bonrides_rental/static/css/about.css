@@ -14,7 +14,7 @@ body {
     align-items: center;
     padding: 10px 20px; 
     background-color: #3b3b3b; 
-    position: relative; /* Allows logo to be centered */
+    position: relative;
 }
 
 /* Center the logo */
@@ -22,17 +22,17 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 48px; /* Maintains updated font size */
+    font-size: 48px; 
     font-weight: bold;
     color: #ffffff;
 }
 
-/* Add padding to nav-left and nav-right */
+
 .nav-left{
-    padding: 30px 0px 0px 90px; /* Add padding */
+    padding: 30px 0px 0px 90px; 
 }
 .nav-right{
-    padding: 30px 90px 0px 0px; /* Add padding */
+    padding: 30px 90px 0px 0px; 
 }
 
 .nav-left ul,
@@ -41,7 +41,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 24px; /* Updated font size */
+    font-size: 24px; 
 }
 
 .nav-left ul li,
@@ -53,7 +53,7 @@ body {
 .nav-right ul li a {
     color: #ffffff;
     text-decoration: none;
-    font-size: 24px; /* Updated font size */
+    font-size: 24px;
     font-weight: bold;
     transition: color 0.3s ease;
 }
@@ -64,15 +64,14 @@ body {
 }
 
 
-/* Logo */
+
 .logo {
-    font-size: 48px; /* Updated font size */
+    font-size: 48px;
     font-weight: bold;
     color: #ffffff;
     padding-top: 23px;
 }
 
-/* About Section Styles */
 .about-section {
     padding: 30px 40px;
     max-width: 800px;
@@ -93,7 +92,6 @@ body {
     text-align: justify;
 }
 
-/* Team Section Styles */
 .team-section {
     padding: 60px 40px;
 }
@@ -131,7 +129,6 @@ body {
     color: #555;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;

@@ -7,56 +7,64 @@ body {
     font-family: 'Khand', sans-serif;
     color: white;
 }
-nav {
+/* Navigation Bar */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 120px;
-    padding: 0 10 0 10px;
-    font-weight: bold;
-    margin-left: 100px;
-    margin-right: 100px;
-}
-.nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
+    padding: 10px 20px; 
+    position: relative; 
 }
 
-.nav-center{
-    display: flex;
-    align-items: center;
-    font-size: 48px;
-    color: white;
-    margin-right: 120px;
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px; 
+    font-weight: bold;
+    color: #ffffff;
 }
-nav ul {
+
+.nav-left{
+    padding: 30px 0px 0px 90px; 
+}
+.nav-right{
+    padding: 30px 90px 0px 0px; 
+}
+
+.nav-left ul,
+.nav-right ul {
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    font-size: 24px; 
 }
-nav ul li {
-    margin-right: 20px;
+
+.nav-left ul li,
+.nav-right ul li {
+    margin: 0 10px;
 }
-nav ul li a {
-    color: white;
+
+.nav-left ul li a,
+.nav-right ul li a {
+    color: #ffffff;
     text-decoration: none;
-}
-
-.header{
-    font-family: 'Khand', sans-serif;
-    font-size: 36px;
+    font-size: 24px; 
     font-weight: bold;
-    color: azure;
+    transition: color 0.3s ease;
 }
 
-.logo a {
-    color: white;
+.nav-left ul li a:hover,
+.nav-right ul li a:hover {
+    color: #cccccc;
+}
+
+.logo {
     font-size: 48px;
     font-weight: bold;
-    text-transform: lowercase;
-    text-decoration: none;
+    color: #ffffff;
+    padding-top: 23px;
 }
 
 /* Profile Section Styling */
@@ -104,7 +112,7 @@ h1 {
 }
 
 .form-group > div {
-    margin-bottom: 15px; /* Adjust spacing as needed */
+    margin-bottom: 15px;
 }
 
 label {
@@ -134,25 +142,41 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 button[type="submit"] {
-    background-color: #F2D777;
-    color: #3b3b3b;
-    font-size: 16px;
-    padding: 10px 15px;
+    background-color: #F2D777; 
+    color: #3b3b3b; 
+    font-size: 18px;
+    padding: 12px 20px; 
     margin-left: 210px;
     margin-top: 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    border: none; 
+    border-radius: 12px;
+    cursor: pointer; 
+    font-weight: bold; 
+    font-family: "Khand", sans-serif; 
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
+
 
 button[type="submit"]:hover {
-    background-color: #FFD700;
+    background-color: #e6c158; 
+    transform: translateY(-2px); 
+}
+
+button[type="submit"]:active {
+    background-color: #dcb24d; 
+    transform: translateY(0); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:focus {
+    outline: 3px solid #F2D777;
+    outline-offset: 2px; 
 }
 
 
-/* Responsive Design */
+
 @media screen and (max-width: 768px) {
     .container {
         width: 90%;
