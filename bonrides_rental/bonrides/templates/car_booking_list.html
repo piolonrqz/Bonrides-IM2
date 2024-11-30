@@ -12,30 +12,34 @@
     <title>Car Bookings</title>
 </head>
 <body>
-    <header>
-        <div class="nav-left">
-            <ul class="nav_link">
-                <li><a href="{% url 'about' %}">ABOUT</a></li>
-                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-            </ul>
-        </div>
-        
-        <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
-        
-        <div class="nav-right">
-            <ul>
-                {% if user.is_authenticated %}
-                    <li id="user-format">Hello, {{ user }}</li>
-                    <li><a href="{% url 'logout' %}">LOGOUT</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">LOGIN</a></li>
-                    <li><a href="{% url 'register' %}">SIGN UP</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </header>
+            <!-- Navigation -->
+            <div class="navbar">
+                <div class="nav-left">
+                    <ul>
+                        <li><a href="{% url 'about' %}">ABOUT</a></li>
+                        <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                        <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                        <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+                    </ul>
+                </div>
+                <div class="logo">
+                    <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav_right">
+                        {% if user.is_authenticated %}
+                            <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
+                                Hello,
+                                <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                            </li>                    
+                            <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                        {% else %}
+                            <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                            <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
     <div class="car-bookings-container">
         <h1>Car Bookings</h1>
         <a href="{% url 'car_booking_create' %}" class="btn btn-primary">Add New Booking</a>
