@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -16,7 +17,8 @@ def about(request):
     return render(request, 'about.html', context)
 
 def vehicles(request):
-    context = {}
+    vehicles = Vehicle.objects.filter(availability=True)  # Fetch only available vehicles
+    context = {'vehicles': vehicles}
     return render(request, 'vehicles.html', context)
 
 def booking(request):
@@ -130,11 +132,12 @@ def car_booking_delete(request, pk):
 # Create vehicle
 def add_vehicle(request):
     if request.method == 'POST':
-        form = VehicleForm(request.POST)
+        form = VehicleForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Vehicle added successfully!')
-            return redirect('manage_vehicles')  # Redirect to the manage vehicles page
+            return render(request, 'add_vehicle.html', {'form': VehicleForm()})
+            #return redirect('manage_vehicles')
     else:
         form = VehicleForm()
     return render(request, 'add_vehicle.html', {'form': form})
@@ -148,7 +151,7 @@ def manage_vehicles(request):
 def edit_vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, pk=pk)
     if request.method == 'POST':
-        form = VehicleForm(request.POST, instance=vehicle)
+        form = VehicleForm(request.POST, request.FILES, instance=vehicle)
         if form.is_valid():
             form.save()
             messages.success(request, 'Vehicle updated successfully!')
@@ -158,10 +161,26 @@ def edit_vehicle(request, pk):
     return render(request, 'add_vehicle.html', {'form': form})
 
 # Delete vehicle
+
 def delete_vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, pk=pk)
     if request.method == 'POST':
         vehicle.delete()
         messages.success(request, 'Vehicle deleted successfully!')
         return redirect('manage_vehicles')
-    return render(request, 'vehicle_confirm_delete.html', {'vehicle': vehicle})
+    
+    
+def vehicle_detail(request, pk):
+    vehicle = get_object_or_404(Vehicle, pk=pk)
+    data = {
+        "id": vehicle.id,
+        "brand": vehicle.brand,
+        "model": vehicle.model,
+        "model_year": vehicle.model_year,
+        "price": vehicle.price,
+        "mileage": vehicle.mileage,
+        "seats": vehicle.seats,
+        "transmission": vehicle.get_transmission_display(),
+        "image": vehicle.image.url if vehicle.image else "",
+    }
+    return JsonResponse(data)
