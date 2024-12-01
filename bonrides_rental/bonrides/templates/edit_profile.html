@@ -11,8 +11,8 @@
     <title>Bonrides - Edit Profile</title>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
+        <!-- Navigation -->
+        <div class="navbar">
             <div class="nav-left">
                 <ul>
                     <li><a href="{% url 'about' %}">ABOUT</a></li>
@@ -21,13 +21,13 @@
                     <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
                 </ul>
             </div>
-            <div class="nav-center">
-                <p class="logo"><a href="{% url 'homepage' %}">bonrides</a></p>
+            <div class="logo">
+                <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
             </div>
             <div class="nav-right">
                 <ul class="nav_right">
                     {% if user.is_authenticated %}
-                        <li id="user-format" style="display: inline-block; margin-right: 10px;">
+                        <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
                             Hello,
                             <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
                         </li>                    
@@ -38,8 +38,7 @@
                     {% endif %}
                 </ul>
             </div>
-        </nav>
-    </header>
+        </div>
 
     <div class="container">
         <div class="form-container">

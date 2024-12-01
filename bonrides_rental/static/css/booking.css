@@ -7,42 +7,65 @@ body {
     background-size: cover;
     font-family: 'Khand', sans-serif;
 }
-nav {
+/* Navigation Bar */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 120px;
-    padding: 0 10 0 10px;
-    font-weight: bold;
-    margin-left: 100px;
-    margin-right: 100px;
-}
-.nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
+    padding: 10px 20px; 
+    background-color: #3b3b3b; 
+    position: relative; 
 }
 
-.nav-center{
-    display: flex;
-    align-items: center;
-    font-size: 48px;
-    color: white;
-    margin-right: 120px;
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px; 
+    font-weight: bold;
+    color: #ffffff;
 }
-nav ul {
+
+
+.nav-left{
+    padding: 30px 0px 0px 90px;
+}
+.nav-right{
+    padding: 30px 90px 0px 0px;
+}
+
+.nav-left ul,
+.nav-right ul {
+    display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    font-size: 24px;
 }
-nav ul li {
-    margin-right: 20px;
+
+.nav-left ul li,
+.nav-right ul li {
+    margin: 0 10px;
 }
-nav ul li a {
-    color: white;
+
+.nav-left ul li a,
+.nav-right ul li a {
+    color: #ffffff;
     text-decoration: none;
+    font-size: 24px; 
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
-nav ul li a:hover {
-    text-decoration: underline;
+
+.nav-left ul li a:hover,
+.nav-right ul li a:hover {
+    color: #cccccc;
+}
+
+.logo {
+    font-size: 48px; 
+    font-weight: bold;
+    color: #ffffff;
+    padding-top: 23px;
 }
