@@ -16,49 +16,51 @@
         <div class="add-vehicle">
             <a href="{% url 'add_vehicle' %}" ><button>Add New Vehicle</button></a>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Model</th>
-                    <th>Model Year</th>
-                    <th>Brand</th>
-                    <th>Mileage</th>
-                    <th>Availability</th>
-                    <th>Registration Number</th>
-                    <th>Price</th>
-                    <th>Seats</th>
-                    <th>Transmission</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for vehicle in vehicles %}
-                <tr>
-                    <td>
-                        {% if vehicle.image %}
-                            <img src="{{ vehicle.image.url }}" alt="Vehicle Image" style="width: 100px; height: auto;">
-                        {% else %}
-                            No image
-                        {% endif %}
-                    </td>
-                    <td>{{ vehicle.model }}</td>
-                    <td>{{ vehicle.model_year }}</td>
-                    <td>{{ vehicle.brand }}</td>
-                    <td>{{ vehicle.mileage }}</td>
-                    <td>{{ vehicle.availability }}</td>
-                    <td>{{ vehicle.registration_number }}</td>
-                    <td> ₱{{ vehicle.price}}</td>
-                    <td>{{ vehicle.seats}}</td>
-                    <td>{{ vehicle.get_transmission_display}}</td>
-                    <td>
-                        <a href="{% url 'edit_vehicle' vehicle.pk %}"><button class="edit">Edit</button></a>
-                        <button onclick="showDeleteModal({{ vehicle.pk }})">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Model</th>
+                        <th>Model Year</th>
+                        <th>Brand</th>
+                        <th>Mileage</th>
+                        <th>Availability</th>
+                        <th>Registration Number</th>
+                        <th>Price</th>
+                        <th>Seats</th>
+                        <th>Transmission</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>
+                            {% if vehicle.image %}
+                                <img src="{{ vehicle.image.url }}" alt="Vehicle Image" style="width: 100px; height: auto;">
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.model_year }}</td>
+                        <td>{{ vehicle.brand }}</td>
+                        <td>{{ vehicle.mileage }}</td>
+                        <td>{{ vehicle.availability }}</td>
+                        <td>{{ vehicle.registration_number }}</td>
+                        <td> ₱{{ vehicle.price}}</td>
+                        <td>{{ vehicle.seats}}</td>
+                        <td>{{ vehicle.get_transmission_display}}</td>
+                        <td>
+                            <a href="{% url 'edit_vehicle' vehicle.pk %}"><button class="edit">Edit</button></a>
+                            <button onclick="showDeleteModal({{ vehicle.pk }})">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="deleteModal" class="modal">
