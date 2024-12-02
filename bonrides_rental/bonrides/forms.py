@@ -77,4 +77,4 @@ class CarBookingForm(forms.ModelForm):
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
-        fields = ['model', 'model_year', 'brand', 'mileage', 'availability', 'registration_number']
+        fields = ['model', 'model_year', 'brand', 'mileage', 'availability', 'registration_number', 'price', 'image', 'seats', 'transmission']

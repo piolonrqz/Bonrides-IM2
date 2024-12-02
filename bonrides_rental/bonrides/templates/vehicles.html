@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/vehicles.css' %}">
+    <title>Vehicles</title>
 </head>
 <body>
     <!-- Navigation -->
@@ -39,82 +40,110 @@
         </div>
     </div>
     </header>
+    
+    <div class="vehicles-grid">
+        {% for vehicle in vehicles %}
+            {% if vehicle.availability %}
+                <div class="vehicle-card">
+                    {% if vehicle.image %}
+                    <img src="{{ vehicle.image.url }}" alt="{{ vehicle.model }}" class="vehicle-image">
+                    {% else %}
+                    <img src="{% static 'images/default-image.jpeg' %}" alt="No image available" class="vehicle-image">
+                    {% endif %}
+                <div class="year-badge">{{ vehicle.model_year }}</div>
+                <div class="vehicle-info">
+                    <h3 class="vehicle-name">{{ vehicle.brand }} {{ vehicle.model }}</h3>
+                    <div class="price">
+                        PHP {{ vehicle.price }} <span>/ DAY</span>
+                    </div>
+                    <div class="specs">
+                        <div class="spec-item">
+                            <img src="{% static 'images/mileage.svg' %}" alt="Mileage" class="spec-icon">
+                            <span>{{ vehicle.mileage }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <img src="{% static 'images/transmission.svg' %}" alt="Transmission" class="spec-icon">
+                            <span>{{ vehicle.get_transmission_display }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <img src="{% static 'images/people.svg' %}" alt="Seats" class="spec-icon">
+                            <span>{{ vehicle.seats }}</span>
+                        </div>
+                    </div>
+                    <button class="details-button" onclick="showDetails('{{ vehicle.pk }}')">
+                        See Full Details
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
 
-    <main class="container">
-        <!-- Example card -->
-        <div class="card">
-            <img class="car-image" src="{% static 'images/vios.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Toyota Vios</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
+    <!-- Modal -->
+    <div id="vehicleModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hideModal()">&times;</button>
+            <div id="modalContent"></div>
         </div>
-        <!-- Add more cards as needed -->
-        <div class="card1">
-            <img class="car-image" src="{% static 'images/hiace.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Toyota Hiace</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card2">
-            <img class="car-image" src="{% static 'images/corvette.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Chevrolette Corvette</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card3">
-            <img class="car-image" src="{% static 'images/911.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Porsche 911 Carrera</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card4">
-            <img class="car-image" src="{% static 'images/bmw.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>BMW Isetta</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card5">
-            <img class="car-image" src="{% static 'images/ford.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Ford Raptor</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card6">
-            <img class="car-image" src="{% static 'images/innova.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Toyota Innova</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card7">
-            <img class="car-image" src="{% static 'images/montero.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Mitsubishi Montero Sports</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-        <div class="card8">
-            <img class="car-image" src="{% static 'images/honda.png' %}" alt="Car Image">
-            <div class="car-title">
-                <span>Honda Civic</span>
-                <span class="rating">★★★★☆</span>
-            </div>
-            <button class="view-button">View Details</button>
-        </div>
-    </main>
+    </div>
+
+    <script>
+        function showDetails(vehicleId) {
+            fetch(`/vehicle-details/${vehicleId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('modalContent').innerHTML = `
+                        <div class=details>
+                            <img src="${data.image}" alt="${data.model}" class="modal-image">
+                            <br>
+                            <div class="details-right">
+                                <h2>${data.brand} ${data.model}</h2>
+                                <div class="specifications">
+                                    <h3>Specifications</h3>
+                                    <div class="spec-row">
+                                        <span>Mileage</span>
+                                        <span>${data.mileage} km</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Seats</span>
+                                        <span>${data.seats}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Year</span>
+                                        <span>${data.model_year}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Brand</span>
+                                        <span>${data.brand}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span>Transmission</span>
+                                        <span>${data.transmission}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-section">
+                            <h3>PHP ${data.price} / DAY</h3>
+                            <p>Interested in Renting This Car?</p>
+                            <button class="book-button" onclick="location.href='/booking/new'">BOOK</button>
+                        </div>
+                    `;
+                    document.getElementById('vehicleModal').style.display = 'block';
+                });
+        }
+
+        function hideModal() {
+            document.getElementById('vehicleModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('vehicleModal');
+            if (event.target == modal) {
+                hideModal();
+            }
+        }
+    </script>
 </body>
 </html>

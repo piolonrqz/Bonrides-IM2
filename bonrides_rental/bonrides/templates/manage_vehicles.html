@@ -1,39 +1,109 @@
-<!-- templates/manage_vehicles.html -->
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Manage Vehicles</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/manage_vehicle.css' %}">
 </head>
 <body>
-    <h2>Manage Vehicles</h2>
-    <a href="{% url 'add_vehicle' %}">Add New Vehicle</a>
-    <table>
-        <tr>
-            <th>Model</th>
-            <th>Model Year</th>
-            <th>Brand</th>
-            <th>Mileage</th>
-            <th>Availability</th>
-            <th>Registration Number</th>
-            <th>Actions</th>
-        </tr>
-        {% for vehicle in vehicles %}
-        <tr>
-            <td>{{ vehicle.model }}</td>
-            <td>{{ vehicle.model_year }}</td>
-            <td>{{ vehicle.brand }}</td>
-            <td>{{ vehicle.mileage }}</td>
-            <td>{{ vehicle.availability }}</td>
-            <td>{{ vehicle.registration_number }}</td>
-            <td>
-                <a href="{% url 'edit_vehicle' vehicle.pk %}">Edit</a> |
-                <form action="{% url 'delete_vehicle' vehicle.pk %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="table-container">
+        <h2>Manage Vehicles</h2>
+        <div class="add-vehicle">
+            <a href="{% url 'add_vehicle' %}" ><button>Add New Vehicle</button></a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Model</th>
+                    <th>Model Year</th>
+                    <th>Brand</th>
+                    <th>Mileage</th>
+                    <th>Availability</th>
+                    <th>Registration Number</th>
+                    <th>Price</th>
+                    <th>Seats</th>
+                    <th>Transmission</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>
+                        {% if vehicle.image %}
+                            <img src="{{ vehicle.image.url }}" alt="Vehicle Image" style="width: 100px; height: auto;">
+                        {% else %}
+                            No image
+                        {% endif %}
+                    </td>
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.model_year }}</td>
+                    <td>{{ vehicle.brand }}</td>
+                    <td>{{ vehicle.mileage }}</td>
+                    <td>{{ vehicle.availability }}</td>
+                    <td>{{ vehicle.registration_number }}</td>
+                    <td> ₱{{ vehicle.price}}</td>
+                    <td>{{ vehicle.seats}}</td>
+                    <td>{{ vehicle.get_transmission_display}}</td>
+                    <td>
+                        <a href="{% url 'edit_vehicle' vehicle.pk %}"><button class="edit">Edit</button></a>
+                        <button onclick="showDeleteModal({{ vehicle.pk }})">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete this vehicle?</p>
+            <div class="modal-buttons">
+                <button onclick="hideDeleteModal()">No</button>
+                <button class="confirm" onclick="confirmDelete()">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentVehicleId = null;
+        const modal = document.getElementById("deleteModal");
+
+        function showDeleteModal(vehicleId) {
+            currentVehicleId = vehicleId;
+            modal.style.display = "block";
+        }
+
+        function hideDeleteModal() {
+            modal.style.display = "none";
+        }
+
+        function confirmDelete() {
+            if (currentVehicleId) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/vehicles/delete/${currentVehicleId}/`;
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = '{{ csrf_token }}';
+                form.appendChild(csrfInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                hideDeleteModal();
+            }
+        }
+    </script>
 </body>
 </html>
