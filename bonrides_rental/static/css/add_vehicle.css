@@ -8,12 +8,15 @@ body {
     color: #f2f2f2;
 }
 
+
+/* Navigation Bar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px; 
+    position: relative; 
     padding: 10px 20px;
-    background-color: #3b3b3b;
     position: relative;
 }
 
@@ -28,7 +31,7 @@ body {
 
 
 .nav-left{
-    padding: 30px 0px 0px 90px; 
+    padding: 30px 0px 0px 90px;
 }
 .nav-right{
     padding: 30px 90px 0px 0px; 
@@ -40,7 +43,7 @@ body {
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 24px; 
+    font-size: 24px;
 }
 
 .nav-left ul li,
@@ -52,7 +55,7 @@ body {
 .nav-right ul li a {
     color: #ffffff;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 24px; 
     font-weight: bold;
     transition: color 0.3s ease;
 }
@@ -60,6 +63,14 @@ body {
 .nav-left ul li a:hover,
 .nav-right ul li a:hover {
     color: #cccccc;
+}
+
+
+.logo {
+    font-size: 48px; 
+    font-weight: bold;
+    color: #ffffff;
+    padding-top: 23px;
 }
 
 .container {
