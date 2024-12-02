@@ -1,62 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
 body {
+    font-family: 'Khand', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #3B3B3F;
-    font-family: 'Khand', sans-serif;
-    color: white;
+    background-color: #3b3b3b;
+    color: #f2f2f2;
 }
 
-nav {
-    background-color: #292929;
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 120px;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding: 10px 20px;
+    background-color: #3b3b3b;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px; 
     font-weight: bold;
+    color: #ffffff;
 }
 
-.nav-left, .nav-right {
+
+.nav-left{
+    padding: 30px 0px 0px 90px; 
+}
+.nav-right{
+    padding: 30px 90px 0px 0px; 
+}
+
+.nav-left ul,
+.nav-right ul {
     display: flex;
-    align-items: center;
-    font-size: 24px;
-}
-
-.nav-center {
-    display: flex;
-    align-items: center;
-    font-size: 48px;
-    color: white;
-}
-
-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    font-size: 24px; 
 }
 
-nav ul li {
-    margin-right: 20px;
+.nav-left ul li,
+.nav-right ul li {
+    margin: 0 10px;
 }
 
-nav ul li a {
-    color: white;
+.nav-left ul li a,
+.nav-right ul li a {
+    color: #ffffff;
     text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
+.nav-left ul li a:hover,
+.nav-right ul li a:hover {
+    color: #cccccc;
 }
 
 .container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 120px);
+    display: flex;
+    min-height: 700px;
     padding: 20px;
 }
 

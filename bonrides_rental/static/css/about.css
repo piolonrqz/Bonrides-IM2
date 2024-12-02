@@ -17,7 +17,6 @@ body {
     position: relative;
 }
 
-/* Center the logo */
 .logo {
     position: absolute;
     left: 50%;
@@ -62,8 +61,6 @@ body {
 .nav-right ul li a:hover {
     color: #cccccc;
 }
-
-
 
 .logo {
     font-size: 48px;
