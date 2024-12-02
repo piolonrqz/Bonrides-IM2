@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
 body {
+    font-family: 'Khand', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #3B3B3F;
-    font-family: 'Khand', sans-serif;
-    color: white;
+    background-color: #3b3b3b;
+    color: #f2f2f2;
 }
+
 
 /* Navigation Bar */
 .navbar {
@@ -15,6 +16,8 @@ body {
     align-items: center;
     padding: 10px 20px; 
     position: relative; 
+    padding: 10px 20px;
+    position: relative;
 }
 
 .logo {
@@ -25,6 +28,7 @@ body {
     font-weight: bold;
     color: #ffffff;
 }
+
 
 .nav-left{
     padding: 30px 0px 0px 90px;
@@ -69,13 +73,11 @@ body {
     padding-top: 23px;
 }
 
-
-
 .container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 120px);
+    display: flex;
+    min-height: 700px;
     padding: 20px;
 }
 

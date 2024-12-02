@@ -9,36 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/add_vehicle.css' %}">
 </head>
-<body>
-   <!-- Navigation -->
-   <div class="navbar">
-    <div class="nav-left">
-        <ul>
-            <li><a href="{% url 'about' %}">ABOUT</a></li>
-            <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-            <li><a href="{% url 'booking' %}">BOOKING</a></li>
-            <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-        </ul>
+
+    <!-- Navigation -->
+    <div class="navbar">
+        <div class="nav-left">
+            <ul>
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
+                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+            </ul>
+        </div>
+        <div class="logo">
+            <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
+        </div>
+        <div class="nav-right">
+            <ul class="nav_right">
+                {% if user.is_authenticated %}
+                    <li id="user-format" style="display: inline-block; font-weight: bold;  color: white; margin-right: 10px;">
+                        Hello,
+                        <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                    </li>                    
+                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-    <div class="logo">
-        <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
-    </div>
-    <div class="nav-right">
-        <ul class="nav_right">
-            {% if user.is_authenticated %}
-                <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
-                    Hello,
-                    <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
-                </li>                    
-                <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-            {% else %}
-                <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
-    
+  
     <div class="container">
         <div class="form-container">
             <h1>Add Vehicle</h1>
