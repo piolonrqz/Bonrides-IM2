@@ -7,6 +7,10 @@ body {
     font-family: 'Khand', sans-serif;
     color: white;
 }
+
+h2{
+    font-weight: bolder;
+}
 /* Navigation Bar */
 .navbar {
     display: flex;
@@ -25,11 +29,10 @@ body {
     color: #ffffff;
 }
 
-
-.nav-left{
+.nav-left {
     padding: 30px 0px 0px 90px; 
 }
-.nav-right{
+.nav-right {
     padding: 30px 90px 0px 0px; 
 }
 
@@ -58,30 +61,21 @@ body {
 
 .nav-left ul li a:hover,
 .nav-right ul li a:hover {
-    color: #cccccc;
+    color: #FFD21A;
 }
 
-.logo {
-    font-size: 48px; 
-    font-weight: bold;
-    color: #ffffff;
-    padding-top: 23px;
-}
-
+/* Contact Section */
 .contact-container {
     display: flex;
     justify-content: space-evenly;
     padding: 50px;
     max-width: 1200px;
-    margin: 0;
-    margin-left: 181px;
-    margin-top: 85px;
+    margin: 85px auto 0;
+    font-weight: 500;
 }
 
 .contact-info {
     max-width: 420px;
-    margin: 0;
-    
 }
 
 .contact-info h2 {
@@ -114,6 +108,7 @@ body {
     border-radius: 50%;
 }
 
+/* Contact Form */
 .contact-form {
     background-color: #333;
     padding: 30px;
@@ -121,6 +116,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     max-width: 600px;
     width: 100%;
+    font-family: 'Khand';
 }
 
 .form-group {
@@ -136,6 +132,8 @@ input, textarea {
     border-radius: 5px;
     background-color: #444;
     color: #fff;
+    font-size: 16px;
+    font-family: 'Khand';
 }
 
 textarea {
@@ -153,8 +151,16 @@ button {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 20px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    font-family: 'Khand';
 }
 
+button:hover {
+    background-color: #e2b607;
+}
+
+/* Social Icons */
 .social-icons {
     display: flex;
     gap: 10px;
