@@ -1,11 +1,11 @@
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm
 from django.contrib import messages
-from .models import CarBooking, Vehicle  # Import models here
+from .models import CarBooking, User, Vehicle  # Import models here
 
 # Create your views here.
 def homepage(request):
@@ -131,43 +131,133 @@ def car_booking_delete(request, pk):
 
 # Create vehicle
 def add_vehicle(request):
+    print(f"Request method: {request.method}")
+    print(f"POST data: {request.POST}")
+    print(f"FILES data: {request.FILES}")
+    
     if request.method == 'POST':
-        form = VehicleForm(request.POST, request.FILES)
+        # Check if this is an update
+        vehicle_id = request.POST.get('vehicle_id')  # Retrieve vehicle ID if editing
+        if vehicle_id:
+            # Update existing vehicle
+            vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+            form = VehicleForm(request.POST, request.FILES, instance=vehicle)
+        else:
+            # Create new vehicle
+            form = VehicleForm(request.POST, request.FILES)
+        
+        print(f"Form valid: {form.is_valid()}")
+        print(f"Form errors: {form.errors}")
+        
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Vehicle added successfully!')
-            return render(request, 'add_vehicle.html', {'form': VehicleForm()})
-            #return redirect('manage_vehicles')
+            vehicle = form.save()
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Vehicle saved successfully!',
+                    'id': vehicle.id,
+                    'model': vehicle.model,
+                    'brand': vehicle.brand
+                })
+            messages.success(request, 'Vehicle saved successfully!')
+            return redirect('admin_dashboard')
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Form validation failed',
+                    'errors': form.errors
+                })
+            messages.error(request, 'Please correct the errors below.')
     else:
-        form = VehicleForm()
+        # Handle GET request (for creating or editing)
+        vehicle_id = request.GET.get('vehicle_id')  # Get vehicle ID from the query string
+        if vehicle_id:
+            vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+            form = VehicleForm(instance=vehicle)
+        else:
+            form = VehicleForm()
+    
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'add_vehicle.html', {'form': form})
     return render(request, 'add_vehicle.html', {'form': form})
 
 # List all vehicles
 def manage_vehicles(request):
     vehicles = Vehicle.objects.all()
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'manage_vehicles.html', {'vehicles': vehicles})
     return render(request, 'manage_vehicles.html', {'vehicles': vehicles})
 
 # Update vehicle
 def edit_vehicle(request, pk):
     vehicle = get_object_or_404(Vehicle, pk=pk)
+    
     if request.method == 'POST':
+        # Initialize the form with the `instance` argument to update the existing object
         form = VehicleForm(request.POST, request.FILES, instance=vehicle)
         if form.is_valid():
             form.save()
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Vehicle updated successfully!',
+                    'vehicle_id': vehicle.pk  # Return the updated vehicle's ID
+                })
             messages.success(request, 'Vehicle updated successfully!')
             return redirect('manage_vehicles')
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'errors': form.errors
+                }, status=400)
     else:
+        # When not a POST request, just load the form with the existing instance
         form = VehicleForm(instance=vehicle)
-    return render(request, 'add_vehicle.html', {'form': form})
+   
+    context = {
+        'form': form,
+        'edit_mode': True,  # Indicate this is edit mode in the template
+        'vehicle_id': pk  # Pass the vehicle ID to the template
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'add_vehicle.html', context)
+    return render(request, 'add_vehicle.html', context)
+
 
 # Delete vehicle
 
 def delete_vehicle(request, pk):
-    vehicle = get_object_or_404(Vehicle, pk=pk)
     if request.method == 'POST':
-        vehicle.delete()
-        messages.success(request, 'Vehicle deleted successfully!')
-        return redirect('manage_vehicles')
+        try:
+            vehicle = get_object_or_404(Vehicle, pk=pk)
+            vehicle.delete()
+            
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True, 
+                    'message': 'Vehicle deleted successfully!'
+                })
+            
+            messages.success(request, 'Vehicle deleted successfully!')
+            return redirect('manage_vehicles')
+        
+        except Exception as e:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': str(e)
+                }, status=400)
+            
+            messages.error(request, f'Error deleting vehicle: {str(e)}')
+            return redirect('manage_vehicles')
+    
+    # Handle non-POST requests
+    return JsonResponse({
+        'success': False, 
+        'message': 'Invalid request method'
+    }, status=405)
     
     
 def vehicle_detail(request, pk):
@@ -184,3 +274,19 @@ def vehicle_detail(request, pk):
         "image": vehicle.image.url if vehicle.image else "",
     }
     return JsonResponse(data)
+
+
+@login_required
+def admin_dashboard(request):
+    total_vehicles = Vehicle.objects.count()
+    available_vehicles = Vehicle.objects.filter(availability=True).count()
+    total_bookings = CarBooking.objects.count()
+    active_users = User.objects.filter(active=True).count()  # Changed from is_active to active
+
+    context = {
+        'total_vehicles': total_vehicles,
+        'available_vehicles': available_vehicles,
+        'total_bookings': total_bookings,
+        'active_users': active_users,
+    }
+    return render(request, 'admin_dashboard.html', context)

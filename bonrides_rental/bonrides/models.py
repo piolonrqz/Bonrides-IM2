@@ -106,7 +106,7 @@ class Vehicle(models.Model):
     brand = models.CharField(max_length=100)
     mileage = models.PositiveIntegerField()
     availability = models.BooleanField(default=True)
-    registration_number = models.CharField(max_length=50, unique=True)
+    registration_number = models.CharField(max_length=50)
     price = models.PositiveIntegerField(blank=True, default=0)
     image = models.ImageField(upload_to='vehicle_images/', blank=True, null=True)
     seats = models.PositiveIntegerField(default=1)

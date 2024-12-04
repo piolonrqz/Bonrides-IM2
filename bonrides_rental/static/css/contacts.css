@@ -106,13 +106,13 @@ body {
     align-items: center;
     gap: 10px;
 }
-
+/* 
 .icon {
     width: 40px;
     height: 40px;
     background-color: #f1c40f;
     border-radius: 50%;
-}
+} */
 
 .contact-form {
     background-color: #333;
