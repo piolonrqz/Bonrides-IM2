@@ -10,41 +10,27 @@
     <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/add_vehicle.css' %}">
 </head>
-
-    <!-- Navigation -->
-    <div class="navbar">
-        <div class="nav-left">
-            <ul>
-                <li><a href="{% url 'about' %}">ABOUT</a></li>
-                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-            </ul>
-        </div>
-        <div class="logo">
-            <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
-        </div>
-        <div class="nav-right">
-            <ul class="nav_right">
-                {% if user.is_authenticated %}
-                    <li id="user-format" style="display: inline-block; font-weight: bold;  color: white; margin-right: 10px;">
-                        Hello,
-                        <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
-                    </li>                    
-                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                {% else %}
-                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-  
+<body>
     <div class="container">
         <div class="form-container">
             <h1>Add Vehicle</h1>
-            <form method="POST" enctype="multipart/form-data">
+
+
+             <!-- Display messages -->
+             {% if messages %}
+             <div class="messages">
+                 {% for message in messages %}
+                     <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                         {{ message }}
+                     </div>
+                 {% endfor %}
+             </div>
+             {% endif %}
+
+
+            <form id="vehicleForm" method="POST" action="{% url 'add_vehicle' %}" enctype="multipart/form-data">
                 {% csrf_token %}
+                <input type="hidden" name="vehicle_id" value="{{ form.instance.id|default:'' }}">
                 <div class="form-group">
                     <div>
                         <label for="model">Model</label>
@@ -104,8 +90,47 @@
                 
                 <button type="submit">Save</button>
             </form>
-            <a href="{% url 'manage_vehicles' %}">Back to Vehicle Management</a>
         </div>
     </div>
+    
+    <script>
+        document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            
+            // Get CSRF token from the form
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            fetch('{% url "add_vehicle" %}', {  // Explicitly set the correct submission URL
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    console.log('Vehicle added:', data);
+                    // Optionally, you might want to reset the form
+                    this.reset();
+                } else {
+                    alert('Error: ' + (data.message || 'An unknown error occurred'));
+                    console.error('Form errors:', data.errors);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form. Please try again.');
+            });
+        });
+        </script>
 </body>
 </html>

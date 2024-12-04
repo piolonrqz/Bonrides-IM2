@@ -28,4 +28,5 @@ urlpatterns = [
     path('vehicles/delete/<int:pk>/', views.delete_vehicle, name='delete_vehicle'),
     path('vehicle-details/<int:pk>/', views.vehicle_detail, name='vehicle_detail'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
 ]
