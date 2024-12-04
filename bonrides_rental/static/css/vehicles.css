@@ -89,7 +89,7 @@ body {
 .vehicle-image {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: scale-down;
 }
 
 .year-badge {
@@ -244,4 +244,127 @@ body {
 .details-right {
     width: 100%;
     max-width: 400px;
+}
+
+/* Updated CTA Section */
+.cta-section {
+    background-color: #3B3B3B;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 2px solid #FFD21A; /* Changed to yellow */
+    margin-top: 50px;
+}
+
+.cta-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #FFD21A; /* Changed to yellow */
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background-color: #FFD21A; /* Changed to yellow */
+    color: #000; /* Ensures visibility */
+    padding: 12px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #E4C216; /* A darker shade of yellow for hover */
+}
+
+/* Updated Special Offers Section */
+.special-offers-section {
+    background-color: #3B3B3B;
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 50px;
+    border-top: 3px solid #FFD21A; /* Changed to yellow */
+    color: #FFD21A; /* Text changed to yellow */
+}
+
+.special-offers-section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #FFD21A; /* Changed to yellow */
+    margin-bottom: 30px;
+}
+
+.special-offer-card {
+    flex: 0 1 300px;
+    background-color: #1A1A1A; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.special-offer-card h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #FFD21A; 
+    margin: 20px 0;
+}
+
+.special-offer-card p {
+    font-size: 16px;
+    color: #CCCCCC; 
+    margin-bottom: 20px;
+}
+
+.special-offer-card .offer-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFD21A; 
+    margin-bottom: 20px;
+}
+
+.special-offer-card:hover {
+    transform: translateY(-10px);
+}
+
+.special-offers-grid {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 30px;
+    justify-content: center; 
+    align-items: flex-start; 
+}
+
+
+
+body {
+    color: #E4E4E4; 
+}
+
+.modal-content {
+    color: #FFD21A;
+}
+
+.book-button {
+    background: #FFD21A; 
+    color: #000;
+}
+
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+    .cta-section {
+        padding: 30px 15px;
+    }
+
+    .special-offers-grid {
+        flex-direction: column;
+    }
+
+    .special-offer-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
