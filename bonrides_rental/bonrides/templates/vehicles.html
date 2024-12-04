@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/vehicles.css' %}">
     <title>Vehicles</title>
 </head>
@@ -40,6 +41,28 @@
         </div>
     </div>
     </header>
+
+    <div class="special-offers-section">
+        <h2>Special Offers</h2>
+        <div class="special-offers-grid">
+            <div class="special-offer-card">
+                <h3>Weekend Getaway</h3>
+                <p>Rent a vehicle for a weekend and get 20% off!</p>
+                <p class="offer-price">PHP 1600 / DAY</p>
+            </div>
+            <div class="special-offer-card">
+                <h3>Long-Term Discount</h3>
+                <p>Rent for 7 days and save 15% on the total price!</p>
+                <p class="offer-price">PHP 1700 / DAY</p>
+            </div>
+            <div class="special-offer-card">
+                <h3>First-Time Customer</h3>
+                <p>First-time customers get a 10% discount on any car!</p>
+                <p class="offer-price">PHP 1800 / DAY</p>
+            </div>
+        </div>
+    </div>
+    
     
     <div class="vehicles-grid">
         {% for vehicle in vehicles %}
@@ -79,6 +102,11 @@
     {% endfor %}
     </div>
 
+    <div class="cta-section">
+        <h2>Ready to find your perfect ride?</h2>
+        <a href="{% url 'booking' %}" class="cta-button">Start Booking</a>
+    </div>
+    
     <!-- Modal -->
     <div id="vehicleModal" class="modal">
         <div class="modal-content">

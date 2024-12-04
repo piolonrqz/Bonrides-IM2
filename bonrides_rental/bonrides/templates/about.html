@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
+
     <link rel="stylesheet" href="{% static 'css/about.css' %}">
     <title>Bonrides - About Us</title>
 </head>
@@ -47,29 +49,32 @@
         <p>Our dedicated team is committed to providing an exceptional rental experience from start to finish. We take pride in our fleet of safe, clean, and modern vehicles that are regularly serviced to ensure your peace of mind on the road.</p>
     </div>
 
-    <!-- Team Section -->
-    <div class="team-section">
-        <h2>Meet the Bonrides Team</h2>
-        <div class="team-container">
-            <div class="team-member">
-                <div class="team-member-info">
-                    <h3>Piolo Frances Enriquez</h3>
-                    <p>Developer</p>
-                </div>
+   <!-- Team Section -->
+<div class="team-section">
+    <h2>Meet the Bonrides Team</h2>
+    <div class="team-container">
+        <div class="team-member">
+            <img src="{% static 'images/pfp.jpg' %}" alt="Piolo Frances Enriquez" class="team-member-image">
+            <div class="team-member-info">
+                <h3>Piolo Frances Enriquez</h3>
+                <p>Developer</p>
             </div>
-            <div class="team-member">
-                <div class="team-member-info">
-                    <h3>Nathan Rener Malagapo</h3>
-                    <p>Developer</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/nathan+1.jpg' %}" alt="Nathan Rener Malagapo" class="team-member-image">
+            <div class="team-member-info">
+                <h3>Nathan Rener Malagapo</h3>
+                <p>Developer</p>
             </div>
-            <div class="team-member">
-                <div class="team-member-info">
-                    <h3>Jerjen Res Pangalay</h3>
-                    <p>Developer</p>
-                </div>
+        </div>
+        <div class="team-member">
+            <img src="{% static 'images/jerjen.jpg' %}" alt="Jerjen Res Pangalay" class="team-member-image">
+            <div class="team-member-info">
+                <h3>Jerjen Res Pangalay</h3>
+                <p>Developer</p>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

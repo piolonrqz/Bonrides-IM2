@@ -1,12 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --bg-dark: #3b3b3b;
+    --bg-light: #292929;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --highlight: #FFD21A;
+    --highlight-hover: #e6c158;
+    --highlight-active: #dcb24d;
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --border-radius: 8px;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #3b3b3b;
+    background-color: var(--bg-dark);
     font-family: 'Khand', sans-serif;
-    color: white;
+    color: var(--text-primary);
 }
+
 /* Navigation Bar */
 .navbar {
     display: flex;
@@ -57,7 +74,7 @@ body {
 
 .nav-left ul li a:hover,
 .nav-right ul li a:hover {
-    color: #cccccc;
+    color: #FFD21A;
 }
 
 .logo {
@@ -69,126 +86,127 @@ body {
 
 /* Profile Section Styling */
 .profile-section {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 50rem;
+    margin: var(--space-lg) auto;
+    padding: var(--space-md);
+    background-color: var(--text-primary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
 .profile-section h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 1.75rem;
+    margin-bottom: var(--space-md);
     text-align: center;
-    color: #2c3e50;
+    color: var(--bg-dark);
 }
 
 /* Form Container */
 .container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #292929;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 60rem;
+    margin: var(--space-lg) auto; 
+    padding: var(--space-md);
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center; 
 }
 
 h1 {
     text-align: center;
-    color: #F2D777;
+    color: var(--highlight);
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-md);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
-.form-container {
-    padding: 20px;
+/* Form Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 95%;
+    padding: var(--space-sm);
+    border: 1px solid #5a5a5a;
+    border-radius: var(--border-radius);
+    background-color: #444444;
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Khand';
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+input:focus {
+    border-color: var(--highlight);
+    outline: none;
+    box-shadow: 0 0 8px var(--highlight);
 }
 
-.form-group > div {
-    margin-bottom: 15px;
-}
-
+/* Form Labels */
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    text-align: left;
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #5a5a5a;
-    border-radius: 5px;
-    background-color: #6a6a6a;
-    color: #ffffff;
-}
-
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
-    border-color: #F2D777;
-    outline: none;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
+/* Form Actions */
 button[type="submit"] {
-    background-color: #F2D777; 
-    color: #3b3b3b; 
-    font-size: 18px;
-    padding: 12px 20px; 
-    margin-left: 210px;
-    margin-top: 25px;
-    border: none; 
-    border-radius: 12px;
-    cursor: pointer; 
-    font-weight: bold; 
-    font-family: "Khand", sans-serif; 
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    background-color: var(--highlight);
+    color: var(--bg-dark);
+    font-size: 1rem;
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--shadow);
+    font-family: 'Khand', sans-serif;
 }
 
-
-button[type="submit"]:hover {
-    background-color: #e6c158; 
-    transform: translateY(-2px); 
+button:hover {
+    background-color: var(--highlight-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-button[type="submit"]:active {
-    background-color: #dcb24d; 
-    transform: translateY(0); 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+button:active {
+    background-color: var(--highlight-active);
+    transform: translateY(0);
+    box-shadow: var(--shadow);
 }
 
-button[type="submit"]:focus {
-    outline: 3px solid #F2D777;
-    outline-offset: 2px; 
+button:focus {
+    outline: 2px solid var(--highlight);
+    outline-offset: 3px;
 }
 
-
-
+/* Responsive Design */
 @media screen and (max-width: 768px) {
     .container {
         width: 90%;
+        padding: var(--space-sm);
     }
 
-    .form-actions {
-        flex-direction: column;
-        align-items: center;
+    h1 {
+        font-size: 1.75rem;
     }
 
-    .btn-save, .btn-cancel {
-        width: 100%;
-        margin-bottom: 10px;
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        font-size: 0.9rem;
+        padding: var(--space-xs);
     }
-}   
+
+    button[type="submit"] {
+        font-size: 0.9rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+}

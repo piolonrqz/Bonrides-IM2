@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <title>Car Booking Form</title>
     <link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
     <script>
@@ -51,7 +52,7 @@
                 <div class="nav-right">
                     <ul class="nav_right">
                         {% if user.is_authenticated %}
-                            <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
+                            <li id="user-format" style="display: inline-block; font-weight: bold; color: whitesmoke; margin-right: 10px;">
                                 Hello,
                                 <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
                             </li>                    

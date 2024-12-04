@@ -7,37 +7,121 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/booking.css' %}">
+    <title>Bonrides - Book Your Ride</title>
 </head>
-<body>
-        <!-- Navigation -->
-        <div class="navbar">
-            <div class="nav-left">
-                <ul>
-                    <li><a href="{% url 'about' %}">ABOUT</a></li>
-                    <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                    <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                    <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
-                </ul>
+
+     <!-- Navigation -->
+     <div class="navbar">
+        <div class="nav-left">
+            <ul>
+                <li><a href="{% url 'about' %}">ABOUT</a></li>
+                <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
+                <li><a href="{% url 'booking' %}">BOOKING</a></li>
+                <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+            </ul>
+        </div>
+        <div class="logo">
+            <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
+        </div>
+        <div class="nav-right">
+            <ul class="nav_right">
+                {% if user.is_authenticated %}
+                    <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
+                        Hello,
+                        <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
+                    </li>                    
+                    <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
+                {% else %}
+                    <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Explore Freedom on Wheels</h1>
+            <p>Rent the perfect car for your next adventure with Bonrides</p>
+            <div class="hero-features">
+                <div class="feature">
+                    <i class="icon-map"></i>
+                    <span>Wide Vehicle Selection</span>
+                </div>
+                <div class="feature">
+                    <i class="icon-check"></i>
+                    <span>Flexible Bookings</span>
+                </div>
+                <div class="feature">
+                    <i class="icon-dollar"></i>
+                    <span>Competitive Prices</span>
+                </div>
             </div>
-            <div class="logo">
-                <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
-            </div>
-            <div class="nav-right">
-                <ul class="nav_right">
-                    {% if user.is_authenticated %}
-                        <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
-                            Hello,
-                            <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
-                        </li>                    
-                        <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                    {% else %}
-                        <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                        <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
-                    {% endif %}
-                </ul>
+            <a href="{% url 'car_booking_create' %}" class="cta-button">Book Now</a>
+        </div>
+        <div class="hero-image">    
+            <img src="{% static 'images/car1.jpg' %}" alt="Rental Car">
+        </div>
+    </div>
+
+
+        <!-- Featured Vehicles Section -->
+        <div class="featured-vehicles">
+            <h2>Featured Vehicles</h2>
+            <div class="vehicle-grid">
+                <div class="vehicle-card">
+                    <img src="{% static 'images/honda.png' %}" alt="Sedan">
+                    <h3>Sedan</h3>
+                    <p>Comfortable city driving</p>
+                    <span class="price">From $50/day</span>
+                </div>
+                <div class="vehicle-card">
+                    <img src="{% static 'images/prado.png' %}" alt="SUV">
+                    <h3>SUV</h3>
+                    <p>Spacious and versatile</p>
+                    <span class="price">From $75/day</span>
+                </div>
+                <div class="vehicle-card">
+                    <img src="{% static 'images/land.png' %}" alt="Luxury">
+                    <h3>Luxury Car</h3>
+                    <p>Premium driving experience</p>
+                    <span class="price">From $150/day</span>
+                </div>
             </div>
         </div>
-    <!-- Your homepage content -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'vehicles' %}">Our Fleet</a></li>
+                    <li><a href="{% url 'contacts' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p>Email: support@bonrides.com</p>
+                <p>Phone: +1 (800) BONRIDES</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <!-- Add social media icons/links -->
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bonrides. All Rights Reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

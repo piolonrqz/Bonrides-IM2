@@ -59,7 +59,7 @@ body {
 
 .nav-left ul li a:hover,
 .nav-right ul li a:hover {
-    color: #cccccc;
+    color: #FFD21A;
 }
 
 .logo {
@@ -90,40 +90,39 @@ body {
 }
 
 .team-section {
-    padding: 60px 40px;
+    text-align: center;
+    padding: 50px 20px;
 }
 
 .team-section h2 {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .team-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
+    gap: 30px;
 }
 
 .team-member {
-    flex: 1 1 calc(33.33% - 40px);
+    width: 250px;
     text-align: center;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: #292929;
+}
+
+.team-member-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
 }
 
 .team-member-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    margin: 10px 0 5px;
 }
 
 .team-member-info p {
-    font-size: 1rem;
-    color: #555;
+    color: #666;
 }
 
 @media (max-width: 768px) {
