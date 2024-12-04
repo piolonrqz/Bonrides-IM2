@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
@@ -130,13 +131,15 @@ def car_booking_delete(request, pk):
 # Vehicle Views
 
 # Create vehicle
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.contrib import messages
+from .forms import VehicleForm
+from .models import Vehicle
+from django.db import IntegrityError
+
 def add_vehicle(request):
-    print(f"Request method: {request.method}")
-    print(f"POST data: {request.POST}")
-    print(f"FILES data: {request.FILES}")
-    
     if request.method == 'POST':
-        # Check if this is an update
         vehicle_id = request.POST.get('vehicle_id')  # Retrieve vehicle ID if editing
         if vehicle_id:
             # Update existing vehicle
@@ -145,23 +148,29 @@ def add_vehicle(request):
         else:
             # Create new vehicle
             form = VehicleForm(request.POST, request.FILES)
-        
-        print(f"Form valid: {form.is_valid()}")
-        print(f"Form errors: {form.errors}")
-        
+
         if form.is_valid():
-            vehicle = form.save()
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': True,
-                    'message': 'Vehicle saved successfully!',
-                    'id': vehicle.id,
-                    'model': vehicle.model,
-                    'brand': vehicle.brand
-                })
-            messages.success(request, 'Vehicle saved successfully!')
-            return redirect('admin_dashboard')
+            try:
+                vehicle = form.save()
+                # Check if the request is an AJAX request
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': True,
+                        'message': 'Vehicle saved successfully!',
+                        'id': vehicle.id,
+                        'model': vehicle.model,
+                        'brand': vehicle.brand
+                    })
+                messages.success(request, 'Vehicle saved successfully!')
+                return redirect('admin_dashboard')  # Redirect to dashboard on success
+            except IntegrityError:
+                form.add_error('registration_number', 'A vehicle with this registration number already exists.')
+                # Add error message and stay on the form page with the error
+                messages.error(request, 'A vehicle with this registration number already exists.')
+                return render(request, 'add_vehicle.html', {'form': form})
+
         else:
+            # If validation fails, stay on the form page and show the errors
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({
                     'success': False,
@@ -169,18 +178,13 @@ def add_vehicle(request):
                     'errors': form.errors
                 })
             messages.error(request, 'Please correct the errors below.')
+            return render(request, 'add_vehicle.html', {'form': form})  # Render the form with errors
+
     else:
-        # Handle GET request (for creating or editing)
-        vehicle_id = request.GET.get('vehicle_id')  # Get vehicle ID from the query string
-        if vehicle_id:
-            vehicle = get_object_or_404(Vehicle, id=vehicle_id)
-            form = VehicleForm(instance=vehicle)
-        else:
-            form = VehicleForm()
-    
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        form = VehicleForm()
+        # If it's a GET request, render the form page
         return render(request, 'add_vehicle.html', {'form': form})
-    return render(request, 'add_vehicle.html', {'form': form})
+
 
 # List all vehicles
 def manage_vehicles(request):
