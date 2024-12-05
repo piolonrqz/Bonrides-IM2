@@ -15,7 +15,13 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-content">
-        <h1>Manage Users</h1>
+        <div class="content-header">
+            <h1>Manage Users</h1>
+            <div class="header-actions">
+                <input type="text" id="searchUsers" placeholder="Search users..." class="search-input">
+            </div>
+        </div>
+
         <div class="content-wrapper">
             <table class="users-table">
                 <thead>
@@ -24,114 +30,265 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
+                        <th>Status</th>
+                        <th>Admin</th>
+                        <th>Staff</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="userTable">
+                <tbody id="userTableBody">
                     {% for user in users %}
-                    <tr>
+                    <tr data-user-id="{{ user.id }}">
                         <td>{{ user.id }}</td>
                         <td>{{ user.first_name }}</td>
                         <td>{{ user.last_name }}</td>
                         <td>{{ user.email }}</td>
                         <td>
-                            <button class="edit-user" data-id="{{ user.id }}" data-first-name="{{ user.first_name }}" data-last-name="{{ user.last_name }}" data-email="{{ user.email }}">Edit</button>
-                            <button class="delete-user" data-id="{{ user.id }}">Delete</button>
+                            {% if user.is_active %}
+                                <span class="badge badge-success">Active</span>
+                            {% else %}
+                                <span class="badge badge-danger">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.is_admin %}
+                                &#10004; <!-- Checkmark for admin -->
+                            {% else %}
+                                &nbsp; <!-- Empty space if not admin -->
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.is_staff %}
+                                &#10004; <!-- Checkmark for staff -->
+                            {% else %}
+                                &nbsp; <!-- Empty space if not staff -->
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-edit edit-user" 
+                                    data-id="{{ user.id }}" 
+                                    data-first-name="{{ user.first_name }}" 
+                                    data-last-name="{{ user.last_name }}" 
+                                    data-email="{{ user.email }}">
+                                    Edit
+                                </button>
+                                <button class="btn btn-delete delete-user" data-id="{{ user.id }}">
+                                    Delete
+                                </button>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button id="prevPage" class="btn btn-secondary">Previous</button>
+                <span id="currentPage">Page 1</span>
+                <button id="nextPage" class="btn btn-secondary">Next</button>
+            </div>
         </div>
 
         <!-- Edit User Modal -->
         <div id="editUserModal" class="modal">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Edit User</h2>
+                    <button class="close-modal" onclick="closeEditModal()">&times;</button>
+                </div>
                 <form id="editUserForm">
                     <input type="hidden" id="editUserId">
-                    <div>
-                        <label for="editFirstName">First Name:</label>
+                    <div class="form-group">
+                        <label for="editFirstName">First Name</label>
                         <input type="text" id="editFirstName" name="first_name" required>
                     </div>
-                    <div>
-                        <label for="editLastName">Last Name:</label>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name</label>
                         <input type="text" id="editLastName" name="last_name" required>
                     </div>
-                    <div>
-                        <label for="editEmail">Email:</label>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
                         <input type="email" id="editEmail" name="email" required>
                     </div>
-                    <div class="modal-buttons">
-                        <button type="submit" class="confirm">Save Changes</button>
-                        <button type="button" onclick="closeEditModal()">Cancel</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteUserModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Confirm Delete</h2>
+                    <button class="close-modal" onclick="closeDeleteModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this user?</p>
+                    <input type="hidden" id="deleteUserId">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                    <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+                </div>
             </div>
         </div>
     </main>
 </div>
 
+{% csrf_token %}
+
 <script>
-    // Include the existing JavaScript logic for editing and deleting users
-    document.addEventListener('DOMContentLoaded', () => {
-        // Rest of the JavaScript logic from the original script
-        const editModal = document.getElementById('editUserModal');
-        const editForm = document.getElementById('editUserForm');
-        const userTable = document.getElementById('userTable');
-        
-        userTable.addEventListener('click', (e) => {
-            if (e.target.classList.contains('edit-user')) {
-                const userId = e.target.dataset.id;
-                document.getElementById('editUserId').value = userId;
-                document.getElementById('editFirstName').value = e.target.dataset.firstName;
-                document.getElementById('editLastName').value = e.target.dataset.lastName;
-                document.getElementById('editEmail').value = e.target.dataset.email;
-                editModal.style.display = 'block';
-            }
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    const editModal = document.getElementById('editUserModal');
+    const deleteModal = document.getElementById('deleteUserModal');
+    const editForm = document.getElementById('editUserForm');
+    const userTableBody = document.getElementById('userTableBody');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const searchInput = document.getElementById('searchUsers');
 
-        editForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const userId = document.getElementById('editUserId').value;
-            const formData = {
-                first_name: document.getElementById('editFirstName').value,
-                last_name: document.getElementById('editLastName').value,
-                email: document.getElementById('editEmail').value,
-            };
+    // CSRF Token Retrieval
+    function getCsrfToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
 
-            try {
-                const response = await fetch(`/edit_user/${userId}/`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
-                    body: JSON.stringify(formData),
-                });
+    // Event Delegation for Edit and Delete
+    userTableBody.addEventListener('click', (e) => {
+        const editButton = e.target.closest('.edit-user');
+        const deleteButton = e.target.closest('.delete-user');
 
-                const result = await response.json();
-                if (result.success) {
-                    alert('User updated successfully');
-                    const row = document.querySelector(`button[data-id="${userId}"]`).closest('tr');
-                    row.querySelector('td:nth-child(2)').textContent = formData.first_name;
-                    row.querySelector('td:nth-child(3)').textContent = formData.last_name;
-                    row.querySelector('td:nth-child(4)').textContent = formData.email;
-                    closeEditModal();
-                } else {
-                    alert(result.message || 'Failed to update user.');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred while updating the user.');
-            }
-        });
-
-        function closeEditModal() {
-            editModal.style.display = 'none';
-            editForm.reset();
+        if (editButton) {
+            const userId = editButton.dataset.id;
+            document.getElementById('editUserId').value = userId;
+            document.getElementById('editFirstName').value = editButton.dataset.firstName;
+            document.getElementById('editLastName').value = editButton.dataset.lastName;
+            document.getElementById('editEmail').value = editButton.dataset.email;
+            editModal.style.display = 'block';
         }
 
-        function getCsrfToken() {
-            return document.querySelector('[name=csrfmiddlewaretoken]').value;
+        if (deleteButton) {
+            const userId = deleteButton.dataset.id;
+            document.getElementById('deleteUserId').value = userId;
+            deleteModal.style.display = 'block';
         }
     });
+
+    // Edit Form Submission
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById('editUserId').value;
+        const formData = {
+            first_name: document.getElementById('editFirstName').value,
+            last_name: document.getElementById('editLastName').value,
+            email: document.getElementById('editEmail').value,
+        };
+
+        try {
+            const response = await fetch(`/edit-user/${userId}/`, {
+                method: 'PUT',
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'X-CSRFToken': getCsrfToken() 
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+                row.querySelector('td:nth-child(2)').textContent = formData.first_name;
+                row.querySelector('td:nth-child(3)').textContent = formData.last_name;
+                row.querySelector('td:nth-child(4)').textContent = formData.email;
+
+                // Update edit button data attributes
+                const editButton = row.querySelector('.edit-user');
+                editButton.dataset.firstName = formData.first_name;
+                editButton.dataset.lastName = formData.last_name;
+                editButton.dataset.email = formData.email;
+
+                alert('User updated successfully');
+                closeEditModal();
+            } else {
+                alert(result.message || 'Failed to update user');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred while updating the user');
+        }
+    });
+
+    // Delete Confirmation
+    confirmDeleteBtn.addEventListener('click', async () => {
+        const userId = document.getElementById('deleteUserId').value;
+        
+        try {
+            const response = await fetch(`/delete-user/${userId}/`, {
+                method: 'DELETE',
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'X-CSRFToken': getCsrfToken() 
+                },
+                credentials: 'same-origin'
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+                const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+                row.remove();
+                alert(result.message || 'User deleted successfully');
+                closeDeleteModal();
+            } else {
+                alert(result.message || 'Failed to delete user');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('An error occurred while deleting the user');
+        }
+    });
+
+    // Search Functionality
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = userTableBody.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const firstName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const lastName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            const email = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+            if (firstName.includes(searchTerm) || 
+                lastName.includes(searchTerm) || 
+                email.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Modal Close Functions
+    function closeEditModal() {
+        editModal.style.display = 'none';
+        editForm.reset();
+    }
+
+    function closeDeleteModal() {
+        deleteModal.style.display = 'none';
+    }
+
+    // Close Modals when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModal();
+        if (e.target === deleteModal) closeDeleteModal();
+    });
+});
 </script>
 </body>
 </html>

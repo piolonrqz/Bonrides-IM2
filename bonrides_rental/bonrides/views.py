@@ -9,6 +9,12 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .models import CarBooking, User, Vehicle  # Import models here
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.http import require_http_methods
+from django.middleware.csrf import get_token
+from django.core.exceptions import ValidationError
+
+def custom_404(request, exception):
+    return render(request, '404.html', {}, status=404)
 
 # Create your views here.
 def homepage(request):
@@ -303,32 +309,48 @@ def manage_users(request):
     users = User.objects.all()
     return render(request, 'manage_users.html', {'users': users})
 
-@csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.middleware.csrf import get_token
+from django.core.exceptions import ValidationError
+
+@require_http_methods(["PUT"])
 def edit_user(request, user_id):
-    if request.method == 'PUT':
+    try:
         import json
         data = json.loads(request.body)
+        
+        # Validate input data
+        if not all([data.get('first_name'), data.get('last_name'), data.get('email')]):
+            return JsonResponse({'success': False, 'message': 'All fields are required'}, status=400)
+        
+        user = User.objects.get(id=user_id)
+        user.first_name = data.get('first_name')
+        user.last_name = data.get('last_name')
+        user.email = data.get('email')
+        
+        # Validate email
         try:
-            user = User.objects.get(id=user_id)
-            user.first_name = data.get('first_name', user.first_name)
-            user.last_name = data.get('last_name', user.last_name)
-            user.email = data.get('email', user.email)
-            user.save()
-            return JsonResponse({'success': True, 'message': 'User updated successfully'})
-        except User.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'User not found'})
-    return JsonResponse({'success': False, 'message': 'Invalid method'})
+            user.full_clean()  # This will validate email format
+        except ValidationError as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=400)
+        
+        user.save()
+        return JsonResponse({'success': True, 'message': 'User updated successfully'})
+    
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
-@csrf_exempt
+@require_http_methods(["DELETE"])
 def delete_user(request, user_id):
-    if request.method == 'DELETE':
-        try:
-            user = User.objects.get(id=user_id)
-            user.delete()
-            return JsonResponse({'success': True, 'message': 'User deleted successfully'})
-        except User.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'User not found'})
-    return JsonResponse({'success': False, 'message': 'Invalid method'})
-
-def custom_404(request, exception):
-    return render(request, '404.html', status=404)
+    try:
+        user = User.objects.get(id=user_id)
+        user.delete()
+        return JsonResponse({'success': True, 'message': 'User deleted successfully'})
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)
