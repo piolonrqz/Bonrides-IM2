@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
     <title>Bonrides - Edit Profile</title>
 </head>
@@ -32,14 +33,34 @@
                             Hello,
                             <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
                         </li>                    
-                        <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                    {% else %}
-                        <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                        <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
+                        <li style="display: inline-block;">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">LOGOUT</a>
+                        </li>
+                        {% else %}
+                            <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
+                            <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
                     {% endif %}
-                </ul>
             </div>
         </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>                
 
     <div class="container">
         <div class="form-container">
@@ -77,24 +98,10 @@
             </form>
         </div>
     </div>
+
+    <!-- Bootstrap JS and Popper.js (if not already included by Jazzmin) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+    
 </body>
 </html>
-
-    <script>
-        // Add a confirmation dialog for the logout link
-        const logoutLink = document.getElementById('logoutLink');
-        logoutLink.addEventListener('click', function (event) {
-            const confirmLogout = window.confirm("Are you sure you want to log out?");
-            if (!confirmLogout) {
-                event.preventDefault(); // Stop the logout action if the user clicks "Cancel"
-            }
-        });
-
-        const form = document.getElementById('editProfileForm');
-        form.addEventListener('submit', function (event) {
-            const isConfirmed = window.confirm("Are you sure you want to save these changes?");
-            if (!isConfirmed) {
-                event.preventDefault(); // Prevent form submission if user clicks "Cancel"
-            }
-        });
-    </script>
