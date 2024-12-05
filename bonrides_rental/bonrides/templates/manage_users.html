@@ -4,59 +4,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
+    <title>Manage Users - BonRides</title>
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/manage_users.css' %}">
 </head>
 <body>
-    <h1>Manage Users</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="userTable">
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.first_name }}</td>
-                <td>{{ user.last_name }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <button class="edit-user" data-id="{{ user.id }}" data-first-name="{{ user.first_name }}" data-last-name="{{ user.last_name }}" data-email="{{ user.email }}">Edit</button>
-                    <button class="delete-user" data-id="{{ user.id }}">Delete</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="dashboard-container">
+    <!-- Navigation Sidebar -->
+    {% include 'dashboard_nav.html' %}
 
-    <!-- Edit User Modal -->
-    <div id="editUserModal" class="modal">
-        <h2>Edit User</h2>
-        <form id="editUserForm">
-            <input type="hidden" id="editUserId">
-            <div>
-                <label for="editFirstName">First Name:</label>
-                <input type="text" id="editFirstName" name="first_name" required>
-            </div>
-            <div>
-                <label for="editLastName">Last Name:</label>
-                <input type="text" id="editLastName" name="last_name" required>
-            </div>
-            <div>
-                <label for="editEmail">Email:</label>
-                <input type="email" id="editEmail" name="email" required>
-            </div>
-            <button type="submit">Save Changes</button>
-            <button type="button" onclick="closeEditModal()">Cancel</button>
-        </form>
-    </div>
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+        <h1>Manage Users</h1>
+        <div class="content-wrapper">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <button class="edit-user" data-id="{{ user.id }}" data-first-name="{{ user.first_name }}" data-last-name="{{ user.last_name }}" data-email="{{ user.email }}">Edit</button>
+                            <button class="delete-user" data-id="{{ user.id }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <script src="manage_users.js"></script>
+        <!-- Edit User Modal -->
+        <div id="editUserModal" class="modal">
+            <div class="modal-content">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <div>
+                        <label for="editFirstName">First Name:</label>
+                        <input type="text" id="editFirstName" name="first_name" required>
+                    </div>
+                    <div>
+                        <label for="editLastName">Last Name:</label>
+                        <input type="text" id="editLastName" name="last_name" required>
+                    </div>
+                    <div>
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="submit" class="confirm">Save Changes</button>
+                        <button type="button" onclick="closeEditModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Include the existing JavaScript logic for editing and deleting users
+    document.addEventListener('DOMContentLoaded', () => {
+        // Rest of the JavaScript logic from the original script
+        const editModal = document.getElementById('editUserModal');
+        const editForm = document.getElementById('editUserForm');
+        const userTable = document.getElementById('userTable');
+        
+        userTable.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-user')) {
+                const userId = e.target.dataset.id;
+                document.getElementById('editUserId').value = userId;
+                document.getElementById('editFirstName').value = e.target.dataset.firstName;
+                document.getElementById('editLastName').value = e.target.dataset.lastName;
+                document.getElementById('editEmail').value = e.target.dataset.email;
+                editModal.style.display = 'block';
+            }
+        });
+
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('editUserId').value;
+            const formData = {
+                first_name: document.getElementById('editFirstName').value,
+                last_name: document.getElementById('editLastName').value,
+                email: document.getElementById('editEmail').value,
+            };
+
+            try {
+                const response = await fetch(`/edit_user/${userId}/`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('User updated successfully');
+                    const row = document.querySelector(`button[data-id="${userId}"]`).closest('tr');
+                    row.querySelector('td:nth-child(2)').textContent = formData.first_name;
+                    row.querySelector('td:nth-child(3)').textContent = formData.last_name;
+                    row.querySelector('td:nth-child(4)').textContent = formData.email;
+                    closeEditModal();
+                } else {
+                    alert(result.message || 'Failed to update user.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while updating the user.');
+            }
+        });
+
+        function closeEditModal() {
+            editModal.style.display = 'none';
+            editForm.reset();
+        }
+
+        function getCsrfToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]').value;
+        }
+    });
+</script>
 </body>
 </html>

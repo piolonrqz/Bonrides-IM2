@@ -13,53 +13,31 @@
     <title>Car Bookings</title>
 </head>
 <body>
-            <!-- Navigation
-            <div class="navbar">
-                <div class="nav-left">
-                    <ul>
-                        <li><a href="{% url 'about' %}">ABOUT</a></li>
-                        <li><a href="{% url 'vehicles' %}">VEHICLES</a></li>
-                        <li><a href="{% url 'booking' %}">BOOKING</a></li>
-                        <li><a href="{% url 'contacts' %}">CONTACTS</a></li>
+    <div class="dashboard-container">
+        {% include 'dashboard_nav.html' %}
+
+        <main class="dashboard-content">
+            <h1>Admin Dashboard</h1>
+            <a href="{% url 'car_booking_create' %}" class="btn btn-primary">Add New Booking</a>
+
+            <div class="form-container">
+                {% if bookings %}
+                    <ul class="bookings-list">
+                        {% for booking in bookings %}
+                            <li class="booking-item">
+                                <a href="{% url 'car_booking_detail' booking.pk %}" class="booking-detail-link">{{ booking }}</a>
+                                <div class="booking-actions">
+                                    <a href="{% url 'car_booking_update' booking.pk %}" class="btn btn-edit">Edit</a>
+                                    <a href="{% url 'car_booking_delete' booking.pk %}" class="btn btn-delete">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
                     </ul>
-                </div>
-                <div class="logo">
-                    <a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">bonrides</a>
-                </div>
-                <div class="nav-right">
-                    <ul class="nav_right">
-                        {% if user.is_authenticated %}
-                            <li id="user-format" style="display: inline-block; font-weight: bold; margin-right: 10px;">
-                                Hello,
-                                <a href="{% url 'edit_profile' %}" style="text-decoration: none; color: yellow;">{{ user.first_name|default:user.email }}</a>!
-                            </li>                    
-                            <li style="display: inline-block;"><a href="{% url 'logout' %}">LOGOUT</a></li>
-                        {% else %}
-                            <li style="display: inline-block; margin-right: 10px;"><a href="{% url 'login' %}">LOGIN</a></li>
-                            <li style="display: inline-block;"><a href="{% url 'register' %}">SIGN UP</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div> -->
-    <div class="car-bookings-container">
-        <h1>Car Bookings</h1>
-        <a href="{% url 'car_booking_create' %}" class="btn btn-primary">Add New Booking</a>
-        
-        {% if bookings %}
-            <ul class="bookings-list">
-                {% for booking in bookings %}
-                    <li class="booking-item">
-                        <a href="{% url 'car_booking_detail' booking.pk %}" class="booking-detail-link">{{ booking }}</a>
-                        <div class="booking-actions">
-                            <a href="{% url 'car_booking_update' booking.pk %}" class="btn btn-edit">Edit</a>
-                            <a href="{% url 'car_booking_delete' booking.pk %}" class="btn btn-delete">Delete</a>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="no-bookings-message">No bookings found. <a href="{% url 'car_booking_create' %}">Create your first booking</a>.</p>
-        {% endif %}
+                {% else %}
+                    <p class="no-bookings-message">No bookings found. <a href="{% url 'car_booking_create' %}">Create your first booking</a>.</p>
+                {% endif %}
+            </div>
+        </main>
     </div>
 </body>
 </html>

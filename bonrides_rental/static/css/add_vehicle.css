@@ -1,11 +1,86 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
-body {
-    font-family: 'Khand', sans-serif;
+:root {
+    --primary-bg: #2c2c2c;
+    --secondary-bg: #1a1a1a;
+    --card-bg: #333;
+    --text-color: #fff;
+    --accent-color: #FFD21A;
+    --accent-hover: #FFC107;
+    --nav-text: #3B3B3F;
+    --chart-colors: rgba(54, 162, 235, 0.2), rgba(255, 159, 64, 0.2), rgba(75, 192, 192, 0.2);
+}
+
+* {
     margin: 0;
     padding: 0;
-    background-color: #3b3b3b;
-    color: #f2f2f2;
+    box-sizing: border-box;
+    font-family: 'Khand', sans-serif;
+}
+
+body {
+    background-color: #2c2c2c;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-grow: 1;
+}
+
+/* Move navigation to the right */
+.dashboard-nav {
+    width: 250px;
+    background-color: var(--secondary-bg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    gap: 1rem;
+    height: 100vh;
+}
+
+.dashboard-nav a {
+    text-decoration: none;
+    color: var(--nav-text);
+    background-color: var(--accent-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dashboard-nav a:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.dashboard-nav a.active {
+    background-color: var(--accent-hover);
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-content {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -89,15 +164,6 @@ button:hover {
     background-color: #FFE055;
 }
 
-a {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
 a:hover {
     text-decoration: underline;
 }
@@ -133,4 +199,18 @@ input:focus,
 select:focus {
     outline: 2px solid #FFD21A;
     outline-offset: -2px;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+input:invalid:focus {
+    box-shadow: 0 0 5px red;
+}
+
+input:invalid:after {
+    content: 'Please enter a valid number.';
+    color: red;
+    font-size: 12px;
 }

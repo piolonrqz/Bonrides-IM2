@@ -2,179 +2,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Manage Vehicles</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Manage Vehicles - BonRides</title>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/manage_vehicle.css' %}">
 </head>
 <body>
-    <div class="table-container">
-        <h2>Manage Vehicles</h2>
-        <div class="add-vehicle">
-            <button onclick="loadContent('create-vehicle')">Add New Vehicle</button>
-        </div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Model</th>
-                        <th>Model Year</th>
-                        <th>Brand</th>
-                        <th>Mileage</th>
-                        <th>Availability</th>
-                        <th>Registration Number</th>
-                        <th>Price</th>
-                        <th>Seats</th>
-                        <th>Transmission</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for vehicle in vehicles %}
-                    <tr>
-                        <td>
-                            {% if vehicle.image %}
-                                <img src="{{ vehicle.image.url }}" alt="Vehicle Image" style="width: 100px; height: auto;">
-                            {% else %}
-                                No image
-                            {% endif %}
-                        </td>
-                        <td>{{ vehicle.model }}</td>
-                        <td>{{ vehicle.model_year }}</td>
-                        <td>{{ vehicle.brand }}</td>
-                        <td>{{ vehicle.mileage }}</td>
-                        <td>{{ vehicle.availability }}</td>
-                        <td>{{ vehicle.registration_number }}</td>
-                        <td>₱{{ vehicle.price }}</td>
-                        <td>{{ vehicle.seats }}</td>
-                        <td>{{ vehicle.get_transmission_display }}</td>
-                        <td>
-                            <button onclick="window.vehicleManager.editVehicle({{ vehicle.pk }})" class="edit">Edit</button>
-                            <button onclick="window.vehicleManager.showDeleteModal({{ vehicle.pk }})">Delete</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <p>Are you sure you want to delete this vehicle?</p>
-            <div class="modal-buttons">
-                <button onclick="window.vehicleManager.hideDeleteModal()">No</button>
-                <button class="confirm" onclick="window.vehicleManager.confirmDelete()">Yes</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-    // Wrap all functions in an IIFE and expose necessary functions to the global scope
-    (function() {
-        let currentVehicleId = null;
-        const modal = document.getElementById("deleteModal");
-        
-        function showDeleteModal(vehicleId) {
-            currentVehicleId = vehicleId;
-            modal.style.display = "block";
-        }
-        
-        function hideDeleteModal() {
-            modal.style.display = "none";
-        }
-        
-        function confirmDelete() {
-            if (currentVehicleId) {
-                const csrftoken = getCookie('csrftoken');
+    <div class="dashboard-container">
+        {% include 'dashboard_nav.html' %}
+
+        <main class="dashboard-content">
+            <h1>Admin Dashboard</h1>
+            <div class="table-container">
                 
-                fetch(`/vehicles/delete/${currentVehicleId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRFToken': csrftoken,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        hideDeleteModal();
-                        loadContent('manage-vehicles');
-                    } else {
-                        throw new Error(data.message || 'Failed to delete vehicle');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to delete vehicle: ' + error.message);
-                });
-            }
-        }
-        
+                
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Model</th>
+                                <th>Model Year</th>
+                                <th>Brand</th>
+                                <th>Mileage</th>
+                                <th>Availability</th>
+                                <th>Registration Number</th>
+                                <th>Price</th>
+                                <th>Seats</th>
+                                <th>Transmission</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vehicle in vehicles %}
+                            <tr>
+                                <td>
+                                    {% if vehicle.image %}
+                                        <img src="{{ vehicle.image.url }}" alt="Vehicle Image">
+                                    {% else %}
+                                        No image
+                                    {% endif %}
+                                </td>
+                                <td>{{ vehicle.model }}</td>
+                                <td>{{ vehicle.model_year }}</td>
+                                <td>{{ vehicle.brand }}</td>
+                                <td>{{ vehicle.mileage }}</td>
+                                <td>{{ vehicle.availability }}</td>
+                                <td>{{ vehicle.registration_number }}</td>
+                                <td>₱{{ vehicle.price }}</td>
+                                <td>{{ vehicle.seats }}</td>
+                                <td>{{ vehicle.get_transmission_display }}</td>
+                                <td class="actions">
+                                    <button onclick="editVehicle({{ vehicle.pk }})" class="edit">Edit</button>
+                                    <button onclick="showDeleteModal({{ vehicle.pk }})" class="delete">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div id="deleteModal" class="modal">
+                <div class="modal-content">
+                    <h3>Confirm Delete</h3>
+                    <p>Are you sure you want to delete this vehicle?</p>
+                    <div class="modal-buttons">
+                        <button onclick="hideDeleteModal()" class="cancel">Cancel</button>
+                        <button onclick="confirmDelete()" class="confirm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let vehicleToDelete = null;
+
         function editVehicle(vehicleId) {
-            fetch(`/vehicles/edit/${vehicleId}/`, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(html => {
-                document.getElementById('content-area').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to load edit form');
-            });
+            window.location.href = `/admin-dashboard/vehicles/edit/${vehicleId}/`;
         }
-        
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
+
+        function showDeleteModal(vehicleId) {
+            vehicleToDelete = vehicleId;
+            document.getElementById('deleteModal').style.display = 'block';
         }
-        
-        // Expose necessary functions to the global scope
-        window.vehicleManager = {
-            editVehicle: editVehicle,
-            showDeleteModal: showDeleteModal,
-            hideDeleteModal: hideDeleteModal,
-            confirmDelete: confirmDelete
-        };
-        
-        // Event listener for closing modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                hideDeleteModal();
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            vehicleToDelete = null;
+        }
+
+        function confirmDelete() {
+            if (vehicleToDelete) {  // Changed from currentVehicleId
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin-dashboard/vehicles/delete/${vehicleToDelete}/`;  // Use vehicleToDelete
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = '{{ csrf_token }}';
+                form.appendChild(csrfInput);
+                document.body.appendChild(form);
+                form.submit();
             }
-        };
-    })();
+        }
     </script>
 </body>
 </html>
