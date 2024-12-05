@@ -301,8 +301,7 @@ def admin_dashboard(request):
 
 def manage_users(request):
     users = User.objects.all()
-    users_data = list(users.values('id', 'first_name', 'last_name', 'email'))
-    return JsonResponse({'users': users_data})
+    return render(request, 'manage_users.html', {'users': users})
 
 @csrf_exempt
 def edit_user(request, user_id):

@@ -27,9 +27,10 @@ body {
 }
 
 /* Dashboard Layout */
+
 .dashboard-container {
   display: flex;
-  min-height: 100vh;
+  flex-grow: 1;
 }
 
 /* Navigation Styles */

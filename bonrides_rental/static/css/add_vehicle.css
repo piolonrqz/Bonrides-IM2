@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --primary-bg: #2c2c2c;
+    --secondary-bg: #1a1a1a;
+    --card-bg: #333;
+    --text-color: #fff;
+    --accent-color: #FFD21A;
+    --accent-hover: #FFC107;
+    --nav-text: #3B3B3F;
+    --chart-colors: rgba(54, 162, 235, 0.2), rgba(255, 159, 64, 0.2), rgba(75, 192, 192, 0.2);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -29,27 +40,38 @@ h1 {
 /* Move navigation to the right */
 .dashboard-nav {
     width: 250px;
-    background-color: #1a1a1a;
+    background-color: var(--secondary-bg);
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 0;
     gap: 1rem;
+    height: 100vh;
 }
 
 .dashboard-nav a {
     text-decoration: none;
-    color: #3B3B3F;
-    background-color: #FFD21A;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+    color: var(--nav-text);
+    background-color: var(--accent-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
     font-size: 1rem;
-    transition: opacity 0.2s;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
     text-align: center;
     cursor: pointer;
 }
 
 .dashboard-nav a:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.dashboard-nav a.active {
+    background-color: var(--accent-hover);
+    color: #000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-content {
@@ -141,8 +163,6 @@ button {
 button:hover {
     background-color: #FFE055;
 }
-
-
 
 a:hover {
     text-decoration: underline;

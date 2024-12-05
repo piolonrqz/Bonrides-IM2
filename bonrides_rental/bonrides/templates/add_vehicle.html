@@ -11,13 +11,7 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <nav class="dashboard-nav">
-            <a href="{% url 'admin_dashboard' %}" {% if request.resolver_match.url_name == 'admin_dashboard' %}class="active"{% endif %}>Dashboard</a>
-            <a href="{% url 'add_vehicle' %}" {% if request.resolver_match.url_name == 'add_vehicle' %}class="active"{% endif %}>Create Vehicle</a>
-            <a href="{% url 'manage_vehicles' %}" {% if request.resolver_match.url_name == 'manage_vehicles' %}class="active"{% endif %}>Manage Vehicles</a>
-            <a href="{% url 'car_booking_list' %}" {% if request.resolver_match.url_name == 'car_booking_list' %}class="active"{% endif %}>Manage Bookings</a>
-            <a href="{% url 'homepage' %}">Back to Home</a>
-        </nav>
+        {% include 'dashboard_nav.html' %}
 
         <main class="dashboard-content">
             <h1>Admin Dashboard</h1>
