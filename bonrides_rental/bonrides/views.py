@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm
 from django.contrib import messages
 from .models import CarBooking, User, Vehicle  # Import models here
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 def homepage(request):
@@ -138,7 +139,15 @@ from .forms import VehicleForm
 from .models import Vehicle
 from django.db import IntegrityError
 
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import VehicleForm
+from .models import Vehicle
+
 def add_vehicle(request):
+    if not request.user.is_admin:  # Ensure only superusers can access
+        return render(request, '404.html')  # If not an admin, raise a 404 error
+
     if request.method == 'POST':
         vehicle_id = request.POST.get('vehicle_id')  # Retrieve vehicle ID if editing
         if vehicle_id:
@@ -149,34 +158,25 @@ def add_vehicle(request):
             # Create new vehicle
             form = VehicleForm(request.POST, request.FILES)
 
+        # Check if the form is valid first
         if form.is_valid():
-            try:
-                vehicle = form.save()
-                # Check if the request is an AJAX request
-                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    return JsonResponse({
-                        'success': True,
-                        'message': 'Vehicle saved successfully!',
-                        'id': vehicle.id,
-                        'model': vehicle.model,
-                        'brand': vehicle.brand
-                    })
-                messages.success(request, 'Vehicle saved successfully!')
-                return redirect('admin_dashboard')  # Redirect to dashboard on success
-            except IntegrityError:
-                form.add_error('registration_number', 'A vehicle with this registration number already exists.')
-                # Add error message and stay on the form page with the error
-                messages.error(request, 'A vehicle with this registration number already exists.')
-                return render(request, 'add_vehicle.html', {'form': form})
+            # Check if registration number already exists (for new vehicles or when updating)
+            registration_number = form.cleaned_data.get('registration_number')
+            if Vehicle.objects.filter(registration_number=registration_number).exclude(id=vehicle_id if vehicle_id else None).exists():
+                form.add_error('registration_number', 'This registration number already exists.')  # Add custom error
+                return render(request, 'add_vehicle.html', {'form': form})  # Return the form with the error
+
+            # Save the vehicle
+            form.save()
+
+            # Show success message
+            messages.success(request, 'Vehicle saved successfully!')
+
+            # Redirect to the same page to clear POST data and ensure a blank form
+            return redirect('add_vehicle')
 
         else:
             # If validation fails, stay on the form page and show the errors
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': False,
-                    'message': 'Form validation failed',
-                    'errors': form.errors
-                })
             messages.error(request, 'Please correct the errors below.')
             return render(request, 'add_vehicle.html', {'form': form})  # Render the form with errors
 
@@ -186,8 +186,11 @@ def add_vehicle(request):
         return render(request, 'add_vehicle.html', {'form': form})
 
 
+
 # List all vehicles
 def manage_vehicles(request):
+    if not request.user.is_admin:  # Ensure only superusers can access
+        return render(request, '404.html')  # If not an admin, raise a 404 error
     vehicles = Vehicle.objects.all()
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, 'manage_vehicles.html', {'vehicles': vehicles})
@@ -230,38 +233,32 @@ def edit_vehicle(request, pk):
     return render(request, 'add_vehicle.html', context)
 
 
-# Delete vehicle
 
+# Delete vehicle
+@login_required
 def delete_vehicle(request, pk):
+    # Check if user has staff permissions
+    if not request.user.is_staff:
+        messages.error(request, 'Unauthorized to delete vehicles')
+        return redirect('manage_vehicles')
+   
     if request.method == 'POST':
         try:
             vehicle = get_object_or_404(Vehicle, pk=pk)
             vehicle.delete()
             
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': True, 
-                    'message': 'Vehicle deleted successfully!'
-                })
+            # Add a success message
+            messages.success(request, 'Vehicle successfully deleted')
             
-            messages.success(request, 'Vehicle deleted successfully!')
             return redirect('manage_vehicles')
         
         except Exception as e:
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': False, 
-                    'message': str(e)
-                }, status=400)
-            
             messages.error(request, f'Error deleting vehicle: {str(e)}')
             return redirect('manage_vehicles')
-    
-    # Handle non-POST requests
-    return JsonResponse({
-        'success': False, 
-        'message': 'Invalid request method'
-    }, status=405)
+   
+    # For non-POST requests
+    messages.error(request, 'Invalid request method')
+    return redirect('manage_vehicles')
     
     
 def vehicle_detail(request, pk):
@@ -281,7 +278,11 @@ def vehicle_detail(request, pk):
 
 
 @login_required
+# @staff_member_required  # Decorator ensures only admin (staff) can access
 def admin_dashboard(request):
+    if not request.user.is_admin:  # Ensure only superusers can access
+        return render(request, '404.html')  # If not an admin, raise a 404 error
+
     total_vehicles = Vehicle.objects.count()
     available_vehicles = Vehicle.objects.filter(availability=True).count()
     total_bookings = CarBooking.objects.count()
@@ -294,3 +295,6 @@ def admin_dashboard(request):
         'active_users': active_users,
     }
     return render(request, 'admin_dashboard.html', context)
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)

@@ -4,130 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard - BonRides</title>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
 </head>
 <body>
     <div class="dashboard-container">
         <nav class="dashboard-nav">
-            <a href="#" data-page="dashboard">Dashboard</a>
-            <a href="#" data-page="create-vehicle">Create Vehicle</a>
-            <a href="#" data-page="manage-vehicles">Manage Vehicles</a>
-            <a href="#" data-page="manage-bookings">Manage Bookings</a>
+            <a href="{% url 'admin_dashboard' %}" {% if request.resolver_match.url_name == 'admin_dashboard' %}class="active"{% endif %}>Dashboard</a>
+            <a href="{% url 'add_vehicle' %}" {% if request.resolver_match.url_name == 'add_vehicle' %}class="active"{% endif %}>Create Vehicle</a>
+            <a href="{% url 'manage_vehicles' %}" {% if request.resolver_match.url_name == 'manage_vehicles' %}class="active"{% endif %}>Manage Vehicles</a>
+            <a href="{% url 'car_booking_list' %}" {% if request.resolver_match.url_name == 'car_booking_list' %}class="active"{% endif %}>Manage Bookings</a>
             <a href="{% url 'homepage' %}">Back to Home</a>
         </nav>
+
         <main class="dashboard-content">
             <h1>Admin Dashboard</h1>
             <div id="content-area" class="content-wrapper">
-                <!-- Content will be loaded here dynamically -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Total Vehicles</h3>
+                        <p>{{ total_vehicles }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Available Vehicles</h3>
+                        <p>{{ available_vehicles }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Bookings</h3>
+                        <p>{{ total_bookings }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Users</h3>
+                        <p>{{ active_users }}</p>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
-
-    <script>
-        // Global object to store vehicle management functions
-        window.vehicleManager = {};
-
-        function loadContent(page) {
-            const contentArea = document.getElementById('content-area');
-            switch(page) {
-                case 'dashboard':
-                    contentArea.innerHTML = `
-                        <div class="dashboard-stats">
-                            <div class="stat-card">
-                                <h3>Total Vehicles</h3>
-                                <p>{{ total_vehicles }}</p>
-                            </div>
-                            <div class="stat-card">
-                                <h3>Available Vehicles</h3>
-                                <p>{{ available_vehicles }}</p>
-                            </div>
-                            <div class="stat-card">
-                                <h3>Total Bookings</h3>
-                                <p>{{ total_bookings }}</p>
-                            </div>
-                            <div class="stat-card">
-                                <h3>Active Users</h3>
-                                <p>{{ active_users }}</p>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                case 'create-vehicle':
-                    fetch('{% url "add_vehicle" %}', {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => response.text())
-                    .then(html => {
-                        contentArea.innerHTML = html;
-                    });
-                    break;
-                case 'manage-vehicles':
-                    fetch('{% url "manage_vehicles" %}', {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => response.text())
-                    .then(html => {
-                        contentArea.innerHTML = html;
-                        // Execute any scripts in the loaded content
-                        Array.from(contentArea.querySelectorAll('script')).forEach(oldScript => {
-                            const newScript = document.createElement('script');
-                            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                            oldScript.parentNode.replaceChild(newScript, oldScript);
-                        });
-                    });
-                    break;
-                case 'manage-bookings':
-                    fetch('{% url "car_booking_list" %}', {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => response.text())
-                    .then(html => {
-                        contentArea.innerHTML = html;
-                    });
-                    break;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.dashboard-nav a[data-page]');
-        
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = this.getAttribute('data-page');
-                    loadContent(page);
-                });
-            });
-        
-            // Load dashboard content by default    
-            loadContent('dashboard');
-            
-        });
-
-        // Function to get CSRF token
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-    </script>
 </body>
 </html>

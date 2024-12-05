@@ -1,86 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Khand', sans-serif;
+}
+
 body {
     font-family: 'Khand', sans-serif;
-    background-color: #3b3b3b;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
-/* Navigation Bar */
-.navbar {
+    background-color: #2c2c2c;
+    color: #fff;
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px; 
-    background-color: #3b3b3b; 
-    position: relative; 
+    flex-direction: column;
 }
 
-.logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 48px; 
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.nav-left{
-    padding: 30px 0px 0px 90px;
-}
-.nav-right{
-    padding: 30px 90px 0px 0px;
-}
-
-.nav-left ul,
-.nav-right ul {
+.dashboard-container {
     display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
+    flex-grow: 1;
 }
 
-.nav-left ul li,
-.nav-right ul li {
-    margin: 0 10px;
+/* Navigation Sidebar */
+.dashboard-nav {
+    width: 250px;
+    background-color: #1a1a1a;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.nav-left ul li a,
-.nav-right ul li a {
-    color: #ffffff;
+.dashboard-nav a {
     text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.nav-left ul li a:hover,
-.nav-right ul li a:hover {
-    color: #FFD21A;
-}
-
-.logo {
-    font-size: 48px;
-    font-weight: bold;
-    color: #ffffff;
-    padding-top: 23px;
-}
-
-.car-bookings-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
+    color: #3B3B3F;
+    background-color: #FFD21A;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: opacity 0.2s;
     text-align: center;
-    color: #ffffff;
+    cursor: pointer;
+}
+
+.dashboard-nav a:hover {
+    opacity: 0.8;
+}
+
+/* Main content */
+.dashboard-content {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 900px;
+}
+
+.form-container h1 {
+    margin-bottom: 20px;
     font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-align: center;
 }
 
 .btn {
@@ -157,57 +144,13 @@ h1 {
     color: #cccccc;
 }
 
-
-#user-format {
-    color: #F2D777;
-    margin-right: 15px;
-}
-
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); 
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-}
-
-.modal-header, .modal-footer {
-    padding: 10px;
-}
-
-.modal-footer {
-    text-align: right;
-}
-
-
 @media screen and (max-width: 768px) {
-    header {
-        flex-direction: column;
-        padding: 10px;
+    .dashboard-nav {
+        width: 200px;
     }
 
-    .nav_link, .nav-right ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .nav_link li, .nav-right li {
-        margin: 10px 0;
+    .bookings-list {
+        padding: 0;
     }
 
     .booking-item {
@@ -219,4 +162,10 @@ h1 {
         justify-content: center;
         margin-top: 10px;
     }
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
 }

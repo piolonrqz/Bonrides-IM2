@@ -4,133 +4,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Add Vehicle - BonRides</title>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/add_vehicle.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <h1>Add Vehicle</h1>
+    <div class="dashboard-container">
+        <nav class="dashboard-nav">
+            <a href="{% url 'admin_dashboard' %}" {% if request.resolver_match.url_name == 'admin_dashboard' %}class="active"{% endif %}>Dashboard</a>
+            <a href="{% url 'add_vehicle' %}" {% if request.resolver_match.url_name == 'add_vehicle' %}class="active"{% endif %}>Create Vehicle</a>
+            <a href="{% url 'manage_vehicles' %}" {% if request.resolver_match.url_name == 'manage_vehicles' %}class="active"{% endif %}>Manage Vehicles</a>
+            <a href="{% url 'car_booking_list' %}" {% if request.resolver_match.url_name == 'car_booking_list' %}class="active"{% endif %}>Manage Bookings</a>
+            <a href="{% url 'homepage' %}">Back to Home</a>
+        </nav>
 
+        <main class="dashboard-content">
+            <h1>Admin Dashboard</h1>
+            <div class="form-container">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-             <!-- Display messages -->
-             {% if messages %}
-             <div class="messages">
-                 {% for message in messages %}
-                     <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
-                         {{ message }}
-                     </div>
-                 {% endfor %}
-             </div>
-             {% endif %}
-
-
-            <form id="vehicleForm" method="POST" action="{% url 'add_vehicle' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" name="vehicle_id" value="{{ form.instance.id|default:'' }}">
-                <div class="form-group">
-                    <div>
-                        <label for="model">Model</label>
-                        <input type="text" id="model" name="model" placeholder="Model" value="{{ form.model.value|default_if_none:'' }}" required>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div>
+                            <label for="model">Model</label>
+                            <input type="text" id="model" name="model" placeholder="Model" value="{{ form.model.value|default_if_none:'' }}" required>
+                        </div>
+                        <div>
+                            <label for="model_year">Model Year</label>
+                            <input type="text" id="model_year" name="model_year" placeholder="Model Year" value="{{ form.model_year.value|default_if_none:'' }}" required>
+                        </div>
                     </div>
-                    <div>
-                        <label for="model_year">Model Year</label>
-                        <input type="text" id="model_year" name="model_year" placeholder="Model Year" value="{{ form.model_year.value|default_if_none:'' }}" required>
+                    <div class="form-group">
+                        <div>
+                            <label for="brand">Brand</label>
+                            <input type="text" id="brand" name="brand" placeholder="Brand" value="{{ form.brand.value|default_if_none:'' }}" required>
+                        </div>
+                        <div>
+                            <label for="mileage">Mileage</label>
+                            <input type="text" id="mileage" name="mileage" placeholder="Mileage" value="{{ form.mileage.value|default_if_none:'' }}" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label for="brand">Brand</label>
-                        <input type="text" id="brand" name="brand" placeholder="Brand" value="{{ form.brand.value|default_if_none:'' }}" required>
+                    <div class="form-group">
+                        <div>
+                            <label for="availability">Availability</label>
+                            <select id="availability" name="availability">
+                                <option value="True" {% if form.availability.value == True %}selected{% endif %}>Available</option>
+                                <option value="False" {% if form.availability.value == False %}selected{% endif %}>Not Available</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="registration_number">Registration Number</label>
+                            <input type="text" id="registration_number" name="registration_number" placeholder="Registration Number" value="{{ form.registration_number.value|default_if_none:'' }}" required>
+                            <small id="registration-error" style="color: red; display: none;">This registration number already exists.</small>
+                        </div>
                     </div>
-                    <div>
-                        <label for="mileage">Mileage</label>
-                        <input type="text" id="mileage" name="mileage" placeholder="Mileage" value="{{ form.mileage.value|default_if_none:'' }}" required>
+                    <div class="form-group">
+                        <div>
+                            <label for="seats">Seats</label>
+                            <input type="text" id="seats" name="seats" placeholder="Number of Seats" value="{{ form.seats.value|default_if_none:'' }}" required>
+                        </div>
+                        <div>
+                            <label for="transmission">Transmission</label>
+                            <select id="transmission" name="transmission">
+                                <option value="automatic" {% if form.transmission.value == 'Automatic' %}selected{% endif %}>Automatic</option>
+                                <option value="manual" {% if form.transmission.value == 'Manual' %}selected{% endif %}>Manual</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label for="availability">Availability</label>
-                        <select id="availability" name="availability">
-                            <option value="True" {% if form.availability.value == True %}selected{% endif %}>Available</option>
-                            <option value="False" {% if form.availability.value == False %}selected{% endif %}>Not Available</option>
-                        </select>
+                    <div class="form-group">
+                        <div>
+                            <label for="price">Price</label>
+                            <input type="text" id="price" name="price" placeholder="Price" value="{{ form.price.value|default_if_none:'' }}" required>
+                        </div>
+                        <div>
+                            <label for="image">Upload Image</label>
+                            <input type="file" id="image" name="image">
+                        </div>
                     </div>
-                    <div>
-                        <label for="registration_number">Registration Number</label>
-                        <input type="text" id="registration_number" name="registration_number" placeholder="Registration Number" value="{{ form.registration_number.value|default_if_none:'' }}" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label for="seats">Seats</label>
-                        <input type="text" id="seats" name="seats" placeholder="Number of Seats" value="{{ form.seats.value|default_if_none:'' }}" required>
-                    </div>
-                    <div>
-                        <label for="transmission">Transmission</label>
-                        <select id="transmission" name="transmission">
-                            <option value="automatic" {% if form.transmission.value == 'Automatic' %}selected{% endif %}>Automatic</option>
-                            <option value="manual" {% if form.transmission.value == 'Manual' %}selected{% endif %}>Manual</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <label for="price">Price</label>
-                        <input type="text" id="price" name="price" placeholder="Price" value="{{ form.price.value|default_if_none:'' }}" required>
-                    </div>
-                    <div>
-                        <label for="image">Upload Image</label>
-                        <input type="file" id="image" name="image">
-                    </div>
-                </div>
-                
-                <button type="submit">Save</button>
-            </form>
-        </div>
+                    <button type="submit" id="submit-button">Save Vehicle</button>
+                </form>
+            </div>
+        </main>
     </div>
-    
+
     <script>
-        document.getElementById('vehicleForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            
-            // Get CSRF token from the form
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            
-            fetch('{% url "add_vehicle" %}', {  // Explicitly set the correct submission URL
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': csrftoken
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    console.log('Vehicle added:', data);
-                    // Optionally, you might want to reset the form
-                    this.reset();
+        document.addEventListener('DOMContentLoaded', function() {
+            // List of existing registration numbers passed from the backend
+            const existingRegistrationNumbers = [
+                {% for vehicle in vehicles %}
+                    "{{ vehicle.registration_number }}",
+                {% endfor %}
+            ];
+
+            const registrationField = document.getElementById('registration_number');
+            const errorMessage = document.getElementById('registration-error');
+            const submitButton = document.getElementById('submit-button');
+
+            // Function to check if the registration number already exists
+            function checkRegistrationNumber() {
+                const registrationNumber = registrationField.value.trim();
+                if (existingRegistrationNumbers.includes(registrationNumber)) {
+                    errorMessage.style.display = 'inline'; // Show error message
+                    submitButton.disabled = true; // Disable submit button
                 } else {
-                    alert('Error: ' + (data.message || 'An unknown error occurred'));
-                    console.error('Form errors:', data.errors);
+                    errorMessage.style.display = 'none'; // Hide error message
+                    submitButton.disabled = false; // Enable submit button
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while submitting the form. Please try again.');
-            });
+            }
+
+            // Event listener for registration number input field
+            registrationField.addEventListener('input', checkRegistrationNumber);
+
+            const modelYearField = document.getElementById('model_year');
+            const mileageField = document.getElementById('mileage');
+
+            // Validate numeric inputs
+            function validateNumericInput(event) {
+                const value = event.target.value;
+                if (isNaN(value) || value < 0) {
+                    event.target.setCustomValidity('Please enter a valid number.');
+                } else {
+                    event.target.setCustomValidity('');
+                }
+            }
+
+            modelYearField.addEventListener('input', validateNumericInput);
+            mileageField.addEventListener('input', validateNumericInput);
         });
-        </script>
+    </script>
 </body>
 </html>
