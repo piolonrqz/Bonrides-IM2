@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 from .models import CarBooking, User, Vehicle  # Import models here
 
 # Create your views here.
@@ -294,3 +295,37 @@ def admin_dashboard(request):
         'active_users': active_users,
     }
     return render(request, 'admin_dashboard.html', context)
+
+# manage users 
+
+def manage_users(request):
+    users = User.objects.all()
+    users_data = list(users.values('id', 'first_name', 'last_name', 'email'))
+    return JsonResponse({'users': users_data})
+
+@csrf_exempt
+def edit_user(request, user_id):
+    if request.method == 'PUT':
+        import json
+        data = json.loads(request.body)
+        try:
+            user = User.objects.get(id=user_id)
+            user.first_name = data.get('first_name', user.first_name)
+            user.last_name = data.get('last_name', user.last_name)
+            user.email = data.get('email', user.email)
+            user.save()
+            return JsonResponse({'success': True, 'message': 'User updated successfully'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found'})
+    return JsonResponse({'success': False, 'message': 'Invalid method'})
+
+@csrf_exempt
+def delete_user(request, user_id):
+    if request.method == 'DELETE':
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            return JsonResponse({'success': True, 'message': 'User deleted successfully'})
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found'})
+    return JsonResponse({'success': False, 'message': 'Invalid method'})
