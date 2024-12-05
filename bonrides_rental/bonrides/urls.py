@@ -8,7 +8,6 @@ from .views import (
     car_booking_create,
     car_booking_update,
     car_booking_delete,
-    edit_user,
     delete_user,
 )
 
@@ -36,6 +35,7 @@ urlpatterns = [
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('manage-users/', views.manage_users, name='manage_users'),
-    path('edit_user/<int:user_id>/', views.edit_user, name='edit_user'),
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('create-user/', views.create_user, name='create_user'),
+    path('edit-user/<int:user_id>/', views.edit_user, name='edit_user'),
 ]

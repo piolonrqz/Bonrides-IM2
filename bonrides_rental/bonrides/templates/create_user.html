@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if user %}Edit{% else %}Create New{% endif %} User - BonRides</title>
+    <link rel="stylesheet" href="{% static 'css/create_user.css' %}">
+</head>
+<body>
+<div class="dashboard-container">
+    {% include 'dashboard_nav.html' %}
+
+    <main class="dashboard-content">
+        <div class="content-header">
+            <h1>{% if user %}Edit{% else %}Create New{% endif %} User</h1>
+        </div>
+
+        <div class="content-wrapper">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" class="create-user-form">
+                {% csrf_token %}
+                
+                <!-- Hidden input for user ID (if editing) -->
+                {% if user %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                {% endif %}
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                        {% if user %}
+                            <input type="email" id="editEmail" name="email" value="{{ user.email }}" required>
+                        {% else %}
+                            {{ form.email }}
+                        {% endif %}
+                        {% if form.email.errors %}
+                            <div class="error-message">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                        {% if user %}
+                            <input type="text" id="editFirstName" name="first_name" value="{{ user.first_name }}" required>
+                        {% else %}
+                            {{ form.first_name }}
+                        {% endif %}
+                        {% if form.first_name.errors %}
+                            <div class="error-message">{{ form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                        {% if user %}
+                            <input type="text" id="editLastName" name="last_name" value="{{ user.last_name }}" required>
+                        {% else %}
+                            {{ form.last_name }}
+                        {% endif %}
+                        {% if form.last_name.errors %}
+                            <div class="error-message">{{ form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.phone_number.id_for_label }}">Phone Number (Optional)</label>
+                        {{ form.phone_number }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.address.id_for_label }}">Address (Optional)</label>
+                        {{ form.address }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.drivers_license_number.id_for_label }}">Driver's License Number (Optional)</label>
+                        {{ form.drivers_license_number }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.password1.id_for_label }}">Password</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="error-message">{{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="error-message">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.role.id_for_label }}">Role</label>
+                        {{ form.role }}
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">{% if user %}Update{% else %}Create{% endif %} User</button>
+                    <a href="{% url 'manage_users' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

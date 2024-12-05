@@ -72,5 +72,6 @@
     <a href="{% url 'manage_vehicles' %}" {% if request.resolver_match.url_name == 'manage_vehicles' %}class="active"{% endif %}>Manage Vehicles</a>
     <a href="{% url 'car_booking_list' %}" {% if request.resolver_match.url_name == 'car_booking_list' %}class="active"{% endif %}>Manage Bookings</a>
     <a href="{% url 'manage_users' %}" {% if request.resolver_match.url_name == 'manage_users' %}class="active"{% endif %}>Manage Users</a>
+    <a href="{% url 'create_user' %}" {% if request.resolver_match.url_name == 'create_user' %}class="active"{% endif %}>Create User</a>
     <a href="{% url 'homepage' %}">Back to Home</a>
 </nav>
