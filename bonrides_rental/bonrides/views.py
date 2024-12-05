@@ -1,5 +1,6 @@
+import json
 from django.db import IntegrityError
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import CustomUserCreationForm, CarBookingForm, VehicleForm  # Import forms here
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -313,36 +314,6 @@ from django.views.decorators.http import require_http_methods
 from django.middleware.csrf import get_token
 from django.core.exceptions import ValidationError
 
-@require_http_methods(["PUT"])
-def edit_user(request, user_id):
-    try:
-        import json
-        data = json.loads(request.body)
-        
-        # Validate input data
-        if not all([data.get('first_name'), data.get('last_name'), data.get('email')]):
-            return JsonResponse({'success': False, 'message': 'All fields are required'}, status=400)
-        
-        user = User.objects.get(id=user_id)
-        user.first_name = data.get('first_name')
-        user.last_name = data.get('last_name')
-        user.email = data.get('email')
-        
-        # Validate email
-        try:
-            user.full_clean()  # This will validate email format
-        except ValidationError as e:
-            return JsonResponse({'success': False, 'message': str(e)}, status=400)
-        
-        user.save()
-        return JsonResponse({'success': True, 'message': 'User updated successfully'})
-    
-    except User.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
-    except Exception as e:
-        return JsonResponse({'success': False, 'message': str(e)}, status=500)
 
 @require_http_methods(["DELETE"])
 def delete_user(request, user_id):
@@ -354,3 +325,73 @@ def delete_user(request, user_id):
         return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)}, status=500)
+ 
+from .forms import UserCreationForm  # We'll create this form   
+#Create User   
+def create_user(request):
+    user_id = request.GET.get('user_id')
+    if user_id:
+        # Editing existing user
+        user = get_object_or_404(User, id=user_id)
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST, instance=user)
+            if form.is_valid():
+                user = form.save(commit=False)
+                # Only update password if provided
+                if form.cleaned_data['password1']:
+                    user.set_password(form.cleaned_data['password1'])
+                # Set role based on selection
+                role = form.cleaned_data['role']
+                user.staff = role in ['staff', 'admin']
+                user.admin = role == 'admin'
+                user.save()
+                messages.success(request, 'User updated successfully!')
+                # return redirect('manage_users')
+        else:
+            # Initialize form with user data
+            initial_data = {
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'phone_number': user.phone_number,
+                'address': user.address,
+                'drivers_license_number': user.drivers_license_number,
+                'role': 'admin' if user.admin else 'staff' if user.staff else 'user'
+            }
+            form = UserCreationForm(initial=initial_data, instance=user)
+            form.fields['password1'].required = False
+            form.fields['password2'].required = False
+    else:
+        # Creating new user
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.set_password(form.cleaned_data['password1'])
+                # Set role based on selection
+                role = form.cleaned_data['role']
+                user.staff = role in ['staff', 'admin']
+                user.admin = role == 'admin'
+                user.save()
+                messages.success(request, 'User created successfully!')
+                # return redirect('manage_users')
+        else:
+            form = UserCreationForm()
+
+    return render(request, 'create_user.html', {'form': form, 'user': user if user_id else None})
+
+
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User updated successfully!')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = UserCreationForm(instance=user)
+
+    return render(request, 'create_user.html', {'form': form, 'user': user})
