@@ -1,46 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+
+/* CSS Reset and Base Styles */
+:root {
+  --primary-bg: #2c2c2c;
+  --secondary-bg: #1a1a1a;
+  --card-bg: #333;
+  --text-color: #fff;
+  --accent-color: #FFD21A;
+  --accent-hover: #FFC107;
+  --nav-text: #3B3B3F;
+  --chart-colors: rgba(54, 162, 235, 0.2), rgba(255, 159, 64, 0.2), rgba(75, 192, 192, 0.2);
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Khand', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 body {
-    background-color: #2c2c2c;
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  font-family: 'Khand', sans-serif;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+  line-height: 1.6;
 }
+
+/* Dashboard Layout */
 .dashboard-container {
-    display: flex;
-    flex-grow: 1;
+  display: flex;
+  min-height: 100vh;
 }
+
+/* Navigation Styles */
 .dashboard-nav {
-    width: 250px;
-    background-color: #1a1a1a;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  width: 250px;
+  background-color: var(--secondary-bg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  gap: 1rem;
+  height: 100vh;
 }
+
 .dashboard-nav a {
-    text-decoration: none;
-    color: #3B3B3F;
-    background-color: #FFD21A;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: opacity 0.2s;
-    text-align: center;
-    cursor: pointer;
+  text-decoration: none;
+  color: var(--nav-text);
+  background-color: var(--accent-color);
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  cursor: pointer;
 }
+
 .dashboard-nav a:hover {
-    opacity: 0.8;
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
+
+.dashboard-nav a.active {
+  background-color: var(--accent-hover);
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Content Area */
 .dashboard-content {
-    flex-grow: 1;
-    padding: 2rem;
-    overflow-y: auto;
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+      flex-direction: column;
+    }
+  
+    .dashboard-nav {
+      width: 100%;
+      height: auto;
+      position: relative;
+      padding: 1rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+  
+    .dashboard-nav a {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+  
+    .dashboard-content {
+      padding: 1rem;
+    }
+  
+    .dashboard-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      }
 }
 h1 {
     text-align: center;
@@ -85,6 +149,43 @@ h1 {
     .dashboard-content {
         padding: 1rem;
     }
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.users-table th, .users-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+.users-table th {
+    background-color: #292929;
+}
+.delete-user {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.delete-user:hover {
+    background-color: #c0392b;
+}
+
+.edit-user {
+    background-color: hsl(125, 81%, 30%);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.edit-user:hover{
+    background-color: chartreuse;
 }
 .modal {
     display: none;

@@ -8,6 +8,8 @@ from .views import (
     car_booking_create,
     car_booking_update,
     car_booking_delete,
+    edit_user,
+    delete_user,
 )
 
 handler404 = custom_404
@@ -33,4 +35,7 @@ urlpatterns = [
     path('vehicle-details/<int:pk>/', views.vehicle_detail, name='vehicle_detail'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('manage-users/', views.manage_users, name='manage_users'),
+    path('edit-user/<int:user_id>/', edit_user, name='edit_user'),
+    path('delete-user/<int:user_id>/', delete_user, name='delete_user'),
 ]

@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{% static 'images/bonrides.png' %}">
     <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <!-- Add Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -16,12 +18,187 @@
             <a href="{% url 'add_vehicle' %}" {% if request.resolver_match.url_name == 'add_vehicle' %}class="active"{% endif %}>Create Vehicle</a>
             <a href="{% url 'manage_vehicles' %}" {% if request.resolver_match.url_name == 'manage_vehicles' %}class="active"{% endif %}>Manage Vehicles</a>
             <a href="{% url 'car_booking_list' %}" {% if request.resolver_match.url_name == 'car_booking_list' %}class="active"{% endif %}>Manage Bookings</a>
+            <a href="#" data-page="manage-users">Manage Users</a>
             <a href="{% url 'homepage' %}">Back to Home</a>
         </nav>
 
         <main class="dashboard-content">
             <h1>Admin Dashboard</h1>
             <div id="content-area" class="content-wrapper">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.vehicleManager = {};
+
+        function loadContent(page) {
+            const contentArea = document.getElementById('content-area');
+            const navLinks = document.querySelectorAll('.dashboard-nav a');
+
+            // Remove active class from all links
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Add active class to the clicked link
+            document.querySelector(`.dashboard-nav a[data-page="${page}"]`).classList.add('active');
+            
+            switch(page) {
+                case 'dashboard':
+                    contentArea.innerHTML = `
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3>Total Vehicles</h3>
+                                <p>{{ total_vehicles }}</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Available Vehicles</h3>
+                                <p>{{ available_vehicles }}</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Bookings</h3>
+                                <p>{{ total_bookings }}</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Active Users</h3>
+                                <p>{{ active_users }}</p>
+                            </div>
+                        </div>
+                        <div class="analytics-chart">
+                            <canvas id="analyticsChart" width="400" height="200"></canvas>
+                        </div>
+                    `;
+
+                    // Chart.js code to create a bar chart
+                    const ctx = document.getElementById('analyticsChart').getContext('2d');
+                    const analyticsChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Vehicles', 'Bookings', 'Users'], // Labels for your analytics
+                            datasets: [{
+                                label: 'Admin Dashboard Analytics',
+                                data: [{{ total_vehicles }}, {{ total_bookings }}, {{ active_users }}], // Data points passed from Django context
+                                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 159, 64, 1)', 'rgba(75, 192, 192, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                    break;
+                case 'create-vehicle':
+                    fetch('{% url "add_vehicle" %}', {
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
+                    }).then(response => response.text())
+                    .then(html => { contentArea.innerHTML = html; });
+                    break;
+                case 'manage-vehicles':
+                    fetch('{% url "manage_vehicles" %}', {
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
+                    }).then(response => response.text())
+                    .then(html => {
+                        contentArea.innerHTML = html;
+                        Array.from(contentArea.querySelectorAll('script')).forEach(oldScript => {
+                            const newScript = document.createElement('script');
+                            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        });
+                    });
+                    break;
+                case 'manage-bookings':
+                    fetch('{% url "car_booking_list" %}', {
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
+                    }).then(response => response.text())
+                    .then(html => { contentArea.innerHTML = html; });
+                    break;
+                    case 'manage-users':
+                        fetch('{% url "manage_users" %}', {
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const users = data.users;
+                            let tableHTML = `
+                                <table class="users-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            `;
+                            users.forEach(user => {
+                                tableHTML += `
+                                    <tr>
+                                        <td>${user.id}</td>
+                                        <td>${user.first_name}</td>
+                                        <td>${user.last_name}</td>
+                                        <td>${user.email}</td>
+                                        <td>
+                                            <button class="edit-user" data-id="${user.id}">Edit</button>
+                                            <button class="delete-user" data-id="${user.id}">Delete</button>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                            tableHTML += `</tbody></table>`;
+                            contentArea.innerHTML = tableHTML;
+
+                            document.querySelectorAll('.delete-user').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    const userId = this.getAttribute('data-id');
+                                    if (confirm('Are you sure you want to delete this user?')) {
+                                        fetch(`/delete-user/${userId}/`, { method: 'DELETE' })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    alert('User deleted successfully');
+                                                    loadContent('manage-users');
+                                                } else {
+                                                    alert('Error deleting user');
+                                                }
+                                            });
+                                    }
+                                });
+                            });
+
+                            document.querySelectorAll('.edit-user').forEach(button => {
+                                button.addEventListener('click', function() {
+                                    const userId = this.getAttribute('data-id');
+                                    alert(`Edit functionality for user ID: ${userId} coming soon!`);
+                                });
+                            });
+                        });
+                        break;
+
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.dashboard-nav a[data-page]');
+        
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    loadContent(page);
+                });
+            });
+        
+            loadContent('dashboard');
+        });
+    </script>
                 <div class="dashboard-stats">
                     <div class="stat-card">
                         <h3>Total Vehicles</h3>

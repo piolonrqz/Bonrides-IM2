@@ -147,3 +147,62 @@ body {
         flex: 1 1 100%;
     }
 }
+
+/* Logout Modal Styles */
+.modal-content {
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    color: #2B2A2A;
+}
+
+.modal-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+    color: #3B3B3F;
+    font-family: "Khand", sans-serif;
+    font-weight: 500;
+}
+
+.modal-body {
+    color: #3B3B3F;
+    font-family: "Khand", sans-serif;
+    font-size: 18px;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal .btn-secondary {
+    background-color: #3B3B3F;
+    color: white;
+    border: none;
+    font-family: "Khand", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.modal .btn-primary {
+    background-color: #F2D777;
+    color: #3B3B3F;
+    border: none;
+    font-family: "Khand", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.modal .btn-secondary:hover {
+    background-color: #4A4A4F;
+}
+
+.modal .btn-primary:hover {
+    background-color: #FFD700;
+}
+
+.modal .btn-close {
+    background-color: transparent;
+    opacity: 0.7;
+    filter: invert(1);
+}
