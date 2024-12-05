@@ -99,14 +99,21 @@ body {
 }
 
 .team-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+    gap: 30px; 
+    flex-wrap: wrap; /* Changed from nowrap to wrap */
+    margin: 0 auto; 
+    max-width: 1200px; 
 }
 
 .team-member {
-    width: 250px;
+    width: 250px; 
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .team-member-image {
@@ -125,6 +132,20 @@ body {
     color: #666;
 }
 
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .team-container {
+        flex-direction: column; /* Stack items vertically for small screens */
+        align-items: center; /* Centers items on smaller screens */
+    }
+
+    .team-member {
+        width: 100%; /* Adjust to take full width */
+    }
+}
+
+
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -137,14 +158,6 @@ body {
 
     .about-section p {
         font-size: 16px;
-    }
-
-    .team-container {
-        flex-direction: column;
-    }
-
-    .team-member {
-        flex: 1 1 100%;
     }
 }
 
@@ -191,6 +204,11 @@ body {
     font-family: "Khand", sans-serif;
     font-size: 20px;
     font-weight: 500;
+}
+
+.modal .btn-secondary,
+.modal .btn-primary {
+    transition: background-color 0.3s ease-in-out; /* Add smooth button color transitions */
 }
 
 .modal .btn-secondary:hover {
